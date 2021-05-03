@@ -67,6 +67,10 @@ namespace Deli.GatherButton
             foreach (var v in UnityEngine.Object.FindObjectsOfType<FVRGrenade>())
                 if (!v.IsHeld && v.QuickbeltSlot == null)
                     v.transform.position = playerPos;
+
+            foreach (var v in UnityEngine.Object.FindObjectsOfType<PinnedGrenade>())
+                if (!v.IsHeld && v.QuickbeltSlot == null)
+                    v.transform.position = playerPos;
         }
 
         //private bool refList(string[] list, string regex)
