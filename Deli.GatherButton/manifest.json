@@ -1,16 +1,15 @@
 {
-  "name": "Deli Example Mod",
+  "name": "GatherButton",
   "authors": [
-    "Nathan Gill",
-    "AshHat"
+    "Ryan Epp"
   ],
-  "guid": "deli.example_mod",
+  "guid": "deli.gatherhere",
   "version": "1.0.0",
   "require": "0.3.0",
   "dependencies": {},
   "assets": {
     "setup": {
-      "Deli.ExampleMod.dll": "deli:assembly"
+      "GatherButton.dll": "deli:assembly"
     }
   }
 }
