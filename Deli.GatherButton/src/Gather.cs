@@ -45,11 +45,11 @@ namespace Deli.GatherButton
                 if(!v.IsHeld && v.QuickbeltSlot == null && refList(whiteTypes, v.GetType()))
                     transformPos = action(v, transformPos, playerPos);
 
-            /*
+            
             foreach (var v in UnityEngine.Object.FindObjectsOfType<FVRFireArm>())
                 if (!v.IsHeld && v.QuickbeltSlot == null)
                     transformPos = action(v, transformPos, playerPos);
-
+            /*
             foreach (var v in UnityEngine.Object.FindObjectsOfType<FVRFireArmMagazine>())
                 if (!v.IsHeld && v.QuickbeltSlot == null)
                     transformPos = action(v, transformPos, playerPos);
