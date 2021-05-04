@@ -4,6 +4,7 @@ using Deli.H3VR.Api;
 using FistVR;
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 namespace Deli.GatherButton
 {
@@ -16,11 +17,35 @@ namespace Deli.GatherButton
 
         private void WristMenuButtonClicked(FVRWristMenu wristMenu)
         {
-            //Get array of objects 
-            //FVRPhysicalObject[] objectArray = UnityEngine.Object.FindObjectsOfType<FVRPhysicalObject>();
+            //Array of all objects
+            FVRPhysicalObject[] objectArray = UnityEngine.Object.FindObjectsOfType<FVRPhysicalObject>();
+            //Current player position to root random area
             Vector3 playerPos = GM.CurrentPlayerBody.Head.position;
+            //Moving vector between item spawns
             Vector3 transformPos = playerPos;
+            //Whitelist of item types
+            Type[] whiteTypes =
+            {
+                typeof(FVRFireArm),
+                typeof(FVRFireArmMagazine),
+                typeof(Speedloader),
+                typeof(FVRFireArmRound),
+                typeof(FVRFireArmClip),
+                typeof(LAPD2019Battery),
+                typeof(Molotov),
+                typeof(FVRGrenade),
+                typeof(PinnedGrenade),
+                typeof(FVRKnife),
+                typeof(Flashlight),
+                typeof(FVRMeleeWeapon),
+            };
 
+            //Iterate through all objetcs, and transform them to an area around the player
+            foreach(var v in objectArray)
+                if(!v.IsHeld && v.QuickbeltSlot == null && refList(whiteTypes, v.GetType()))
+                    transformPos = action(v, transformPos, playerPos);
+
+            /*
             foreach (var v in UnityEngine.Object.FindObjectsOfType<FVRFireArm>())
                 if (!v.IsHeld && v.QuickbeltSlot == null)
                     transformPos = action(v, transformPos, playerPos);
@@ -51,7 +76,7 @@ namespace Deli.GatherButton
 
             foreach (var v in UnityEngine.Object.FindObjectsOfType<PinnedGrenade>())
                 if (!v.IsHeld && v.QuickbeltSlot == null)
-                    transformPos = action(v, transformPos, playerPos);
+                    transformPos = action(v, transformPos, playerPos);*/
         }
 
         //Preforms the move action on the object, then returns an updated position for a random space around the player
@@ -61,6 +86,7 @@ namespace Deli.GatherButton
             return rotTrans(transformPos, playerPos);
         }
 
+        //Changes a vector to a random space around a second vector
         private Vector3 rotTrans(Vector3 transformPos, Vector3 playerPos)
         {
             var tempVect3 = transformPos;
@@ -73,6 +99,7 @@ namespace Deli.GatherButton
             return tempVect3;
         }
 
+
         //private bool refList(string[] list, string regex)
         //{
         //    foreach (string v in list)
@@ -80,24 +107,21 @@ namespace Deli.GatherButton
         //            return true;
         //    return false;
         //}
+
+        //Compares a list of types to see if a type is contained within it
+        private bool refList(Type[] list, Type regex)
+        {
+            foreach (Type v in list)
+                if (v.Equals(regex))
+                    return true;
+            return false;
+        }
     }
 
-    
+
 }
 //Whitelist code:
-//string[] whitelist =
-//{
-//    "FVRFireArmMagazine",
-//    "FVRFireArmRound",
-//    "FVRFireArmClip",
-//    "FVRFireArm",
-//    "LAPD2019Battery",
-//    "Molotov",
-//    "Flashlight",
-//    "FVRGrenade",
-//    "FVRKnife",
-//    "Speedloader",
-//};
+
 
 
 //foreach(var gatheredObject in FindObjectsOfType<FVRPhysicalObject>())
