@@ -21,15 +21,9 @@ namespace Deli.GatherButton
             Vector3 playerPos = GM.CurrentPlayerBody.Head.position;
             Vector3 transformPos = playerPos;
 
-            transformPos.x += 1;//set the origin to 1 meter away from the player in the x direction
-
             foreach (var v in UnityEngine.Object.FindObjectsOfType<FVRFireArm>())
                 if (!v.IsHeld && v.QuickbeltSlot == null)
-                {
-                    v.transform.position = transformPos;
-
-                }
-
+                    transformPos = action(v, transformPos, playerPos);
 
             foreach (var v in UnityEngine.Object.FindObjectsOfType<FVRFireArmMagazine>())
                 if (!v.IsHeld && v.QuickbeltSlot == null)
@@ -60,6 +54,7 @@ namespace Deli.GatherButton
                     transformPos = action(v, transformPos, playerPos);
         }
 
+        //Preforms the move action on the object, then returns an updated position for a random space around the player
         private Vector3 action(FVRPhysicalObject v, Vector3 transformPos, Vector3 playerPos)
         {
             v.transform.position = transformPos;
@@ -70,9 +65,10 @@ namespace Deli.GatherButton
         {
             var tempVect3 = transformPos;
             var offsetX = UnityEngine.Random.Range(-1f, 1f);
+            var offsetY = UnityEngine.Random.Range(-1f, 0f);//up-down
             var offsetZ = UnityEngine.Random.Range(-1f, 1f);
 
-            tempVect3 = new Vector3(playerPos.x + offsetX, playerPos.y, playerPos.z + offsetZ);
+            tempVect3 = new Vector3(playerPos.x + offsetX, playerPos.y + offsetY, playerPos.z + offsetZ);
 
             return tempVect3;
         }
