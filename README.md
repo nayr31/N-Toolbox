@@ -5,3 +5,6 @@ An H3VR mod that adds a wristmenu button called "Gather items". When pressed, it
 **Requirements:**
 - Deli 0.3+ (https://github.com/Deli-Collective/Deli/releases)
 - Deli.H3VR (https://github.com/Deli-Collective/Deli.H3VR/releases)
+
+**Installation:**
+Place the `.Deli` file into your `H3VR/Deli/mods/` folder. 
