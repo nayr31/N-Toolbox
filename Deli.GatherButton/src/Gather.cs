@@ -13,10 +13,11 @@ namespace Deli.GatherButton
     {
         public Gather()
         {
-            WristMenu.RegisterWristMenuButton("Gather Items", WristMenuButtonClicked);
+            WristMenu.RegisterWristMenuButton("Gather Items", GatherButtonClicked);
+            WristMenu.RegisterWristMenuButton("Reset Traps", ResetTrapsButtonClicked);
         }
 
-        private void WristMenuButtonClicked(FVRWristMenu wristMenu)
+        private void GatherButtonClicked(FVRWristMenu wristMenu)
         {
             //Get player pos upon every button press
             Vector3 playerPos = GM.CurrentPlayerBody.Head.position;
@@ -31,6 +32,14 @@ namespace Deli.GatherButton
             foreach (var physObject in FindObjectsOfType<FVRFireArm>())
                 if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
                     physObject.transform.position = playerPos + UnityEngine.Random.insideUnitSphere;
+        }
+
+        private void ResetTrapsButtonClicked(FVRWristMenu wristMenu)
+        {
+            foreach (var beartrap in FindObjectsOfType<MF2_BearTrap>())
+                if(!beartrap.IsHeld && beartrap.QuickbeltSlot == null)
+                    beartrap.ForceOpen();
+                
         }
 
         static readonly Type[] whiteTypes =
