@@ -23,7 +23,7 @@ namespace Deli.GatherButton
 
             //Whitelisted object gather
             foreach (var physObject in FindObjectsOfType<FVRPhysicalObject>())
-                if (!physObject.IsHeld && physObject.QuickbeltSlot == null && whiteTypes.Contains(physObject.GetType()))
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null && whiteTypes.Contains(physObject.GetType()) && physObject.transform.parent == null)
                     physObject.transform.position = playerPos + 
                         Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(1.3f, 0.7f, 1.3f)) - new Vector3(0, 0.5f ,0);
 
