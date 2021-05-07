@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1500
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GatherButton", "Deli.GatherButton\GatherButton.csproj", "{696C5901-CEFF-42B1-90F6-DF16E8609D89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "N-Toolbox", "Deli.N-Toolbox\N-Toolbox.csproj", "{696C5901-CEFF-42B1-90F6-DF16E8609D89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
