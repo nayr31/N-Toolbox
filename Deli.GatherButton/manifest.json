@@ -1,15 +1,15 @@
 {
-  "name": "GatherButton",
+  "name": "N-Toolbox",
   "authors": [
     "Ryan Epp"
   ],
-  "guid": "deli.gatherhere",
-  "version": "1.0.1",
+  "guid": "deli.ntools",
+  "version": "1.0.0",
   "require": "0.3.0",
   "dependencies": {},
   "assets": {
     "setup": {
-      "GatherButton.dll": "deli:assembly"
+      "N-Toolbox.dll": "deli:assembly"
     }
   }
 }
