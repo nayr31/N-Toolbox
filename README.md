@@ -1,6 +1,10 @@
-# GatherButton
+# N-Toolbox
 
-An H3VR mod that adds a wristmenu button called "Gather items". When pressed, it will find all (reasonable) objects in the scene a player may want, and gathers them at their position.
+An H3VR mod that adds a set of wrist-menu buttons:
+- Gather Items
+  - Looks at all items in the scene, and brings a set of items from a whitelist to the player
+- Reset Traps
+  - Resets all MF2_Beartraps in the scene to their active state
 
 If you notice something not gathering, or an odd behavior, ping me on discord @gamernayr. This includes objects you think should gather, that aren't currently.
 
@@ -11,7 +15,7 @@ If you notice something not gathering, or an odd behavior, ping me on discord @g
 ## Installation
 Place the `.Deli` file into your `H3VR/Deli/mods/` folder. 
 
-## **Current Whitelist**
+## **Current Whitelist of Gather button**
 - FVRFireArm
 - FVRFireArmMagazine
 - Speedloader
