@@ -26,7 +26,7 @@ namespace Deli.NToolbox
             WristMenu.RegisterWristMenuButton("Toggle 1-hit", ToggleOneHitButtonClicked);
             WristMenu.RegisterWristMenuButton("Toggle God Mode", ToggleGodModeButtonClicked);
             WristMenu.RegisterWristMenuButton("Kill yourself", KillPlayerButtonClicked);
-            WristMenu.RegisterWristMenuButton("Blind yourself", BlindButtonClicked);
+            //WristMenu.RegisterWristMenuButton("Blind yourself", BlindButtonClicked);
 
             //Tnh stuff
             WristMenu.RegisterWristMenuButton("Add token", AddTokenButton);
@@ -117,10 +117,10 @@ namespace Deli.NToolbox
             }
         }
 
-        private void BlindButtonClicked(FVRWristMenu wristMenu)
-        {
-            GM.CurrentPlayerBody.BlindPlayer(50000f);
-        }
+        //private void BlindButtonClicked(FVRWristMenu wristMenu)
+        //{
+        //    GM.CurrentPlayerBody.BlindPlayer(50000f);
+        //}
 
 
         //--TNH--//-------//-------//-------//-------//-------
