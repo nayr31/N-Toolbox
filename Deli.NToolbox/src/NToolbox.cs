@@ -76,6 +76,8 @@ namespace Deli.NToolbox
             GM.CurrentPlayerBody.BlindPlayer(10000f);
         }
 
+
+        //--TNH--//-------//-------//-------//-------//-------
         private void KillPlayerButtonClicked(FVRWristMenu wristMenu)
         {
             GM.CurrentPlayerBody.KillPlayer(true);
@@ -94,10 +96,27 @@ namespace Deli.NToolbox
         //private void SpawnAmmoReloaderButton(FVRWristMenu wristMenu)
         //{
         //    var headPos = GM.CurrentPlayerBody.Head.position;
-        //    //headPos.Set(headPos.x, headPos.y-0.5f, headPos.z);
-        //    Transform pos = headPos;
         //    GM.TNH_Manager.SpawnAmmoReloader(headPos);
         //}
+        //private void SpawnMagDupeButton(FVRWristMenu wristMenu)
+        //{
+        //    var headPos = GM.CurrentPlayerBody.Head.position;
+        //    GM.TNH_Manager.SpawnMagDuplicator(headPos);
+        //}
+        //private void SpawnGunRecylcerButton(FVRWristMenu wristMenu)
+        //{
+        //    var headPos = GM.CurrentPlayerBody.Head.position;
+        //    GM.TNH_Manager.SpawnGunRecycler(headPos);
+        //}
+
+        private void KillPatrolsButton(FVRWristMenu wristMenu)
+        {
+            GM.TNH_Manager.KillAllPatrols();
+        }
+
+
+
+        //--TNH--//-------//-------//-------//-------//-------
 
         static readonly Type[] whiteTypes =
         {
