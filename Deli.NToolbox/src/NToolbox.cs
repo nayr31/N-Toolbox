@@ -1,6 +1,7 @@
 ﻿using Deli.Immediate;
 using Deli.Setup;
 using Deli.H3VR.Api;
+using Deli.H3VR;
 using FistVR;
 using UnityEngine;
 using System;
@@ -15,6 +16,7 @@ namespace Deli.NToolbox
         {
             WristMenu.RegisterWristMenuButton("Gather Items", GatherButtonClicked);
             WristMenu.RegisterWristMenuButton("Reset Traps", ResetTrapsButtonClicked);
+            WristMenu.RegisterWristMenuButton("Restore HP", RestoreHPButtonClicked);
         }
 
         private void GatherButtonClicked(FVRWristMenu wristMenu)
@@ -40,7 +42,60 @@ namespace Deli.NToolbox
             foreach (var beartrap in FindObjectsOfType<MF2_BearTrap>())
                 if(!beartrap.IsHeld && beartrap.QuickbeltSlot == null)
                     beartrap.ForceOpen();
-                
+        }
+
+        private void RestoreHPButtonClicked(FVRWristMenu wristMenu)
+        {
+            GM.CurrentPlayerBody.ResetHealth();
+        }
+
+        private void Restore10PercentHPButtonClicked(FVRWristMenu wristMenu)
+        {
+            GM.CurrentPlayerBody.HarmPercent(-10f);
+        }
+
+        private void EnableOneHitButtonClicked(FVRWristMenu wristMenu)
+        {
+            GM.CurrentPlayerBody.SetHealthThreshold(1f);
+        }
+
+        private void ToggleGodModeButtonClicked(FVRWristMenu wristMenu)
+        {
+            if(GM.CurrentPlayerBody.Hitboxes[0] == true)
+            {
+                GM.CurrentPlayerBody.DisableHitBoxes();
+            }
+            else
+            {
+                GM.CurrentPlayerBody.EnableHitBoxes();
+            }
+        }
+
+        private void BlindButtonClicked(FVRWristMenu wristMenu)
+        {
+            GM.CurrentPlayerBody.BlindPlayer(10000f);
+        }
+
+        private void KillPlayerButtonClicked(FVRWristMenu wristMenu)
+        {
+            GM.CurrentPlayerBody.KillPlayer(true);
+        }
+
+        private void AddTokenButton(FVRWristMenu wristMenu)
+        {
+            GM.TNH_Manager.AddTokens(1, true);
+        }
+
+        //private void EndHoldButton(FVRWristMenu wristMenu)
+        //{
+        //    GM.TNH_Manager.
+        //}
+
+        private void SpawnAmmoReloaderButton(FVRWristMenu wristMenu)
+        {
+            var headPos = GM.CurrentPlayerBody.Head.position;
+            //headPos.Set(headPos.x, headPos.y-0.5f, headPos.z);
+            GM.TNH_Manager.SpawnAmmoReloader(headPos);
         }
 
         static readonly Type[] whiteTypes =

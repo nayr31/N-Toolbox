@@ -5,6 +5,10 @@
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
     
     <ItemGroup>
       <None Update="manifest.json">
@@ -22,7 +26,7 @@
     
     <ItemGroup>
       <Reference Include="Assembly-CSharp">
-        <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\H3VR\h3vr_Data\Managed\Assembly-CSharp.dll</HintPath>
+        <HintPath>..\Users\Ryan\Documents\GitHub\N-Toolbox\Deli.NToolbox\Assembly-CSharp_publicized.dll</HintPath>
       </Reference>
     </ItemGroup>
 
