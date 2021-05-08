@@ -14,9 +14,28 @@ namespace Deli.NToolbox
     {
         public NToolbox()
         {
+            //Item interaction stuff
             WristMenu.RegisterWristMenuButton("Gather Items", GatherButtonClicked);
-            //WristMenu.RegisterWristMenuButton("Reset Traps", ResetTrapsButtonClicked);
-            WristMenu.RegisterWristMenuButton("Restore HP", RestoreHPButtonClicked);
+            WristMenu.RegisterWristMenuButton("Reset Traps", ResetTrapsButtonClicked);
+            WristMenu.RegisterWristMenuButton("Freeze Guns", FreezeFireArmsButtonClicked);
+            WristMenu.RegisterWristMenuButton("Unfreeze Guns", UnFreezeFireArmsButtonClicked);
+
+            //Player body stuff
+            WristMenu.RegisterWristMenuButton("Restore Full", RestoreHPButtonClicked);
+            WristMenu.RegisterWristMenuButton("Restore 10%", Restore10PercentHPButtonClicked);
+            WristMenu.RegisterWristMenuButton("Toggle 1-hit", ToggleOneHitButtonClicked);
+            WristMenu.RegisterWristMenuButton("Toggle God Mode", ToggleGodModeButtonClicked);
+            WristMenu.RegisterWristMenuButton("Kill yourself", KillPlayerButtonClicked);
+            WristMenu.RegisterWristMenuButton("Blind yourself", BlindButtonClicked);
+
+            //Tnh stuff
+            WristMenu.RegisterWristMenuButton("Add token", AddTokenButton);
+            WristMenu.RegisterWristMenuButton("End hold", EndHoldButton);
+            WristMenu.RegisterWristMenuButton("Kill patrols", KillPatrolsButton);
+            
+            //Quick spawn stuff
+            WristMenu.RegisterWristMenuButton("TnH Lobby", TnHLobbyButton);
+            WristMenu.RegisterWristMenuButton("Indoor Range", IndoorRangeButton);
         }
 
         private void GatherButtonClicked(FVRWristMenu wristMenu)
@@ -44,6 +63,22 @@ namespace Deli.NToolbox
                     beartrap.ForceOpen();
         }
 
+        private void FreezeFireArmsButtonClicked(FVRWristMenu wristMenu)
+        {
+            foreach (var physObject in FindObjectsOfType<FVRFireArm>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+                    physObject.IsKinematicLocked = false;
+        }
+
+        private void UnFreezeFireArmsButtonClicked(FVRWristMenu wristMenu)
+        {
+            foreach (var physObject in FindObjectsOfType<FVRFireArm>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+                    physObject.IsKinematicLocked = false;
+        }
+
+        //player
+
         private void RestoreHPButtonClicked(FVRWristMenu wristMenu)
         {
             GM.CurrentPlayerBody.ResetHealth();
@@ -54,13 +89,24 @@ namespace Deli.NToolbox
             GM.CurrentPlayerBody.HarmPercent(-10f);
         }
 
-        private void EnableOneHitButtonClicked(FVRWristMenu wristMenu)
+        private void ToggleOneHitButtonClicked(FVRWristMenu wristMenu)
         {
-            GM.CurrentPlayerBody.SetHealthThreshold(1f);
+            if(GM.CurrentPlayerBody.GetPlayerHealthRaw() != 1)
+            {
+                lastMax = GM.CurrentPlayerBody.m_startingHealth;
+                GM.CurrentPlayerBody.SetHealthThreshold(1f);
+            }
+            else
+            {
+                GM.CurrentPlayerBody.SetHealthThreshold(lastMax);
+                GM.CurrentPlayerBody.ResetHealth();
+            }
+            
         }
 
         private void ToggleGodModeButtonClicked(FVRWristMenu wristMenu)
         {
+            //BUG - Seems to not re-enable hitboxes
             if(GM.CurrentPlayerBody.Hitboxes[0] == true)
             {
                 GM.CurrentPlayerBody.DisableHitBoxes();
@@ -73,11 +119,12 @@ namespace Deli.NToolbox
 
         private void BlindButtonClicked(FVRWristMenu wristMenu)
         {
-            GM.CurrentPlayerBody.BlindPlayer(10000f);
+            GM.CurrentPlayerBody.BlindPlayer(50000f);
         }
 
 
         //--TNH--//-------//-------//-------//-------//-------
+
         private void KillPlayerButtonClicked(FVRWristMenu wristMenu)
         {
             GM.CurrentPlayerBody.KillPlayer(true);
@@ -90,6 +137,7 @@ namespace Deli.NToolbox
 
         private void EndHoldButton(FVRWristMenu wristMenu)
         {
+            //BUG - You lose
             GM.TNH_Manager.SetPhase_Completed();
         }
 
@@ -114,11 +162,19 @@ namespace Deli.NToolbox
             GM.TNH_Manager.KillAllPatrols();
         }
 
-
-
         //--TNH--//-------//-------//-------//-------//-------
 
-        static readonly Type[] whiteTypes =
+        private void TnHLobbyButton(FVRWristMenu wristMenu)
+        {
+            SteamVR_LoadLevel.Begin("TakeAndHold_Lobby_2", false, 0.5f, 0f, 0f, 1f);
+        }
+
+        private void IndoorRangeButton(FVRWristMenu wristMenu)
+        {
+            SteamVR_LoadLevel.Begin("IndoorRange", false, 0.5f, 0f, 0f, 1f);
+        }
+
+        static readonly Type[] whiteTypes =//Stores a list of physical object types for the Gather method
         {
             typeof(FVRFireArm),
             typeof(FVRFireArmMagazine),
@@ -133,5 +189,6 @@ namespace Deli.NToolbox
             typeof(Flashlight),
             typeof(FVRMeleeWeapon),
         };
+        float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
     }
 }
