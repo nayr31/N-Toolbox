@@ -37,12 +37,12 @@ namespace Deli.NToolbox
                         Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(1.3f, 0.7f, 1.3f)) - new Vector3(0, 0.5f, 0);
         }
 
-        //private void ResetTrapsButtonClicked(FVRWristMenu wristMenu)
-        //{
-        //    foreach (var beartrap in FindObjectsOfType<MF2_BearTrap>())
-        //        if(!beartrap.IsHeld && beartrap.QuickbeltSlot == null)
-        //            beartrap.ForceOpen();
-        //}
+        private void ResetTrapsButtonClicked(FVRWristMenu wristMenu)
+        {
+            foreach (var beartrap in FindObjectsOfType<MF2_BearTrap>())
+                if (!beartrap.IsHeld && beartrap.QuickbeltSlot == null)
+                    beartrap.ForceOpen();
+        }
 
         private void RestoreHPButtonClicked(FVRWristMenu wristMenu)
         {
@@ -88,16 +88,16 @@ namespace Deli.NToolbox
 
         private void EndHoldButton(FVRWristMenu wristMenu)
         {
-            GM.TNH_Manager.set
+            GM.TNH_Manager.SetPhase_Completed();
         }
 
-        private void SpawnAmmoReloaderButton(FVRWristMenu wristMenu)
-        {
-            var headPos = GM.CurrentPlayerBody.Head.position;
-            //headPos.Set(headPos.x, headPos.y-0.5f, headPos.z);
-            Transform pos = headPos;
-            GM.TNH_Manager.SpawnAmmoReloader(headPos);
-        }
+        //private void SpawnAmmoReloaderButton(FVRWristMenu wristMenu)
+        //{
+        //    var headPos = GM.CurrentPlayerBody.Head.position;
+        //    //headPos.Set(headPos.x, headPos.y-0.5f, headPos.z);
+        //    Transform pos = headPos;
+        //    GM.TNH_Manager.SpawnAmmoReloader(headPos);
+        //}
 
         static readonly Type[] whiteTypes =
         {
