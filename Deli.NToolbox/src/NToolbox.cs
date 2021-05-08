@@ -31,7 +31,8 @@ namespace Deli.NToolbox
             //Gun gather since its missing from the phys object gather
             foreach (var physObject in FindObjectsOfType<FVRFireArm>())
                 if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
-                    physObject.transform.position = playerPos + UnityEngine.Random.insideUnitSphere;
+                    physObject.transform.position = playerPos +
+                        Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(1.3f, 0.7f, 1.3f)) - new Vector3(0, 0.5f, 0);
         }
 
         private void ResetTrapsButtonClicked(FVRWristMenu wristMenu)
