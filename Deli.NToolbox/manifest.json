@@ -9,7 +9,7 @@
   "dependencies": {},
   "assets": {
     "setup": {
-      "N-Toolbox.dll": "deli:assembly"
+      "NToolbox.dll": "deli:assembly"
     }
   }
 }

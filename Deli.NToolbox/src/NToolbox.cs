@@ -7,11 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Deli.GatherButton
+namespace Deli.NToolbox
 {
-    public class Gather : DeliBehaviour
+    public class NToolbox : DeliBehaviour
     {
-        public Gather()
+        public NToolbox()
         {
             WristMenu.RegisterWristMenuButton("Gather Items", GatherButtonClicked);
             WristMenu.RegisterWristMenuButton("Reset Traps", ResetTrapsButtonClicked);
