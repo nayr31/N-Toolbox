@@ -6,8 +6,6 @@ An H3VR mod that adds a set of wrist-menu buttons:
 - Reset Traps
   - Resets all MF2_Beartraps in the scene to their active state
 
-If you notice something not gathering, or an odd behavior, ping me on discord @gamernayr. This includes objects you think should gather, that aren't currently.
-
 ## Requirements
 - Deli 0.3+ (https://github.com/Deli-Collective/Deli/releases)
 - Deli.H3VR (https://github.com/Deli-Collective/Deli.H3VR/releases)
