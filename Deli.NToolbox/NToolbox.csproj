@@ -26,16 +26,7 @@
     
     <ItemGroup>
       <Reference Include="Assembly-CSharp">
-        <HintPath>..\..\Assembly-CSharp_publicized.dll</HintPath>
-      </Reference>
-      <Reference Include="Assembly-CSharp, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\libs\Assembly-CSharp_publicized.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEditor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\libs\UnityEditor.dll</HintPath>
-      </Reference>
-      <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\libs\UnityEngine.dll</HintPath>
+        <HintPath>libs\Assembly-CSharp_publicized.dll</HintPath>
       </Reference>
     </ItemGroup>
 

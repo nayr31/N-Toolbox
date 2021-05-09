@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FistVR;
+using Deli.H3VR.Api;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
+using NToolbox.src;
 
 namespace NToolbox
 {
@@ -35,19 +37,19 @@ namespace NToolbox
                     beartrap.ForceOpen();
         }
 
-        //public static void FreezeFireArmsButtonClicked(FVRWristMenu wristMenu)
-        //{
-        //    foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
-        //        if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
-        //            physObject.IsKinematicLocked = false;
-        //}
+        public static void FreezeFireArmsButtonClicked(FVRWristMenu wristMenu)//Wip
+        {
+            foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+                    physObject.IsKinematicLocked = true;
+        }
 
-        //public static void UnFreezeFireArmsButtonClicked(FVRWristMenu wristMenu)
-        //{
-        //    foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
-        //        if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
-        //            physObject.IsKinematicLocked = false;
-        //}
+        public static void UnFreezeFireArmsButtonClicked(FVRWristMenu wristMenu)//WIP
+        {
+            foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+                    physObject.IsKinematicLocked = false;
+        }
 
         //player
 
@@ -75,17 +77,23 @@ namespace NToolbox
             }
         }
 
-        //public static void ToggleGodModeButtonClicked(FVRWristMenu wristMenu)
-        //{
-        //    if(GM.CurrentPlayerBody.Hitboxes[0] == true)
-        //    {
-        //        GM.CurrentPlayerBody.DisableHitBoxes();
-        //    }
-        //    else
-        //    {
-        //        GM.CurrentPlayerBody.EnableHitBoxes();
-        //    }
-        //}
+        public static void ToggleGodModeButtonClicked(FVRWristMenu wristMenu)//WIP
+        {
+            //if (GM.CurrentPlayerBody.Hitboxes[0] == true)
+            //{
+            //    GM.CurrentPlayerBody.DisableHitBoxes();
+            //}
+            //else
+            //{
+            //    GM.CurrentPlayerBody.EnableHitBoxes();
+            //}
+
+            foreach(var v in GM.CurrentPlayerBody.Hitboxes)
+            {
+                if (v != null) v.IsActivated = v.IsActivated == true ? false : true;
+            }
+
+        }
 
         //--TNH--//-------//-------//-------//-------//-------
 
@@ -94,16 +102,15 @@ namespace NToolbox
             GM.CurrentPlayerBody.KillPlayer(true);
         }
 
-        public static void AddTokenButton(FVRWristMenu wristMenu)
+        public static void AddTokenButtonClicked(FVRWristMenu wristMenu)
         {
             GM.TNH_Manager.AddTokens(1, true);
         }
 
-        //public static void EndHoldButton(FVRWristMenu wristMenu)
-        //{
-        //    //BUG - You lose
-        //    GM.TNH_Manager.SetPhase_Completed();
-        //}
+        public static void EndHoldButton(FVRWristMenu wristMenu)//WIP
+        {
+            GM.TNH_Manager.SetPhase_Take();
+        }
 
         //public static void SpawnAmmoReloaderButton(FVRWristMenu wristMenu)
         //{
@@ -121,7 +128,7 @@ namespace NToolbox
         //    GM.TNH_Manager.SpawnGunRecycler(headPos);
         //}
 
-        public static void KillPatrolsButton(FVRWristMenu wristMenu)
+        public static void KillPatrolsButtonClicked(FVRWristMenu wristMenu)
         {
             GM.TNH_Manager.KillAllPatrols();
         }
@@ -151,7 +158,7 @@ namespace NToolbox
         //public static IEnumerable<Scene> EnumerateScenes()
         //{
         //    for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-        //        yield return SceneManager.GetSceneByBuildIndex(i);
+        //        yield return SceneManager.GetSceneAt(i);
         //}
         public static Dictionary<string, string> SceneList = new Dictionary<string, string>
         {
@@ -165,5 +172,6 @@ namespace NToolbox
             { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
         };
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
+        
     }
 }

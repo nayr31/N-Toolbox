@@ -14,6 +14,7 @@ namespace NToolbox
 {
     public class NToolbox : DeliBehaviour
     {
+
         /// <summary>
         /// Every button to be on the wrist menu. The scene buttons are seperate 
         /// </summary>
@@ -22,26 +23,25 @@ namespace NToolbox
             //Item interactions
             { "Gather Items", Actions.GatherButtonClicked },
             { "Reset Traps", Actions.ResetTrapsButtonClicked },
-            //{ "Freeze Guns", Actions.FreezeFireArmsButtonClicked },//BUG - Doesnt actually Kin lock weapons
-            //{ "Unfreeze Guns", Actions.UnFreezeFireArmsButtonClicked },
+            { "Freeze Guns", Actions.FreezeFireArmsButtonClicked },
+            { "Unfreeze Guns", Actions.UnFreezeFireArmsButtonClicked },
 
             //Player body interactions
             { "Restore Full", Actions.RestoreHPButtonClicked },
             { "Restore 10%", Actions.Restore10PercentHPButtonClicked },
             { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
-            //{ "Toggle God Mode", Actions.ToggleGodModeButtonClicked },//BUG - Seems to not re-enable hitboxes
+            { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },//BUG - Seems to not re-enable hitboxes (change in progress, needs testing)
             { "Kill yourself", Actions.KillPlayerButtonClicked },
 
             //Take and Hold interactions
-            { "Add token", Actions.AddTokenButton },
-            //{ "End hold", Actions.EndHoldButton },//BUG - Just ends your run
-            { "Kill patrols", Actions.KillPatrolsButton },
+            { "Add token", Actions.AddTokenButtonClicked },
+            { "End hold", Actions.EndHoldButton },//BUG - Just ends your run (change in progress, needs testing)
+            { "Kill patrols", Actions.KillPatrolsButtonClicked },
         };
-
 
         public NToolbox()
         {
-            Logger.LogInfo($"Loading {WristMenuButtons.Count} WristMenu actions");
+            Logger.LogInfo($"Loading {WristMenuButtons.Count + Actions.SceneList.Count} WristMenu actions");
 
             foreach (var kvp in WristMenuButtons)
             {
@@ -50,9 +50,6 @@ namespace NToolbox
                 Logger.LogDebug($"Loaded action {kvp.Key}");
             }
 
-            //var scenes = SceneList.Scenes;
-            //List<Scene> sceneList = Actions.BuildSceneList();
-            //IEnumerable<Scene> ts = Actions.EnumerateScenes();
             Dictionary<string, string> SceneList = Actions.SceneList;
 
             foreach (var scene in SceneList)
@@ -68,6 +65,7 @@ namespace NToolbox
                 });
                 Logger.LogDebug($"Loaded scene action {scene.Key}");
             }
+
             Logger.LogInfo("Fully loaded NToolbox!");
         }
     }
