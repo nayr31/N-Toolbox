@@ -37,14 +37,14 @@ namespace NToolbox
                     beartrap.ForceOpen();
         }
 
-        public static void FreezeFireArmsButtonClicked(FVRWristMenu wristMenu)//Wip
+        public static void FreezeFireArmsButtonClicked(FVRWristMenu wristMenu)
         {
             foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
                 if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
                     physObject.IsKinematicLocked = true;
         }
 
-        public static void UnFreezeFireArmsButtonClicked(FVRWristMenu wristMenu)//WIP
+        public static void UnFreezeFireArmsButtonClicked(FVRWristMenu wristMenu)
         {
             foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
                 if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
