@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace NToolbox
 {
@@ -23,7 +24,7 @@ namespace NToolbox
             { "Reset Traps", Actions.ResetTrapsButtonClicked },
             { "Freeze Guns", Actions.FreezeFireArmsButtonClicked },
             { "Unfreeze Guns", Actions.UnFreezeFireArmsButtonClicked },
-            
+
             //Player body interactions
             { "Restore Full", Actions.RestoreHPButtonClicked },
             { "Restore 10%", Actions.Restore10PercentHPButtonClicked },
@@ -31,51 +32,43 @@ namespace NToolbox
             { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
             { "Kill yourself", Actions.KillPlayerButtonClicked },
             { "Blind yourself", Actions.BlindButtonClicked },
-            
+
             //Take and Hold interactions
             { "Add token", Actions.AddTokenButton },
             { "End hold", Actions.EndHoldButton },
             { "Kill patrols", Actions.KillPatrolsButton },
         };
-        
-        
+
+
         public NToolbox()
         {
-            Logger.LogInfo($"Loading {WristMenuButtons.Count} WristMenu actions"); 
-            
+            Logger.LogInfo($"Loading {WristMenuButtons.Count} WristMenu actions");
+
             foreach (var kvp in WristMenuButtons)
             {
                 WristMenu.RegisterWristMenuButton(kvp.Key, kvp.Value);
-                
+
                 Logger.LogDebug($"Loaded action {kvp.Key}");
             }
 
-            var scenes = SceneList.Scenes;
-            
-            foreach (var scene in scenes)
-            {
-                WristMenu.RegisterWristMenuButton
-                (
-                    scene.Name, e =>
-                    {
-                        SteamVR_LoadLevel.Begin
-                        (
-                            scene.SceneName,
-                            false,
-                            0.5f,
-                            0f,
-                            0f,
-                            1f
-                        );
+            //var scenes = SceneList.Scenes;
+            //List<Scene> sceneList = Actions.BuildSceneList();
+            //IEnumerable<Scene> ts = Actions.EnumerateScenes();
+            Dictionary<string, string> SceneList = Actions.SceneList;
 
-                        foreach (var quitReceiver in GM.CurrentSceneSettings.QuitReceivers)
-                        {
-                            quitReceiver.BroadcastMessage("QUIT", SendMessageOptions.DontRequireReceiver);
-                        }
+            foreach (var scene in SceneList)
+            {
+                WristMenu.RegisterWristMenuButton(scene.Value, e =>
+                {
+                    SteamVR_LoadLevel.Begin(scene.Key, false, 0.5f, 0f, 0f, 1f);
+
+                    foreach (var quitReceiver in GM.CurrentSceneSettings.QuitReceivers)
+                    {
+                        quitReceiver.BroadcastMessage("QUIT", SendMessageOptions.DontRequireReceiver);
                     }
-                );
+                });
+                Logger.LogDebug($"Loaded scene action {scene.Key}");
             }
-            
             Logger.LogInfo("Fully loaded NToolbox!");
         }
     }

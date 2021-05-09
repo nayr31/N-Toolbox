@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using FistVR;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace NToolbox
@@ -71,7 +73,6 @@ namespace NToolbox
                 GM.CurrentPlayerBody.SetHealthThreshold(lastMax);
                 GM.CurrentPlayerBody.ResetHealth();
             }
-            
         }
 
         public static void ToggleGodModeButtonClicked(FVRWristMenu wristMenu)
@@ -91,7 +92,6 @@ namespace NToolbox
         {
             GM.CurrentPlayerBody.BlindPlayer(50000f);
         }
-
 
         //--TNH--//-------//-------//-------//-------//-------
 
@@ -153,6 +153,22 @@ namespace NToolbox
             typeof(FVRKnife),
             typeof(Flashlight),
             typeof(FVRMeleeWeapon),
+        };
+        //public static IEnumerable<Scene> EnumerateScenes()
+        //{
+        //    for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        //        yield return SceneManager.GetSceneByBuildIndex(i);
+        //}
+        public static Dictionary<string, string> SceneList = new Dictionary<string, string>
+        {
+            { "MainMenu3" , "Main Menu" },
+            { "ArizonaTargets" , "Arizona Range" },
+            { "ArizonaTargets_Night" , "Arizona at Night" },
+            { "HickockRange" , "Friendly 45 Range" },
+            { "IndoorRange" , "Indoor Range" },
+            { "ProvingGround" , "Proving Grounds" },
+            { "SniperRange" , "Sniper Range" },
+            { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
         };
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
     }
