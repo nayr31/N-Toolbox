@@ -35,19 +35,19 @@ namespace NToolbox
                     beartrap.ForceOpen();
         }
 
-        public static void FreezeFireArmsButtonClicked(FVRWristMenu wristMenu)
-        {
-            foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
-                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
-                    physObject.IsKinematicLocked = false;
-        }
+        //public static void FreezeFireArmsButtonClicked(FVRWristMenu wristMenu)
+        //{
+        //    foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
+        //        if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+        //            physObject.IsKinematicLocked = false;
+        //}
 
-        public static void UnFreezeFireArmsButtonClicked(FVRWristMenu wristMenu)
-        {
-            foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
-                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
-                    physObject.IsKinematicLocked = false;
-        }
+        //public static void UnFreezeFireArmsButtonClicked(FVRWristMenu wristMenu)
+        //{
+        //    foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
+        //        if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+        //            physObject.IsKinematicLocked = false;
+        //}
 
         //player
 
@@ -75,23 +75,17 @@ namespace NToolbox
             }
         }
 
-        public static void ToggleGodModeButtonClicked(FVRWristMenu wristMenu)
-        {
-            //BUG - Seems to not re-enable hitboxes
-            if(GM.CurrentPlayerBody.Hitboxes[0] == true)
-            {
-                GM.CurrentPlayerBody.DisableHitBoxes();
-            }
-            else
-            {
-                GM.CurrentPlayerBody.EnableHitBoxes();
-            }
-        }
-
-        public static void BlindButtonClicked(FVRWristMenu wristMenu)
-        {
-            GM.CurrentPlayerBody.BlindPlayer(50000f);
-        }
+        //public static void ToggleGodModeButtonClicked(FVRWristMenu wristMenu)
+        //{
+        //    if(GM.CurrentPlayerBody.Hitboxes[0] == true)
+        //    {
+        //        GM.CurrentPlayerBody.DisableHitBoxes();
+        //    }
+        //    else
+        //    {
+        //        GM.CurrentPlayerBody.EnableHitBoxes();
+        //    }
+        //}
 
         //--TNH--//-------//-------//-------//-------//-------
 
@@ -105,11 +99,11 @@ namespace NToolbox
             GM.TNH_Manager.AddTokens(1, true);
         }
 
-        public static void EndHoldButton(FVRWristMenu wristMenu)
-        {
-            //BUG - You lose
-            GM.TNH_Manager.SetPhase_Completed();
-        }
+        //public static void EndHoldButton(FVRWristMenu wristMenu)
+        //{
+        //    //BUG - You lose
+        //    GM.TNH_Manager.SetPhase_Completed();
+        //}
 
         //public static void SpawnAmmoReloaderButton(FVRWristMenu wristMenu)
         //{

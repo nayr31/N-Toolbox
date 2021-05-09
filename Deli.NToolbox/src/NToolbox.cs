@@ -22,20 +22,19 @@ namespace NToolbox
             //Item interactions
             { "Gather Items", Actions.GatherButtonClicked },
             { "Reset Traps", Actions.ResetTrapsButtonClicked },
-            { "Freeze Guns", Actions.FreezeFireArmsButtonClicked },
-            { "Unfreeze Guns", Actions.UnFreezeFireArmsButtonClicked },
+            //{ "Freeze Guns", Actions.FreezeFireArmsButtonClicked },//BUG - Doesnt actually Kin lock weapons
+            //{ "Unfreeze Guns", Actions.UnFreezeFireArmsButtonClicked },
 
             //Player body interactions
             { "Restore Full", Actions.RestoreHPButtonClicked },
             { "Restore 10%", Actions.Restore10PercentHPButtonClicked },
             { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
-            { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
+            //{ "Toggle God Mode", Actions.ToggleGodModeButtonClicked },//BUG - Seems to not re-enable hitboxes
             { "Kill yourself", Actions.KillPlayerButtonClicked },
-            { "Blind yourself", Actions.BlindButtonClicked },
 
             //Take and Hold interactions
             { "Add token", Actions.AddTokenButton },
-            { "End hold", Actions.EndHoldButton },
+            //{ "End hold", Actions.EndHoldButton },//BUG - Just ends your run
             { "Kill patrols", Actions.KillPatrolsButton },
         };
 
