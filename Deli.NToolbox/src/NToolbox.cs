@@ -57,11 +57,8 @@ namespace NToolbox
                 WristMenu.RegisterWristMenuButton(scene.Value, e =>
                 {
                     SteamVR_LoadLevel.Begin(scene.Key, false, 0.5f, 0f, 0f, 1f);
-
                     foreach (var quitReceiver in GM.CurrentSceneSettings.QuitReceivers)
-                    {
                         quitReceiver.BroadcastMessage("QUIT", SendMessageOptions.DontRequireReceiver);
-                    }
                 });
                 Logger.LogDebug($"Loaded scene action {scene.Key}");
             }
