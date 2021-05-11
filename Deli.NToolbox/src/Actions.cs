@@ -177,7 +177,7 @@ namespace NToolbox
             { "MainMenu3" , "Main Menu" },
             { "ArizonaTargets" , "Arizona Range" },
             { "ArizonaTargets_Night" , "Arizona at Night" },
-            { "HickockRange" , "Friendly 45 Range" },
+            { "HickockRangeNew" , "Friendly 45 Range" },
             { "IndoorRange" , "Indoor Range" },
             { "ProvingGround" , "Proving Grounds" },
             { "SniperRange" , "Sniper Range" },
