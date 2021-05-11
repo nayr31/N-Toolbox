@@ -51,7 +51,24 @@ namespace NToolbox
                     physObject.IsKinematicLocked = false;
         }
 
-        //player
+        public static void FreezeAmmoButtonClicked(FVRWristMenu wristMenu)
+        {
+            foreach (var ammo in Object.FindObjectsOfType<FVRFireArmRound>())
+            {
+                ammo.IsKinematicLocked = true;
+            }
+        }
+
+        public static void FreezeAttachmentsButtonClicked(FVRWristMenu wristMenu)
+        {
+            foreach (var att in Object.FindObjectsOfType<FVRFireArmAttachment>())
+            {
+                att.IsKinematicLocked = true;
+            }
+        }
+
+        //--Player---------------------------------------------------
+        //--Player---------------------------------------------------
 
         public static void RestoreHPButtonClicked(FVRWristMenu wristMenu)
         {
@@ -77,25 +94,29 @@ namespace NToolbox
             }
         }
 
-        public static void ToggleGodModeButtonClicked(FVRWristMenu wristMenu)//WIP
+        public static void ToggleGodModeButtonClicked(FVRWristMenu wristMenu)
         {
-            //if (GM.CurrentPlayerBody.Hitboxes[0] == true)
-            //{
-            //    GM.CurrentPlayerBody.DisableHitBoxes();
-            //}
-            //else
-            //{
-            //    GM.CurrentPlayerBody.EnableHitBoxes();
-            //}
-
             foreach(var v in GM.CurrentPlayerBody.Hitboxes)
             {
                 if (v != null) v.IsActivated = v.IsActivated == true ? false : true;
             }
-
         }
 
-        //--TNH--//-------//-------//-------//-------//-------
+        public static void ToggleInvisButtonClicked(FVRWristMenu wristMenu)
+        {
+            if(GM.CurrentPlayerBody.GetPlayerIFF() != -1)
+            {
+                lastIFF = GM.CurrentPlayerBody.GetPlayerIFF();
+                GM.CurrentPlayerBody.m_playerIFF = -1;
+            }
+            else
+            {
+                GM.CurrentPlayerBody.m_playerIFF = Convert.ToInt32(lastIFF);
+            }
+        }
+
+        //--TNH---------------------------------------------------------
+        //--TNH---------------------------------------------------------
 
         public static void KillPlayerButtonClicked(FVRWristMenu wristMenu)
         {
@@ -107,16 +128,17 @@ namespace NToolbox
             GM.TNH_Manager.AddTokens(1, true);
         }
 
-        public static void EndHoldButton(FVRWristMenu wristMenu)//WIP
-        {
-            GM.TNH_Manager.SetPhase_Take();
-        }
-
-        //public static void SpawnAmmoReloaderButton(FVRWristMenu wristMenu)
+        //public static void EndHoldButton(FVRWristMenu wristMenu)//WIP - tnhtweaker issues
         //{
-        //    var headPos = GM.CurrentPlayerBody.Head.position;
-        //    GM.TNH_Manager.SpawnAmmoReloader(headPos);
+        //    GM.TNH_Manager.SetPhase_Take();
         //}
+
+        public static void SpawnAmmoReloaderButton(FVRWristMenu wristMenu)
+        {
+            var spawnPos = GM.CurrentPlayerBody.Torso;
+            spawnPos.rotation = Quaternion.identity;
+            GM.TNH_Manager.SpawnAmmoReloader(spawnPos);
+        }
         //public static void SpawnMagDupeButton(FVRWristMenu wristMenu)
         //{
         //    var headPos = GM.CurrentPlayerBody.Head.position;
@@ -133,12 +155,6 @@ namespace NToolbox
             GM.TNH_Manager.KillAllPatrols();
         }
 
-        //--TNH--//-------//-------//-------//-------//-------
-
-        public static void LoadScene(FVRWristMenu wristMenu)
-        {
-            SteamVR_LoadLevel.Begin("", false, 0.5f, 0f, 0f, 1f);
-        }
 
         private static readonly Type[] WHITE_TYPES =//Stores a list of physical object types for the Gather method
         {
@@ -154,12 +170,8 @@ namespace NToolbox
             typeof(FVRKnife),
             typeof(Flashlight),
             typeof(FVRMeleeWeapon),
+            typeof(FVRFireArmAttachment),
         };
-        //public static IEnumerable<Scene> EnumerateScenes()
-        //{
-        //    for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-        //        yield return SceneManager.GetSceneAt(i);
-        //}
         public static Dictionary<string, string> SceneList = new Dictionary<string, string>
         {
             { "MainMenu3" , "Main Menu" },
@@ -171,7 +183,8 @@ namespace NToolbox
             { "SniperRange" , "Sniper Range" },
             { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
         };
+        public static void Empty(FVRWristMenu wristMenu) { }
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
-        
+        private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
     }
 }

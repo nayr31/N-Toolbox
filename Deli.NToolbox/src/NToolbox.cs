@@ -25,23 +25,36 @@ namespace NToolbox
             { "Reset Traps", Actions.ResetTrapsButtonClicked },
             { "Freeze Guns", Actions.FreezeFireArmsButtonClicked },
             { "Unfreeze Guns", Actions.UnFreezeFireArmsButtonClicked },
+            { "Freeze Ammo", Actions.FreezeAmmoButtonClicked },
+            { "Freeze Attachments", Actions.FreezeAttachmentsButtonClicked },
+            //trash bin
+
+            { "--------------------------------------------------------------------", Actions.Empty},
 
             //Player body interactions
             { "Restore Full", Actions.RestoreHPButtonClicked },
             { "Restore 10%", Actions.Restore10PercentHPButtonClicked },
             { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
-            { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },//BUG - Seems to not re-enable hitboxes (change in progress, needs testing)
+            { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
             { "Kill yourself", Actions.KillPlayerButtonClicked },
+            { "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//In testing
+
+            { "--------------------------------------------------------------------------", Actions.Empty },
 
             //Take and Hold interactions
             { "Add token", Actions.AddTokenButtonClicked },
-            { "End hold", Actions.EndHoldButton },//BUG - Just ends your run (change in progress, needs testing)
+            //{ "End hold", Actions.EndHoldButton },//BUG - Bad things, doesn't mesh well with TnHTweaker
+            { "SP - Ammo Reloader", Actions.SpawnAmmoReloaderButton },
+            //{ "Add token", Actions.AddTokenButtonClicked },
+            //{ "Add token", Actions.AddTokenButtonClicked },
             { "Kill patrols", Actions.KillPatrolsButtonClicked },
+
+            { "------------------------------------------------------------------------------", Actions.Empty },
         };
 
         public NToolbox()
         {
-            Logger.LogInfo($"Loading {WristMenuButtons.Count + Actions.SceneList.Count} WristMenu actions");
+            Logger.LogInfo($"Loading {WristMenuButtons.Count + Actions.SceneList.Count - 3} WristMenu actions");
 
             foreach (var kvp in WristMenuButtons)
             {
@@ -65,5 +78,6 @@ namespace NToolbox
 
             Logger.LogInfo("Fully loaded NToolbox!");
         }
+
     }
 }
