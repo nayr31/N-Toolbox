@@ -6,7 +6,6 @@ using Deli.H3VR.Api;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
-using NToolbox.src;
 
 namespace NToolbox
 {
@@ -20,8 +19,8 @@ namespace NToolbox
             //Whitelisted object gather
             foreach (var physObject in Object.FindObjectsOfType<FVRPhysicalObject>())
                 if (!physObject.IsHeld && physObject.QuickbeltSlot == null && WHITE_TYPES.Contains(physObject.GetType()) && physObject.transform.parent == null)
-                    physObject.transform.position = playerPos + 
-                        Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(1.3f, 0.7f, 1.3f)) - new Vector3(0, 0.5f ,0);
+                    physObject.transform.position = playerPos +
+                        Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(1.3f, 0.7f, 1.3f)) - new Vector3(0, 0.5f, 0);
 
             //Gun gather since its missing from the phys object gather
             foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
@@ -67,6 +66,13 @@ namespace NToolbox
             }
         }
 
+        public static void SpawnAmmoPanel(FVRWristMenu wristMenu)
+        {
+            var obj = IM.OD["AmmoPanel"];
+            FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
+            wristMenu.m_currentHand.RetrieveObject(physObj);
+        }
+
         //--Player---------------------------------------------------
         //--Player---------------------------------------------------
 
@@ -82,7 +88,7 @@ namespace NToolbox
 
         public static void ToggleOneHitButtonClicked(FVRWristMenu wristMenu)
         {
-            if(GM.CurrentPlayerBody.GetPlayerHealthRaw() != 1)
+            if (GM.CurrentPlayerBody.GetPlayerHealthRaw() != 1)
             {
                 lastMax = GM.CurrentPlayerBody.m_startingHealth;
                 GM.CurrentPlayerBody.SetHealthThreshold(1f);
@@ -96,7 +102,7 @@ namespace NToolbox
 
         public static void ToggleGodModeButtonClicked(FVRWristMenu wristMenu)
         {
-            foreach(var v in GM.CurrentPlayerBody.Hitboxes)
+            foreach (var v in GM.CurrentPlayerBody.Hitboxes)
             {
                 if (v != null) v.IsActivated = v.IsActivated == true ? false : true;
             }
@@ -104,7 +110,7 @@ namespace NToolbox
 
         public static void ToggleInvisButtonClicked(FVRWristMenu wristMenu)
         {
-            if(GM.CurrentPlayerBody.GetPlayerIFF() != -1)
+            if (GM.CurrentPlayerBody.GetPlayerIFF() != -1)
             {
                 lastIFF = GM.CurrentPlayerBody.GetPlayerIFF();
                 GM.CurrentPlayerBody.m_playerIFF = -1;
