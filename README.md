@@ -1,10 +1,28 @@
 # N-Toolbox
 
-An H3VR mod that adds a set of wrist-menu buttons:
-- Gather Items
-  - Looks at all items in the scene, and brings a set of items from a whitelist to the player
-- Reset Traps
-  - Resets all MF2_Beartraps in the scene to their active state
+An H3VR mod that adds a bunch of wrist-menu buttons:
+
+```cs
+public readonly List<string> WristMenuButtons = new List<string>()
+{
+	"Gather Items",
+	"Reset Traps",
+	"Freeze Guns",
+	"Unfreeze Guns",
+	"Freeze Ammo",
+	"Freeze Attachments",
+	"Ammo Panel",
+	"Restore Full",
+	"Restore 10%",
+	"Toggle 1-hit",
+	"Toggle God Mode",
+	"Kill yourself",
+	"Toggle Invisibility",
+	"Add token",
+	"SP - Ammo Reloader",
+	"Kill patrols",
+}
+```
 
 ## Requirements
 - Deli 0.3+ (https://github.com/Deli-Collective/Deli/releases)
@@ -12,17 +30,3 @@ An H3VR mod that adds a set of wrist-menu buttons:
 
 ## Installation
 Place the `.Deli` file into your `H3VR/Deli/mods/` folder. 
-
-## **Current Whitelist of Gather button**
-- FVRFireArm
-- FVRFireArmMagazine
-- Speedloader
-- FVRFireArmRound
-- FVRFireArmClip
-- LAPD2019Battery
-- Molotov
-- FVRGrenade
-- PinnedGrenade
-- FVRKnife
-- Flashlight
-- FVRMeleeWeapon
