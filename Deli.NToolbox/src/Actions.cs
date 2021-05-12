@@ -53,13 +53,15 @@ namespace NToolbox
         public static void FreezeAmmoButtonClicked(FVRWristMenu wristMenu)
         {
             foreach (var ammo in Object.FindObjectsOfType<FVRFireArmRound>())
-                ammo.IsKinematicLocked = true;
+                if (!ammo.IsHeld && ammo.QuickbeltSlot == null)
+                    ammo.IsKinematicLocked = true;
         }
 
         public static void FreezeAttachmentsButtonClicked(FVRWristMenu wristMenu)
         {
             foreach (var att in Object.FindObjectsOfType<FVRFireArmAttachment>())
-                att.IsKinematicLocked = true;
+                if (!att.IsHeld && att.QuickbeltSlot == null)
+                    att.IsKinematicLocked = true;
         }
 
         public static void SpawnAmmoPanelButtonClicked(FVRWristMenu wristMenu)
