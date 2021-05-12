@@ -53,22 +53,25 @@ namespace NToolbox
         public static void FreezeAmmoButtonClicked(FVRWristMenu wristMenu)
         {
             foreach (var ammo in Object.FindObjectsOfType<FVRFireArmRound>())
-            {
                 ammo.IsKinematicLocked = true;
-            }
         }
 
         public static void FreezeAttachmentsButtonClicked(FVRWristMenu wristMenu)
         {
             foreach (var att in Object.FindObjectsOfType<FVRFireArmAttachment>())
-            {
                 att.IsKinematicLocked = true;
-            }
         }
 
-        public static void SpawnAmmoPanel(FVRWristMenu wristMenu)
+        public static void SpawnAmmoPanelButtonClicked(FVRWristMenu wristMenu)
         {
             var obj = IM.OD["AmmoPanel"];
+            FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
+            wristMenu.m_currentHand.RetrieveObject(physObj);
+        }
+        
+        public static void SpawnAmmoWeenieButtonClicked(FVRWristMenu wristMenu)
+        {
+            var obj = IM.OD["PowerUpMeat_InfiniteAmmo"];
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
             wristMenu.m_currentHand.RetrieveObject(physObj);
         }
@@ -143,6 +146,7 @@ namespace NToolbox
         {
             var spawnPos = GM.CurrentPlayerBody.Torso;
             spawnPos.rotation = Quaternion.identity;
+            spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1f, spawnPos.position.z);
             GM.TNH_Manager.SpawnAmmoReloader(spawnPos);
         }
         //public static void SpawnMagDupeButton(FVRWristMenu wristMenu)
@@ -183,7 +187,7 @@ namespace NToolbox
             { "MainMenu3" , "Main Menu" },
             { "ArizonaTargets" , "Arizona Range" },
             { "ArizonaTargets_Night" , "Arizona at Night" },
-            { "HickockRangeNew" , "Friendly 45 Range" },
+            { "HickockRangeNew" , "Friendly 45 Range" },//should probably test this new name lmao
             { "IndoorRange" , "Indoor Range" },
             { "ProvingGround" , "Proving Grounds" },
             { "SniperRange" , "Sniper Range" },

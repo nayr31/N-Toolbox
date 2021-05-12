@@ -27,7 +27,8 @@ namespace NToolbox
             { "Unfreeze Guns", Actions.UnFreezeFireArmsButtonClicked },
             { "Freeze Ammo", Actions.FreezeAmmoButtonClicked },
             { "Freeze Attachments", Actions.FreezeAttachmentsButtonClicked },
-            { "Ammo Panel", Actions.SpawnAmmoPanel },
+            { "Ammo Panel", Actions.SpawnAmmoPanelButtonClicked },
+            { "Ammo Weenie", Actions.SpawnAmmoWeenieButtonClicked },
             //trash bin
 
             { "--------------------------------------------------------------------", Actions.Empty},
