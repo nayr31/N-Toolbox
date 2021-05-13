@@ -18,7 +18,7 @@ namespace NToolbox
         /// <summary>
         /// Every button to be on the wrist menu. The scene buttons are seperate 
         /// </summary>
-        public readonly Dictionary<string, UnityAction<FVRWristMenu>> WristMenuButtons = new()
+        public readonly Dictionary<string, WristMenuButton.WristMenuButtonOnClick> WristMenuButtons = new()
         {
             //Item interactions
             { "Gather Items", Actions.GatherButtonClicked },
@@ -47,8 +47,8 @@ namespace NToolbox
             { "Add token", Actions.AddTokenButtonClicked },
             //{ "End hold", Actions.EndHoldButton },//BUG - Bad things, doesn't mesh well with TnHTweaker
             { "SP - Ammo Reloader", Actions.SpawnAmmoReloaderButton },
-            //{ "Add token", Actions.AddTokenButtonClicked },
-            //{ "Add token", Actions.AddTokenButtonClicked },
+            { "SP - Magazine Duplicator", Actions.SpawnMagDupeButton },
+            { "SP - Recycler", Actions.SpawnGunRecylcerButton },
             { "Kill patrols", Actions.KillPatrolsButtonClicked },
 
             { "------------------------------------------------------------------------------", Actions.Empty },
@@ -56,11 +56,14 @@ namespace NToolbox
 
         public NToolbox()
         {
+            var WristMenu = _api.WristMenu;
+
             Logger.LogInfo($"Loading {WristMenuButtons.Count + Actions.SceneList.Count - 3} WristMenu actions");
 
             foreach (var kvp in WristMenuButtons)
             {
-                WristMenu.RegisterWristMenuButton(kvp.Key, kvp.Value);
+                _api.WristMenuButtons.Add(new WristMenuButton(kvp.Key, kvp.Value));
+                
 
                 Logger.LogDebug($"Loaded action {kvp.Key}");
             }
@@ -69,17 +72,18 @@ namespace NToolbox
 
             foreach (var scene in SceneList)
             {
-                WristMenu.RegisterWristMenuButton(scene.Value, e =>
+                _api.WristMenuButtons.Add(new WristMenuButton(scene.Value, (x, y) =>
                 {
                     SteamVR_LoadLevel.Begin(scene.Key, false, 0.5f, 0f, 0f, 1f);
                     foreach (var quitReceiver in GM.CurrentSceneSettings.QuitReceivers)
                         quitReceiver.BroadcastMessage("QUIT", SendMessageOptions.DontRequireReceiver);
-                });
+                }));
                 Logger.LogDebug($"Loaded scene action {scene.Key}");
             }
 
-            Logger.LogInfo("Fully loaded NToolbox!");
+            //Logger.LogInfo("Fully loaded NToolbox!");
         }
 
+        private readonly H3Api _api = H3Api.Instance;
     }
 }

@@ -7,7 +7,7 @@
   "version": "1.2.0",
   "require": "0.3.0",
   "dependencies": {
-    "deli.h3vr": "0.1.0"
+    "deli.h3vr": "0.2.0"
   },
   "assets": {
     "setup": {
