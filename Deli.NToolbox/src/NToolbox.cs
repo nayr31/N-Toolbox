@@ -56,7 +56,7 @@ namespace NToolbox
 
         public NToolbox()
         {
-            
+            _api.RequestLeaderboardDisable(Source, true);
             Dictionary<string, string> SceneList = Actions.SceneList;
 
             Logger.LogInfo($"Loading {WristMenuButtons.Count + Actions.SceneList.Count - 3} WristMenu actions");
