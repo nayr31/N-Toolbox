@@ -56,21 +56,12 @@ namespace NToolbox
 
         public NToolbox()
         {
-            var WristMenu = _api.WristMenu;
+            
+            Dictionary<string, string> SceneList = Actions.SceneList;
 
             Logger.LogInfo($"Loading {WristMenuButtons.Count + Actions.SceneList.Count - 3} WristMenu actions");
 
-            foreach (var kvp in WristMenuButtons)
-            {
-                _api.WristMenuButtons.Add(new WristMenuButton(kvp.Key, kvp.Value));
-                
-
-                Logger.LogDebug($"Loaded action {kvp.Key}");
-            }
-
-            Dictionary<string, string> SceneList = Actions.SceneList;
-
-            foreach (var scene in SceneList)
+            foreach (var scene in SceneList.Reverse())
             {
                 _api.WristMenuButtons.Add(new WristMenuButton(scene.Value, (x, y) =>
                 {
@@ -81,7 +72,15 @@ namespace NToolbox
                 Logger.LogDebug($"Loaded scene action {scene.Key}");
             }
 
-            //Logger.LogInfo("Fully loaded NToolbox!");
+            foreach (var kvp in WristMenuButtons.Reverse())
+            {
+                _api.WristMenuButtons.Add(new WristMenuButton(kvp.Key, kvp.Value));
+                Logger.LogDebug($"Loaded action {kvp.Key}");
+            }
+
+            
+
+            Logger.LogInfo("Fully loaded NToolbox!");
         }
 
         private readonly H3Api _api = H3Api.Instance;
