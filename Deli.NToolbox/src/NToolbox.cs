@@ -25,7 +25,7 @@ namespace NToolbox
             //Item interactions
             { "Gather Items", Actions.GatherButtonClicked },
             { "Reset Traps", Actions.ResetTrapsButtonClicked },
-            { "Freeze Guns", Actions.FreezeFireArmsButtonClicked },
+            { "Freeze Guns/Melee", Actions.FreezeFireArmsMeleeButtonClicked },
             { "Freeze Ammo/Mags", Actions.FreezeAmmoMagButtonClicked },
             { "Freeze Attachments", Actions.FreezeAttachmentsButtonClicked },
             { "Unfreeze All", Actions.UnFreezeAllClicked },

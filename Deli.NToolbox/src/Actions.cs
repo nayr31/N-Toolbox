@@ -36,9 +36,12 @@ namespace NToolbox
                     beartrap.ForceOpen();
         }
 
-        public static void FreezeFireArmsButtonClicked(H3Api api, WristMenuButton caller)
+        public static void FreezeFireArmsMeleeButtonClicked(H3Api api, WristMenuButton caller)
         {
             foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+                    physObject.IsKinematicLocked = true;
+            foreach (var physObject in Object.FindObjectsOfType<FVRMeleeWeapon>())
                 if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
                     physObject.IsKinematicLocked = true;
         }
