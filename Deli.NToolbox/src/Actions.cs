@@ -43,18 +43,11 @@ namespace NToolbox
                     physObject.IsKinematicLocked = true;
         }
 
-        public static void UnFreezeFireArmsButtonClicked(H3Api api, WristMenuButton caller)
+        public static void FreezeAmmoMagButtonClicked(H3Api api, WristMenuButton caller)
         {
-            foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
-                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
-                    physObject.IsKinematicLocked = false;
-        }
-
-        public static void FreezeAmmoButtonClicked(H3Api api, WristMenuButton caller)
-        {
-            foreach (var ammo in Object.FindObjectsOfType<FVRFireArmRound>())
-                if (!ammo.IsHeld && ammo.QuickbeltSlot == null)
-                    ammo.IsKinematicLocked = true;
+            foreach (var obj in Object.FindObjectsOfType<FVRPhysicalObject>())
+                if (!obj.IsHeld && obj.QuickbeltSlot == null && (obj.GetType().Equals(typeof(FVRFireArmRound)) || obj.GetType().Equals(typeof(FVRFireArmMagazine))))
+                    obj.IsKinematicLocked = true;
         }
 
         public static void FreezeAttachmentsButtonClicked(H3Api api, WristMenuButton caller)
@@ -62,6 +55,16 @@ namespace NToolbox
             foreach (var att in Object.FindObjectsOfType<FVRFireArmAttachment>())
                 if (!att.IsHeld && att.QuickbeltSlot == null)
                     att.IsKinematicLocked = true;
+        }
+
+        public static void UnFreezeAllClicked(H3Api api, WristMenuButton caller)
+        {
+            foreach (var physObject in Object.FindObjectsOfType<FVRPhysicalObject>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+                    physObject.IsKinematicLocked = false;
+            foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+                    physObject.IsKinematicLocked = false;
         }
 
         public static void SpawnAmmoPanelButtonClicked(H3Api api, WristMenuButton caller)

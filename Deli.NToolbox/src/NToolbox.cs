@@ -20,13 +20,15 @@ namespace NToolbox
         /// </summary>
         public readonly Dictionary<string, WristMenuButton.WristMenuButtonOnClick> WristMenuButtons = new()
         {
+            { "-----------------------------------------------------------------------", Actions.Empty },
+
             //Item interactions
             { "Gather Items", Actions.GatherButtonClicked },
             { "Reset Traps", Actions.ResetTrapsButtonClicked },
             { "Freeze Guns", Actions.FreezeFireArmsButtonClicked },
-            { "Unfreeze Guns", Actions.UnFreezeFireArmsButtonClicked },
-            { "Freeze Ammo", Actions.FreezeAmmoButtonClicked },
+            { "Freeze Ammo/Mags", Actions.FreezeAmmoMagButtonClicked },
             { "Freeze Attachments", Actions.FreezeAttachmentsButtonClicked },
+            { "Unfreeze All", Actions.UnFreezeAllClicked },
             { "Ammo Panel", Actions.SpawnAmmoPanelButtonClicked },
             { "Ammo Weenie", Actions.SpawnAmmoWeenieButtonClicked },
             //trash bin
@@ -39,7 +41,7 @@ namespace NToolbox
             { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
             { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
             { "Kill yourself", Actions.KillPlayerButtonClicked },
-            { "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//In testing
+            //{ "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//Broken? Test for flat IFF = -1 to see if the check is broken
 
             { "--------------------------------------------------------------------------", Actions.Empty },
 
