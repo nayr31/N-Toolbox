@@ -87,15 +87,9 @@ namespace NToolbox
         //--Player---------------------------------------------------
         //--Player---------------------------------------------------
 
-        public static void RestoreHPButtonClicked(H3Api api, WristMenuButton caller)
-        {
-            GM.CurrentPlayerBody.ResetHealth();
-        }
+        public static void RestoreHPButtonClicked(H3Api api, WristMenuButton caller) => GM.CurrentPlayerBody.ResetHealth();
 
-        public static void Restore10PercentHPButtonClicked(H3Api api, WristMenuButton callerF)
-        {
-            GM.CurrentPlayerBody.HarmPercent(-10f);
-        }
+        public static void Restore10PercentHPButtonClicked(H3Api api, WristMenuButton callerF) => GM.CurrentPlayerBody.HarmPercent(-10f);
 
         public static void ToggleOneHitButtonClicked(H3Api api, WristMenuButton caller)
         {
@@ -135,15 +129,9 @@ namespace NToolbox
         //--TNH---------------------------------------------------------
         //--TNH---------------------------------------------------------
 
-        public static void KillPlayerButtonClicked(H3Api api, WristMenuButton caller)
-        {
-            GM.CurrentPlayerBody.KillPlayer(true);
-        }
+        public static void KillPlayerButtonClicked(H3Api api, WristMenuButton caller) => GM.CurrentPlayerBody.KillPlayer(true);
 
-        public static void AddTokenButtonClicked(H3Api api, WristMenuButton caller)
-        {
-            GM.TNH_Manager.AddTokens(1, true);
-        }
+        public static void AddTokenButtonClicked(H3Api api, WristMenuButton caller) => GM.TNH_Manager.AddTokens(1, true);
 
         //public static void EndHoldButton(FVRWristMenu wristMenu)//WIP - tnhtweaker issues
         //{

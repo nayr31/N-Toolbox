@@ -32,6 +32,8 @@ namespace NToolbox
             { "Ammo Panel", Actions.SpawnAmmoPanelButtonClicked },
             { "Ammo Weenie", Actions.SpawnAmmoWeenieButtonClicked },
             //trash bin
+            //quickbelt fast?
+            //sosig spawner
 
             { "--------------------------------------------------------------------", Actions.Empty},
 
@@ -61,7 +63,7 @@ namespace NToolbox
             _api.RequestLeaderboardDisable(Source, true);
             Dictionary<string, string> SceneList = Actions.SceneList;
 
-            Logger.LogInfo($"Loading {WristMenuButtons.Count + Actions.SceneList.Count - 3} WristMenu actions");
+            Logger.LogInfo($"Loading {WristMenuButtons.Count + Actions.SceneList.Count - 4} WristMenu actions");
 
             foreach (var scene in SceneList.Reverse())
             {
