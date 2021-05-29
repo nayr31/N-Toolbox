@@ -31,6 +31,3 @@ Note: These buttons only work correctly inside of a TnH run, and may produce und
 **Scene Interactions**
 
 This is a set of buttons that will spawn you in the desired scene. Want to go to the TnH lobby? Simply click the button. Works between scenes.
-
-## Installation
-Place the `.Deli` file into your `H3VR/Deli/mods/` folder.
