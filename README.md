@@ -1,13 +1,13 @@
 # N-Toolbox
 
-An H3VR mod that adds a miriad of wrist-menu buttons, sorted by functionality:
+An H3VR mod that adds a myriad of wrist-menu buttons, sorted by functionality:
 
 **Item Interactions**
 - Gather Items
-- Resert bear traps
+- Reset bear traps
 - Freeze/Unfreeze guns
 - Freeze ammo
-- Freeze attacchments
+- Freeze attachments
 - Spawn Ammo Panel
 - Spawn ammo weenie
 
@@ -21,9 +21,9 @@ An H3VR mod that adds a miriad of wrist-menu buttons, sorted by functionality:
 
 **Take and Hold Interactions**
 
-Note: These buttons only work correctly inside of a TnH run, and may produce undesireable results in other scenes
+Note: These buttons only work correctly inside of a TnH run, and may produce undesirable results in other scenes
 - Add token
-- Spawn ammo reloader 
+- Spawn ammo reloader
 - Spawn magazine duplicator
 - Spawn recycler
 - Kill patrols
@@ -31,10 +31,6 @@ Note: These buttons only work correctly inside of a TnH run, and may produce und
 **Scene Interactions**
 
 This is a set of buttons that will spawn you in the desired scene. Want to go to the TnH lobby? Simply click the button. Works between scenes.
-
-## Requirements
-- Deli 0.3+ (https://github.com/Deli-Collective/Deli/releases)
-- Deli.H3VR (0.2.0) (https://github.com/Deli-Collective/Deli.H3VR/releases)
 
 ## Installation
 Place the `.Deli` file into your `H3VR/Deli/mods/` folder.
