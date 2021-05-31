@@ -4,7 +4,7 @@
     "Ryan Epp"
   ],
   "guid": "deli.ntools",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "require": "0.3.0",
   "dependencies": {
     "deli.h3vr": "0.2.0"

@@ -141,8 +141,9 @@ namespace NToolbox
         public static void SpawnAmmoReloaderButton(H3Api api, WristMenuButton caller)
         {
             var spawnPos = GM.CurrentPlayerBody.Torso;
-            spawnPos.rotation = Quaternion.identity;
-            spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z);
+            //test torso then test flat rotation on 90/-90
+            spawnPos.rotation = new Quaternion(Quaternion.identity.x, GM.CurrentPlayerBody.Torso.rotation.y, Quaternion.identity.z, 1);
+            spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z - 1);
             GM.TNH_Manager.SpawnAmmoReloader(spawnPos);
         }
         public static void SpawnMagDupeButton(H3Api api, WristMenuButton caller)
@@ -186,7 +187,7 @@ namespace NToolbox
             { "MainMenu3" , "Main Menu" },
             { "ArizonaTargets" , "Arizona Range" },
             { "ArizonaTargets_Night" , "Arizona at Night" },
-            { "HickockRangeNew" , "Friendly 45 Range" },//should probably test this new name lmao
+            { "HickockRangeNew" , "Friendly 45 Range" },
             { "IndoorRange" , "Indoor Range" },
             { "ProvingGround" , "Proving Grounds" },
             { "SniperRange" , "Sniper Range" },

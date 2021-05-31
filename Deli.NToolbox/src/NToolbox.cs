@@ -1,14 +1,10 @@
-﻿using Deli.Immediate;
-using Deli.Setup;
+﻿using Deli.Setup;
 using Deli.H3VR.Api;
-using Deli.H3VR;
 using FistVR;
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
+using BepInEx.Configuration;
 
 namespace NToolbox
 {
@@ -18,7 +14,7 @@ namespace NToolbox
         /// <summary>
         /// Every button to be on the wrist menu. The scene buttons are seperate 
         /// </summary>
-        public readonly Dictionary<string, WristMenuButton.WristMenuButtonOnClick> WristMenuButtons = new()
+        public readonly Dictionary<string, WristMenuButton.WristMenuButtonOnClick> WristMenuButtonsItemInteractions = new()
         {
             { "-----------------------------------------------------------------------", Actions.Empty },
 
@@ -34,17 +30,23 @@ namespace NToolbox
             //trash bin
             //quickbelt fast?
             //sosig spawner
+        };
 
-            { "--------------------------------------------------------------------", Actions.Empty},
+        public readonly Dictionary<string, WristMenuButton.WristMenuButtonOnClick> WristMenuButtonsPlayerInteractions = new()
+        {
+            { "--------------------------------------------------------------------", Actions.Empty },
 
             //Player body interactions
             { "Restore Full", Actions.RestoreHPButtonClicked },
-            { "Restore 10%", Actions.Restore10PercentHPButtonClicked },
+            //{ "Restore 10%", Actions.Restore10PercentHPButtonClicked },//This is bugged? restores full
             { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
             { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
             { "Kill yourself", Actions.KillPlayerButtonClicked },
             //{ "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//Broken? Test for flat IFF = -1 to see if the check is broken
-
+        };
+        
+        public readonly Dictionary<string, WristMenuButton.WristMenuButtonOnClick> WristMenuButtonsTnHInteractions = new()
+        {
             { "--------------------------------------------------------------------------", Actions.Empty },
 
             //Take and Hold interactions
@@ -54,39 +56,87 @@ namespace NToolbox
             { "SP - Magazine Duplicator", Actions.SpawnMagDupeButton },
             { "SP - Recycler", Actions.SpawnGunRecylcerButton },
             { "Kill patrols", Actions.KillPatrolsButtonClicked },
-
-            { "------------------------------------------------------------------------------", Actions.Empty },
         };
 
         public NToolbox()
         {
+            //Diable TnH leaderboard scoring
             _api.RequestLeaderboardDisable(Source, true);
-            Dictionary<string, string> SceneList = Actions.SceneList;
 
-            Logger.LogInfo($"Loading {WristMenuButtons.Count + Actions.SceneList.Count - 4} WristMenu actions");
+            //Set config options
+            LoadItemInteractions = Config.Bind("WristMenu Options", "LoadItemInteractions", true, "If set to true, will load all wristmenu actions relating to item interactions.");
+            LoadPlayerInteractions = Config.Bind("WristMenu Options", "LoadPlayerInteractions", true, "If set to true, will load all wristmenu actions relating to player interactions.");
+            LoadTnHInteractions = Config.Bind("WristMenu Options", "LoadTnHInteractions", true, "If set to true, will load all wristmenu actions relating to Take and Hold interactions.");
+            LoadSceneInteractions = Config.Bind("WristMenu Options", "LoadSceneInteractions", true, "If set to true, will load all wristmenu actions relating to scene loading.");
 
-            foreach (var scene in SceneList.Reverse())
+            //Scene actions
+            if (LoadSceneInteractions.Value)
             {
-                _api.WristMenuButtons.Add(new WristMenuButton(scene.Value, (x, y) =>
+                Dictionary<string, string> SceneList = Actions.SceneList;
+                Logger.LogInfo($"Loading {Actions.SceneList.Count} scene actions");
+                foreach (var scene in SceneList.Reverse())
                 {
-                    SteamVR_LoadLevel.Begin(scene.Key, false, 0.5f, 0f, 0f, 1f);
-                    foreach (var quitReceiver in GM.CurrentSceneSettings.QuitReceivers)
-                        quitReceiver.BroadcastMessage("QUIT", SendMessageOptions.DontRequireReceiver);
-                }));
-                Logger.LogDebug($"Loaded scene action {scene.Key}");
+                    _api.WristMenuButtons.Add(new WristMenuButton(scene.Value, (x, y) =>
+                    {
+                        SteamVR_LoadLevel.Begin(scene.Key, false, 0.5f, 0f, 0f, 1f);
+                        foreach (var quitReceiver in GM.CurrentSceneSettings.QuitReceivers)
+                            quitReceiver.BroadcastMessage("QUIT", SendMessageOptions.DontRequireReceiver);
+                    }));
+                    Logger.LogDebug($"Loaded scene action {scene.Key}");
+                }
+                //Add in a header thing for the tnh list
+                _api.WristMenuButtons.Add(new WristMenuButton("--------------------------------------------------------------------------", Actions.Empty));
             }
-
-            foreach (var kvp in WristMenuButtons.Reverse())
+            else
             {
-                _api.WristMenuButtons.Add(new WristMenuButton(kvp.Key, kvp.Value));
-                Logger.LogDebug($"Loaded action {kvp.Key}");
+                Logger.LogInfo($"Skipping load scene Interactions");
             }
 
+            //Wristmenu actions----------------------------------------------------------------------------------------
+            //Take and Hold
+            if (LoadTnHInteractions.Value)
+            {
+                Logger.LogInfo($"Loading {WristMenuButtonsTnHInteractions.Count} TnH Interaction actions");
+                foreach (var kvp in WristMenuButtonsTnHInteractions.Reverse())
+                {
+                    _api.WristMenuButtons.Add(new WristMenuButton(kvp.Key, kvp.Value));
+                    Logger.LogDebug($"Loaded action {kvp.Key}");
+                }
+            }
+            else Logger.LogInfo($"Skipping load TnH Interactions");
+
+            //Player
+            if (LoadPlayerInteractions.Value)
+            {
+                Logger.LogInfo($"Loading {WristMenuButtonsPlayerInteractions.Count} Player Interaction actions");
+                foreach (var kvp in WristMenuButtonsPlayerInteractions.Reverse())
+                {
+                    _api.WristMenuButtons.Add(new WristMenuButton(kvp.Key, kvp.Value));
+                    Logger.LogDebug($"Loaded action {kvp.Key}");
+                }
+            }
+            else Logger.LogInfo($"Skipping load player Interactions");
             
+            //Item
+            if (LoadItemInteractions.Value)
+            {
+                Logger.LogInfo($"Loading {WristMenuButtonsItemInteractions.Count} Item Interaction actions");
+                foreach (var kvp in WristMenuButtonsItemInteractions.Reverse())
+                {
+                    _api.WristMenuButtons.Add(new WristMenuButton(kvp.Key, kvp.Value));
+                    Logger.LogDebug($"Loaded action {kvp.Key}");
+                }
+            }
+            else Logger.LogInfo($"Skipping load item Interactions");
 
             Logger.LogInfo("Fully loaded NToolbox!");
         }
 
         private readonly H3Api _api = H3Api.Instance;
+
+        public ConfigEntry<bool> LoadItemInteractions;
+        public ConfigEntry<bool> LoadPlayerInteractions;
+        public ConfigEntry<bool> LoadTnHInteractions;
+        public ConfigEntry<bool> LoadSceneInteractions;
     }
 }
