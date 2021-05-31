@@ -2,32 +2,9 @@
 
 An H3VR mod that adds a myriad of wrist-menu buttons, sorted by functionality:
 
-**Item Interactions**
-- Gather Items
-- Reset bear traps
-- Freeze/Unfreeze guns
-- Freeze ammo
-- Freeze attachments
-- Spawn Ammo Panel
-- Spawn ammo weenie
+- Item Interactions
+- Player Interactions
+- Take and Hold Interactions
+- Scene loader actions
 
-**Player Interactions**
-- Restore HP to full
-- Restore HP by 10% (currently bugged, restores full)
-- Toggle 1-hit
-- Toggle god mode (invincibility)
-- Kill yourself
-- Toggle invisibility (currently broken)
-
-**Take and Hold Interactions**
-
-Note: These buttons only work correctly inside of a TnH run, and may produce undesirable results in other scenes
-- Add token
-- Spawn ammo reloader
-- Spawn magazine duplicator
-- Spawn recycler
-- Kill patrols
-
-**Scene Interactions**
-
-This is a set of buttons that will spawn you in the desired scene. Want to go to the TnH lobby? Simply click the button. Works between scenes.
+See the [features file](https://github.com/nayr31/N-Toolbox/blob/main/Features.md) for a complete list of features. 
