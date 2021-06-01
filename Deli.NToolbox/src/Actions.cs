@@ -89,7 +89,12 @@ namespace NToolbox
 
         public static void RestoreHPButtonClicked(H3Api api, WristMenuButton caller) => GM.CurrentPlayerBody.ResetHealth();
 
-        public static void Restore10PercentHPButtonClicked(H3Api api, WristMenuButton callerF) => GM.CurrentPlayerBody.HarmPercent(-10f);
+        public static void Restore10PercentHPButtonClicked(H3Api api, WristMenuButton callerF)
+        {
+            GM.CurrentPlayerBody.Health += GM.CurrentPlayerBody.m_startingHealth / 10;
+            if (GM.CurrentPlayerBody.Health > GM.CurrentPlayerBody.m_startingHealth) 
+                GM.CurrentPlayerBody.Health = GM.CurrentPlayerBody.m_startingHealth;
+        }
 
         public static void ToggleOneHitButtonClicked(H3Api api, WristMenuButton caller)
         {

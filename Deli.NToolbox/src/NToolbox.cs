@@ -38,7 +38,7 @@ namespace NToolbox
 
             //Player body interactions
             { "Restore Full", Actions.RestoreHPButtonClicked },
-            //{ "Restore 10%", Actions.Restore10PercentHPButtonClicked },//This is bugged? restores full
+            { "Restore 10%", Actions.Restore10PercentHPButtonClicked },//testing
             { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
             { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
             { "Kill yourself", Actions.KillPlayerButtonClicked },
@@ -91,6 +91,7 @@ namespace NToolbox
             {
                 Logger.LogInfo($"Skipping load scene Interactions");
             }
+
 
             //Wristmenu actions----------------------------------------------------------------------------------------
             //Take and Hold
