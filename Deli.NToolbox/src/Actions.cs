@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FistVR;
-using Deli.H3VR.Api;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Sodalite.Api;
 using Object = UnityEngine.Object;
 
 namespace NToolbox
 {
-    public static class Actions
+    public class Actions
     {
-        public static void GatherButtonClicked(H3Api api, WristMenuButton caller)
+        public static void GatherButtonClicked()
         {
             //Get player pos upon every button press
             Vector3 playerPos = GM.CurrentPlayerBody.Head.position;
@@ -29,14 +29,14 @@ namespace NToolbox
                         Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(1.3f, 0.7f, 1.3f)) - new Vector3(0, 0.5f, 0);
         }
 
-        public static void ResetTrapsButtonClicked(H3Api api, WristMenuButton caller)
+        public static void ResetTrapsButtonClicked()
         {
             foreach (var beartrap in Object.FindObjectsOfType<MF2_BearTrap>())
                 if (!beartrap.IsHeld && beartrap.QuickbeltSlot == null)
                     beartrap.ForceOpen();
         }
 
-        public static void FreezeFireArmsMeleeButtonClicked(H3Api api, WristMenuButton caller)
+        public static void FreezeFireArmsMeleeButtonClicked()
         {
             foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
                 if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
@@ -46,21 +46,21 @@ namespace NToolbox
                     physObject.IsKinematicLocked = true;
         }
 
-        public static void FreezeAmmoMagButtonClicked(H3Api api, WristMenuButton caller)
+        public static void FreezeAmmoMagButtonClicked()
         {
             foreach (var obj in Object.FindObjectsOfType<FVRPhysicalObject>())
                 if (!obj.IsHeld && obj.QuickbeltSlot == null && (obj.GetType().Equals(typeof(FVRFireArmRound)) || obj.GetType().Equals(typeof(FVRFireArmMagazine))))
                     obj.IsKinematicLocked = true;
         }
 
-        public static void FreezeAttachmentsButtonClicked(H3Api api, WristMenuButton caller)
+        public static void FreezeAttachmentsButtonClicked()
         {
             foreach (var att in Object.FindObjectsOfType<FVRFireArmAttachment>())
                 if (!att.IsHeld && att.QuickbeltSlot == null)
                     att.IsKinematicLocked = true;
         }
 
-        public static void UnFreezeAllClicked(H3Api api, WristMenuButton caller)
+        public static void UnFreezeAllClicked()
         {
             foreach (var physObject in Object.FindObjectsOfType<FVRPhysicalObject>())
                 if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
@@ -70,34 +70,35 @@ namespace NToolbox
                     physObject.IsKinematicLocked = false;
         }
 
-        public static void SpawnAmmoPanelButtonClicked(H3Api api, WristMenuButton caller)
+        public static void SpawnAmmoPanelButtonClicked()
         {
             var obj = IM.OD["AmmoPanel"];
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
-            api.WristMenu.m_currentHand.RetrieveObject(physObj);
+            WristMenuAPI.Instance.m_currentHand.RetrieveObject(physObj);
         }
         
-        public static void SpawnAmmoWeenieButtonClicked(H3Api api, WristMenuButton caller)
+        public static void SpawnAmmoWeenieButtonClicked()
         {
             var obj = IM.OD["PowerUpMeat_InfiniteAmmo"];
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
-            api.WristMenu.m_currentHand.RetrieveObject(physObj);
+            WristMenuAPI.Instance.m_currentHand.RetrieveObject(physObj);
         }
 
         //--Player---------------------------------------------------
         //--Player---------------------------------------------------
 
-        public static void RestoreHPButtonClicked(H3Api api, WristMenuButton caller) => GM.CurrentPlayerBody.ResetHealth();
+        public static void RestoreHPButtonClicked() => GM.CurrentPlayerBody.ResetHealth();
 
-        public static void Restore10PercentHPButtonClicked(H3Api api, WristMenuButton callerF)
+        public static void Restore10PercentHPButtonClicked()
         {
             GM.CurrentPlayerBody.Health += GM.CurrentPlayerBody.m_startingHealth / 10;
             if (GM.CurrentPlayerBody.Health > GM.CurrentPlayerBody.m_startingHealth) 
                 GM.CurrentPlayerBody.Health = GM.CurrentPlayerBody.m_startingHealth;
         }
 
-        public static void ToggleOneHitButtonClicked(H3Api api, WristMenuButton caller)
+        public static void ToggleOneHitButtonClicked()
         {
+            //IM.OD.Remove("That ugly schristmas suppressor");
             if (GM.CurrentPlayerBody.GetPlayerHealthRaw() != 1)
             {
                 lastMax = GM.CurrentPlayerBody.m_startingHealth;
@@ -110,7 +111,7 @@ namespace NToolbox
             }
         }
 
-        public static void ToggleGodModeButtonClicked(H3Api api, WristMenuButton caller)
+        public static void ToggleGodModeButtonClicked()
         {
             foreach (var v in GM.CurrentPlayerBody.Hitboxes)
             {
@@ -118,7 +119,7 @@ namespace NToolbox
             }
         }
 
-        public static void ToggleInvisButtonClicked(H3Api api, WristMenuButton caller)
+        public static void ToggleInvisButtonClicked()//-1 doesnt work lmao
         {
             if (GM.CurrentPlayerBody.GetPlayerIFF() != -1)
             {
@@ -134,16 +135,16 @@ namespace NToolbox
         //--TNH---------------------------------------------------------
         //--TNH---------------------------------------------------------
 
-        public static void KillPlayerButtonClicked(H3Api api, WristMenuButton caller) => GM.CurrentPlayerBody.KillPlayer(true);
+        public static void KillPlayerButtonClicked() => GM.CurrentPlayerBody.KillPlayer(true);
 
-        public static void AddTokenButtonClicked(H3Api api, WristMenuButton caller) => GM.TNH_Manager.AddTokens(1, true);
+        public static void AddTokenButtonClicked() => GM.TNH_Manager.AddTokens(1, true);
 
         //public static void EndHoldButton(FVRWristMenu wristMenu)//WIP - tnhtweaker issues
         //{
         //    GM.TNH_Manager.SetPhase_Take();
         //}
 
-        public static void SpawnAmmoReloaderButton(H3Api api, WristMenuButton caller)
+        public static void SpawnAmmoReloaderButton()
         {
             var spawnPos = GM.CurrentPlayerBody.Torso;
             //test torso then test flat rotation on 90/-90
@@ -151,14 +152,14 @@ namespace NToolbox
             spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z - 1);
             GM.TNH_Manager.SpawnAmmoReloader(spawnPos);
         }
-        public static void SpawnMagDupeButton(H3Api api, WristMenuButton caller)
+        public static void SpawnMagDupeButton()
         {
             var spawnPos = GM.CurrentPlayerBody.Torso;
             spawnPos.rotation = Quaternion.identity;
             spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z);
             GM.TNH_Manager.SpawnMagDuplicator(spawnPos);
         }
-        public static void SpawnGunRecylcerButton(H3Api api, WristMenuButton caller)
+        public static void SpawnGunRecylcerButton()
         {
             var spawnPos = GM.CurrentPlayerBody.Torso;
             spawnPos.rotation = Quaternion.identity;
@@ -166,7 +167,7 @@ namespace NToolbox
             GM.TNH_Manager.SpawnGunRecycler(spawnPos);
         }
 
-        public static void KillPatrolsButtonClicked(H3Api api, WristMenuButton caller)
+        public static void KillPatrolsButtonClicked()
         {
             GM.TNH_Manager.KillAllPatrols();
         }
@@ -198,7 +199,7 @@ namespace NToolbox
             { "SniperRange" , "Sniper Range" },
             { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
         };
-        public static void Empty(H3Api api, WristMenuButton caller) { }
+        public static void Empty() { }
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
         private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
     }

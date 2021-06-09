@@ -1,10 +1,10 @@
 ﻿using Deli.Setup;
-using Deli.H3VR.Api;
 using FistVR;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Configuration;
+using Sodalite.Api;
 
 namespace NToolbox
 {
@@ -14,7 +14,7 @@ namespace NToolbox
         /// <summary>
         /// Every button to be on the wrist menu. The scene buttons are seperate 
         /// </summary>
-        public readonly Dictionary<string, WristMenuButton.WristMenuButtonOnClick> WristMenuButtonsItemInteractions = new()
+        public readonly Dictionary<string, System.Action> WristMenuButtonsItemInteractions = new()
         {
             { "-----------------------------------------------------------------------", Actions.Empty },
 
@@ -32,7 +32,7 @@ namespace NToolbox
             //sosig spawner
         };
 
-        public readonly Dictionary<string, WristMenuButton.WristMenuButtonOnClick> WristMenuButtonsPlayerInteractions = new()
+        public readonly Dictionary<string, System.Action> WristMenuButtonsPlayerInteractions = new()
         {
             { "--------------------------------------------------------------------", Actions.Empty },
 
@@ -40,12 +40,12 @@ namespace NToolbox
             { "Restore Full", Actions.RestoreHPButtonClicked },
             { "Restore 10%", Actions.Restore10PercentHPButtonClicked },//testing
             { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
-            { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
+            { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },//doesn't work against melee? its toggling hitboxes, so maybe some are disabled?
             { "Kill yourself", Actions.KillPlayerButtonClicked },
             //{ "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//Broken? Test for flat IFF = -1 to see if the check is broken
         };
         
-        public readonly Dictionary<string, WristMenuButton.WristMenuButtonOnClick> WristMenuButtonsTnHInteractions = new()
+        public readonly Dictionary<string, System.Action> WristMenuButtonsTnHInteractions = new()
         {
             { "--------------------------------------------------------------------------", Actions.Empty },
 
@@ -61,13 +61,14 @@ namespace NToolbox
         public NToolbox()
         {
             //Diable TnH leaderboard scoring
-            _api.RequestLeaderboardDisable(Source, true);
+            LeaderboardAPI.GetLeaderboardDisableLock();
 
             //Set config options
             LoadItemInteractions = Config.Bind("WristMenu Options", "LoadItemInteractions", true, "If set to true, will load all wristmenu actions relating to item interactions.");
             LoadPlayerInteractions = Config.Bind("WristMenu Options", "LoadPlayerInteractions", true, "If set to true, will load all wristmenu actions relating to player interactions.");
             LoadTnHInteractions = Config.Bind("WristMenu Options", "LoadTnHInteractions", true, "If set to true, will load all wristmenu actions relating to Take and Hold interactions.");
             LoadSceneInteractions = Config.Bind("WristMenu Options", "LoadSceneInteractions", true, "If set to true, will load all wristmenu actions relating to scene loading.");
+
 
             //Scene actions
             if (LoadSceneInteractions.Value)
@@ -76,7 +77,7 @@ namespace NToolbox
                 Logger.LogInfo($"Loading {Actions.SceneList.Count} scene actions");
                 foreach (var scene in SceneList.Reverse())
                 {
-                    _api.WristMenuButtons.Add(new WristMenuButton(scene.Value, (x, y) =>
+                    WristMenuAPI.Buttons.Add(new WristMenuButton(scene.Value, () =>
                     {
                         SteamVR_LoadLevel.Begin(scene.Key, false, 0.5f, 0f, 0f, 1f);
                         foreach (var quitReceiver in GM.CurrentSceneSettings.QuitReceivers)
@@ -85,7 +86,7 @@ namespace NToolbox
                     Logger.LogDebug($"Loaded scene action {scene.Key}");
                 }
                 //Add in a header thing for the tnh list
-                _api.WristMenuButtons.Add(new WristMenuButton("--------------------------------------------------------------------------", Actions.Empty));
+                WristMenuAPI.Buttons.Add(new WristMenuButton("--------------------------------------------------------------------------", Actions.Empty));
             }
             else
             {
@@ -100,7 +101,7 @@ namespace NToolbox
                 Logger.LogInfo($"Loading {WristMenuButtonsTnHInteractions.Count} TnH Interaction actions");
                 foreach (var kvp in WristMenuButtonsTnHInteractions.Reverse())
                 {
-                    _api.WristMenuButtons.Add(new WristMenuButton(kvp.Key, kvp.Value));
+                    WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
                     Logger.LogDebug($"Loaded action {kvp.Key}");
                 }
             }
@@ -112,7 +113,7 @@ namespace NToolbox
                 Logger.LogInfo($"Loading {WristMenuButtonsPlayerInteractions.Count} Player Interaction actions");
                 foreach (var kvp in WristMenuButtonsPlayerInteractions.Reverse())
                 {
-                    _api.WristMenuButtons.Add(new WristMenuButton(kvp.Key, kvp.Value));
+                    WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
                     Logger.LogDebug($"Loaded action {kvp.Key}");
                 }
             }
@@ -124,7 +125,7 @@ namespace NToolbox
                 Logger.LogInfo($"Loading {WristMenuButtonsItemInteractions.Count} Item Interaction actions");
                 foreach (var kvp in WristMenuButtonsItemInteractions.Reverse())
                 {
-                    _api.WristMenuButtons.Add(new WristMenuButton(kvp.Key, kvp.Value));
+                    WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
                     Logger.LogDebug($"Loaded action {kvp.Key}");
                 }
             }
@@ -132,8 +133,6 @@ namespace NToolbox
 
             Logger.LogInfo("Fully loaded NToolbox!");
         }
-
-        private readonly H3Api _api = H3Api.Instance;
 
         public ConfigEntry<bool> LoadItemInteractions;
         public ConfigEntry<bool> LoadPlayerInteractions;
