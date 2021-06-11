@@ -13,9 +13,8 @@
 - Restore HP to full
 - Restore HP by 10% (currently bugged, restores full)
 - Toggle 1-hit
-- Toggle god mode (invincibility)
+- Toggle god mode (invincibility, bugged against melee)
 - Kill yourself
-- Toggle invisibility (currently broken)
 
 ## Take and Hold Interactions
 
