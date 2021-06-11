@@ -60,15 +60,17 @@ namespace NToolbox
 
         public NToolbox()
         {
-            //Diable TnH leaderboard scoring
-            LeaderboardAPI.GetLeaderboardDisableLock();
-
             //Set config options
             LoadItemInteractions = Config.Bind("WristMenu Options", "LoadItemInteractions", true, "If set to true, will load all wristmenu actions relating to item interactions.");
             LoadPlayerInteractions = Config.Bind("WristMenu Options", "LoadPlayerInteractions", true, "If set to true, will load all wristmenu actions relating to player interactions.");
             LoadTnHInteractions = Config.Bind("WristMenu Options", "LoadTnHInteractions", true, "If set to true, will load all wristmenu actions relating to Take and Hold interactions.");
             LoadSceneInteractions = Config.Bind("WristMenu Options", "LoadSceneInteractions", true, "If set to true, will load all wristmenu actions relating to scene loading.");
+        }
 
+        public void Start()
+        {
+            //Diable TnH leaderboard scoring
+            LeaderboardAPI.GetLeaderboardDisableLock();
 
             //Scene actions
             if (LoadSceneInteractions.Value)
@@ -118,7 +120,7 @@ namespace NToolbox
                 }
             }
             else Logger.LogInfo($"Skipping load player Interactions");
-            
+
             //Item
             if (LoadItemInteractions.Value)
             {
