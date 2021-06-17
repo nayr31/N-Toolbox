@@ -80,8 +80,8 @@ namespace NToolbox
             //Scene actions
             if (LoadSceneInteractions.Value)
             {
-                Dictionary<string, string> SceneList = Actions.SceneList;
-                Logger.LogInfo($"Loading {Actions.SceneList.Count} scene actions");
+                Dictionary<string, string> SceneList = Actions.SCENE_LIST;
+                Logger.LogInfo($"Loading {Actions.SCENE_LIST.Count} scene actions");
                 foreach (var scene in SceneList.Reverse())
                 {
                     WristMenuAPI.Buttons.Add(new WristMenuButton(scene.Value, () =>
