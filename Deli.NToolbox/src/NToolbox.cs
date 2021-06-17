@@ -30,6 +30,8 @@ namespace NToolbox
             //trash bin
             //quickbelt fast?
             //sosig spawner
+            //delete all objects
+            //toggle controller geo
         };
 
         public readonly Dictionary<string, System.Action> WristMenuButtonsPlayerInteractions = new()
