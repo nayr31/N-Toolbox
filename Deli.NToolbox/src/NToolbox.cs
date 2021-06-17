@@ -1,22 +1,27 @@
-﻿using Deli.Setup;
-using FistVR;
+﻿using FistVR;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using BepInEx;
 using BepInEx.Configuration;
 using Sodalite.Api;
 
 namespace NToolbox
 {
-    public class NToolbox : DeliBehaviour
+    [BepInPlugin(Common.PluginInfo.GUID, Common.PluginInfo.NAME, Common.PluginInfo.VERSION)]
+    public class NToolbox : BaseUnityPlugin
     {
-
+        public ConfigEntry<bool> LoadItemInteractions;
+        public ConfigEntry<bool> LoadPlayerInteractions;
+        public ConfigEntry<bool> LoadTnHInteractions;
+        public ConfigEntry<bool> LoadSceneInteractions;
+        
         /// <summary>
         /// Every button to be on the wrist menu. The scene buttons are seperate 
         /// </summary>
         public readonly Dictionary<string, System.Action> WristMenuButtonsItemInteractions = new()
         {
-            { "-----------------------------------------------------------------------", Actions.Empty },
+            {Common.SEPARATOR, Actions.Empty},
 
             //Item interactions
             { "Gather Items", Actions.GatherButtonClicked },
@@ -36,7 +41,7 @@ namespace NToolbox
 
         public readonly Dictionary<string, System.Action> WristMenuButtonsPlayerInteractions = new()
         {
-            { "--------------------------------------------------------------------", Actions.Empty },
+            { Common.SEPARATOR, Actions.Empty },
 
             //Player body interactions
             { "Restore Full", Actions.RestoreHPButtonClicked },
@@ -49,7 +54,7 @@ namespace NToolbox
         
         public readonly Dictionary<string, System.Action> WristMenuButtonsTnHInteractions = new()
         {
-            { "--------------------------------------------------------------------------", Actions.Empty },
+            { Common.SEPARATOR, Actions.Empty },
 
             //Take and Hold interactions
             { "Add token", Actions.AddTokenButtonClicked },
@@ -77,8 +82,8 @@ namespace NToolbox
             //Scene actions
             if (LoadSceneInteractions.Value)
             {
-                Dictionary<string, string> SceneList = Actions.SceneList;
-                Logger.LogInfo($"Loading {Actions.SceneList.Count} scene actions");
+                Dictionary<string, string> SceneList = Actions.SCENE_LIST;
+                Logger.LogInfo($"Loading {Actions.SCENE_LIST.Count} scene actions");
                 foreach (var scene in SceneList.Reverse())
                 {
                     WristMenuAPI.Buttons.Add(new WristMenuButton(scene.Value, () =>
@@ -90,7 +95,7 @@ namespace NToolbox
                     Logger.LogDebug($"Loaded scene action {scene.Key}");
                 }
                 //Add in a header thing for the tnh list
-                WristMenuAPI.Buttons.Add(new WristMenuButton("--------------------------------------------------------------------------", Actions.Empty));
+                WristMenuAPI.Buttons.Add(new WristMenuButton(Common.SEPARATOR, Actions.Empty));
             }
             else
             {
@@ -137,10 +142,5 @@ namespace NToolbox
 
             Logger.LogInfo("Fully loaded NToolbox!");
         }
-
-        public ConfigEntry<bool> LoadItemInteractions;
-        public ConfigEntry<bool> LoadPlayerInteractions;
-        public ConfigEntry<bool> LoadTnHInteractions;
-        public ConfigEntry<bool> LoadSceneInteractions;
     }
 }

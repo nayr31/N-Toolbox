@@ -11,6 +11,8 @@ namespace NToolbox
 {
     public class Actions
     {
+        private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
+        private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
         public static void GatherButtonClicked()
         {
             //Get player pos upon every button press
@@ -188,7 +190,7 @@ namespace NToolbox
             typeof(FVRMeleeWeapon),
             typeof(FVRFireArmAttachment),
         };
-        public static Dictionary<string, string> SceneList = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> SCENE_LIST = new Dictionary<string, string>
         {
             { "MainMenu3" , "Main Menu" },
             { "ArizonaTargets" , "Arizona Range" },
@@ -200,7 +202,6 @@ namespace NToolbox
             { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
         };
         public static void Empty() { }
-        private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
-        private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
+
     }
 }
