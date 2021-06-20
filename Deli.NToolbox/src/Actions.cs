@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using FistVR;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Sodalite.Api;
 using Object = UnityEngine.Object;
+using Sodalite.UiWidgets;
+using Sodalite;
 
 namespace NToolbox
 {
@@ -13,6 +15,7 @@ namespace NToolbox
     {
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
         private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
+
         public static void GatherButtonClicked()
         {
             //Get player pos upon every button press
@@ -76,6 +79,7 @@ namespace NToolbox
         {
             var obj = IM.OD["AmmoPanel"];
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
+            //if(WristMenuAPI.Instance != null)
             WristMenuAPI.Instance.m_currentHand.RetrieveObject(physObj);
         }
         
@@ -201,7 +205,6 @@ namespace NToolbox
             { "SniperRange" , "Sniper Range" },
             { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
         };
-        public static void Empty() { }
-
+        public static void Empty() {  }
     }
 }
