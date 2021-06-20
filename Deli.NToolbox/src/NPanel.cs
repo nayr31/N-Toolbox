@@ -10,6 +10,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using BepInEx;
 using BepInEx.Configuration;
+using System.Reflection;
+using Sodalite.Utilities;
 
 namespace NToolbox.src
 {
@@ -23,7 +25,7 @@ namespace NToolbox.src
         GridLayoutWidget sceneTools;
 
 
-        public readonly Dictionary<string, System.Action> ItemToolsDict = new()
+        public readonly Dictionary<string, Action> ItemToolsDict = new()
         {
             //{ "Back", Actions.Empty },
 
@@ -43,7 +45,7 @@ namespace NToolbox.src
             //toggle controller geo
         };
 
-        public readonly Dictionary<string, System.Action> PlayerToolsDict = new()
+        public readonly Dictionary<string, Action> PlayerToolsDict = new()
         {
             //{ Common.SEPARATOR, Actions.Empty },
 
@@ -56,7 +58,7 @@ namespace NToolbox.src
             //{ "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//Broken? Test for flat IFF = -1 to see if the check is broken
         };
 
-        public readonly Dictionary<string, System.Action> TnHToolsDict = new()
+        public readonly Dictionary<string, Action> TnHToolsDict = new()
         {
             //{ Common.SEPARATOR, Actions.Empty },
 
@@ -73,6 +75,7 @@ namespace NToolbox.src
         {
             _NPanel = new LockablePanel();
             _NPanel.Configure += ConfigureForTool;
+            _NPanel.TextureOverride = SodaliteUtils.LoadTextureFromBytes(Assembly.GetExecutingAssembly().GetResource("panel.png"));
         }
 
         public void ConfigureForTool(GameObject panel)

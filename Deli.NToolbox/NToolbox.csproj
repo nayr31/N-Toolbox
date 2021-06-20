@@ -9,6 +9,14 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="src\panel.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="src\panel.png" />
+    </ItemGroup>
     
     <ItemGroup>
         
