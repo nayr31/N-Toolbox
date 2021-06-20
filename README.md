@@ -1,6 +1,6 @@
 # N-Toolbox
 
-Adds a myriad of wrist-menu buttons, sorted by functionality.
+Adds a myriad of functions, sorted by functionality. Open the panel to access these functions inside of the wristmenu.
 
 Please see the [features](https://github.com/nayr31/N-Toolbox/blob/main/Features.md) page for a complete list of buttons, and the [releases](https://github.com/nayr31/N-Toolbox/releases) page for a list of patch notes.
 
