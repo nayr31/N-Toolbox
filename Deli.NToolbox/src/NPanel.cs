@@ -220,7 +220,7 @@ namespace NToolbox.src
                         button.ButtonText.text = kvp.Value;
                         button.AddButtonListener(() =>
                         {
-                            SteamVR_LoadLevel.Begin(kvp.Value, false, 0.5f, 0f, 0f, 1f);
+                            SteamVR_LoadLevel.Begin(kvp.Key, false, 0.5f, 0f, 0f, 1f);
                             foreach (var quitReceiver in GM.CurrentSceneSettings.QuitReceivers)
                                 quitReceiver.BroadcastMessage("QUIT", SendMessageOptions.DontRequireReceiver);
                         });
