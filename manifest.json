@@ -1,0 +1,9 @@
+{
+    "name": "NToolbox",
+    "version_number": "1.4.2",
+    "website_url": "https://github.com/nayr31/N-Toolbox",
+    "description": "Adds several wristmenu buttons that provide tools for many situations.",
+    "dependencies": [
+        "nrgill28-Sodalite-1.0.0"
+    ]
+}
