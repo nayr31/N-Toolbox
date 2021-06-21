@@ -27,10 +27,8 @@ namespace NToolbox.src
 
         public readonly Dictionary<string, Action> ItemToolsDict = new()
         {
-            //{ "Back", Actions.Empty },
-
-            //Item interactions
             { "Gather Items", Actions.GatherButtonClicked },
+            { "Delete Items", Actions.DeleteButtonClicked },
             { "Reset Traps", Actions.ResetTrapsButtonClicked },
             { "Freeze Guns/Melee", Actions.FreezeFireArmsMeleeButtonClicked },
             { "Freeze Ammo/Mags", Actions.FreezeAmmoMagButtonClicked },
@@ -41,30 +39,21 @@ namespace NToolbox.src
             //trash bin
             //quickbelt fast?
             //sosig spawner
-            //delete all objects
-            //toggle controller geo
         };
 
         public readonly Dictionary<string, Action> PlayerToolsDict = new()
         {
-            //{ Common.SEPARATOR, Actions.Empty },
-
-            //Player body interactions
-            { "Restore Full", Actions.RestoreHPButtonClicked },
-            { "Restore 10%", Actions.Restore10PercentHPButtonClicked },//testing
-            { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
-            { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },//doesn't work against melee? its toggling hitboxes, so maybe some are disabled?
             { "Kill yourself", Actions.KillPlayerButtonClicked },
+            { "Restore Full", Actions.RestoreHPButtonClicked },
+            { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
+            { "Toggle Controller Geo", Actions.ToggleControllerGeo },
+            { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
             //{ "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//Broken? Test for flat IFF = -1 to see if the check is broken
         };
 
         public readonly Dictionary<string, Action> TnHToolsDict = new()
         {
-            //{ Common.SEPARATOR, Actions.Empty },
-
-            //Take and Hold interactions
             { "Add token", Actions.AddTokenButtonClicked },
-            //{ "End hold", Actions.EndHoldButton },//BUG - Bad things, doesn't mesh well with TnHTweaker
             { "SP - Ammo Reloader", Actions.SpawnAmmoReloaderButton },
             { "SP - Magazine Duplicator", Actions.SpawnMagDupeButton },
             { "SP - Recycler", Actions.SpawnGunRecylcerButton },
@@ -289,6 +278,8 @@ namespace NToolbox.src
             wristMenu.m_currentHand.RetrieveObject(panel.GetComponent<FVRPhysicalObject>());
         }
 
+        private void AddSeparator() => WristMenuAPI.Buttons.Add(new WristMenuButton(Common.SEPARATOR, Actions.Empty));
+
         public void LoadWristmenu()//legacy stuff for reasons i guess, doesnt work
         {
             Dictionary<string, string> SceneList = Actions.SCENE_LIST;
@@ -302,26 +293,26 @@ namespace NToolbox.src
                 }));
             }
             //Add in a header thing for the tnh list
-            WristMenuAPI.Buttons.Add(new WristMenuButton(Common.SEPARATOR, Actions.Empty));
+            AddSeparator();
 
             //Wristmenu actions----------------------------------------------------------------------------------------
             //Take and Hold
             foreach (var kvp in TnHToolsDict.Reverse())
                 WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
 
-            WristMenuAPI.Buttons.Add(new WristMenuButton(Common.SEPARATOR, Actions.Empty));
+            AddSeparator();
 
             //Player
             foreach (var kvp in PlayerToolsDict.Reverse())
                 WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
 
-            WristMenuAPI.Buttons.Add(new WristMenuButton(Common.SEPARATOR, Actions.Empty));
+            AddSeparator();
 
             //Item
             foreach (var kvp in ItemToolsDict.Reverse())
                 WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
 
-            WristMenuAPI.Buttons.Add(new WristMenuButton(Common.SEPARATOR, Actions.Empty));
+            AddSeparator();
         }
     }
 }

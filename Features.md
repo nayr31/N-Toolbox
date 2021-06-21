@@ -1,6 +1,7 @@
 ## Item Interactions
 
 - Gather Items
+- Delete Items
 - Reset bear traps
 - Freeze/Unfreeze guns
 - Freeze ammo
@@ -10,11 +11,11 @@
 
 ## Player Interactions
 
-- Restore HP to full
-- Restore HP by 10% (currently bugged, restores full)
-- Toggle 1-hit
-- Toggle god mode (invincibility, bugged against melee)
 - Kill yourself
+- Restore full
+- Toggle 1-hit
+- Toggle god mode
+- Toggle controller geo
 
 ## Take and Hold Interactions
 

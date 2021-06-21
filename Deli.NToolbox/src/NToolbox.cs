@@ -18,7 +18,7 @@ namespace NToolbox
         public NToolbox() 
         {
             //Set config option
-            LoadWristMenu = Config.Bind("WristMenu Options", "LaodWristMenu", false, "If set to true, will load all wristmenu actions. I don't recommend using this, please don't.");
+            LoadWristMenu = Config.Bind("WristMenu Options", "LoadWristMenu", false, "If set to true, will load all wristmenu actions. I don't recommend using this, please don't.");
         }
 
         public void Start()

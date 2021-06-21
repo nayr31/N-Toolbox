@@ -15,6 +15,7 @@ namespace NToolbox
     {
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
         private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
+        private static bool isMortal = true;
 
         public static void GatherButtonClicked()
         {
@@ -32,6 +33,17 @@ namespace NToolbox
                 if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
                     physObject.transform.position = playerPos +
                         Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(1.3f, 0.7f, 1.3f)) - new Vector3(0, 0.5f, 0);
+        }
+
+        public static void DeleteButtonClicked()
+        {
+            foreach (var physObject in Object.FindObjectsOfType<FVRPhysicalObject>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null && physObject.transform.parent == null)
+                    Object.Destroy(physObject.gameObject);
+
+            foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+                    Object.Destroy(physObject.gameObject);
         }
 
         public static void ResetTrapsButtonClicked()
@@ -79,28 +91,20 @@ namespace NToolbox
         {
             var obj = IM.OD["AmmoPanel"];
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
-            //if(WristMenuAPI.Instance != null)
-            WristMenuAPI.Instance.m_currentHand.RetrieveObject(physObj);
+            physObj.transform.position = GM.CurrentPlayerBody.LeftHand.transform.position;
         }
         
         public static void SpawnAmmoWeenieButtonClicked()
         {
             var obj = IM.OD["PowerUpMeat_InfiniteAmmo"];
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
-            WristMenuAPI.Instance.m_currentHand.RetrieveObject(physObj);
+            physObj.transform.position = GM.CurrentPlayerBody.LeftHand.transform.position;
         }
 
         //--Player---------------------------------------------------
         //--Player---------------------------------------------------
 
         public static void RestoreHPButtonClicked() => GM.CurrentPlayerBody.ResetHealth();
-
-        public static void Restore10PercentHPButtonClicked()
-        {
-            GM.CurrentPlayerBody.Health += GM.CurrentPlayerBody.m_startingHealth / 10;
-            if (GM.CurrentPlayerBody.Health > GM.CurrentPlayerBody.m_startingHealth) 
-                GM.CurrentPlayerBody.Health = GM.CurrentPlayerBody.m_startingHealth;
-        }
 
         public static void ToggleOneHitButtonClicked()
         {
@@ -119,10 +123,12 @@ namespace NToolbox
 
         public static void ToggleGodModeButtonClicked()
         {
+            //default hitboxes are true
             foreach (var v in GM.CurrentPlayerBody.Hitboxes)
             {
-                if (v != null) v.IsActivated = v.IsActivated == true ? false : true;
+                if (v != null)  v.IsActivated = !isMortal;
             }
+            isMortal = !isMortal;
         }
 
         public static void ToggleInvisButtonClicked()//-1 doesnt work lmao
@@ -138,6 +144,11 @@ namespace NToolbox
             }
         }
 
+        public static void ToggleControllerGeo()
+        {
+            GM.Options.QuickbeltOptions.HideControllerGeoWhenObjectHeld = !GM.Options.QuickbeltOptions.HideControllerGeoWhenObjectHeld;
+        }
+
         //--TNH---------------------------------------------------------
         //--TNH---------------------------------------------------------
 
@@ -145,17 +156,11 @@ namespace NToolbox
 
         public static void AddTokenButtonClicked() => GM.TNH_Manager.AddTokens(1, true);
 
-        //public static void EndHoldButton(FVRWristMenu wristMenu)//WIP - tnhtweaker issues
-        //{
-        //    GM.TNH_Manager.SetPhase_Take();
-        //}
-
         public static void SpawnAmmoReloaderButton()
         {
             var spawnPos = GM.CurrentPlayerBody.Torso;
-            //test torso then test flat rotation on 90/-90
-            spawnPos.rotation = new Quaternion(Quaternion.identity.x, GM.CurrentPlayerBody.Torso.rotation.y, Quaternion.identity.z, 1);
-            spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z - 1);
+            spawnPos.rotation = Quaternion.identity;
+            spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z);
             GM.TNH_Manager.SpawnAmmoReloader(spawnPos);
         }
         public static void SpawnMagDupeButton()
@@ -199,6 +204,7 @@ namespace NToolbox
             { "MainMenu3" , "Main Menu" },
             { "ArizonaTargets" , "Arizona Range" },
             { "ArizonaTargets_Night" , "Arizona at Night" },
+            { "Boomskee", "Boomskee" },
             { "HickockRangeNew" , "Friendly 45 Range" },
             { "IndoorRange" , "Indoor Range" },
             { "ProvingGround" , "Proving Grounds" },
