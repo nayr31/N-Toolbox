@@ -5,27 +5,24 @@ using Sodalite.UiWidgets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using BepInEx;
-using BepInEx.Configuration;
 using System.Reflection;
 using Sodalite.Utilities;
 
-namespace NToolbox.src
+namespace NToolbox
 {
-    class NPanel
+    public class NPanel
     {
         private LockablePanel _NPanel;
-        GridLayoutWidget menu;
-        GridLayoutWidget itemTools;
-        GridLayoutWidget playerTools;
-        GridLayoutWidget tnhTools;
-        GridLayoutWidget sceneTools;
+        private GridLayoutWidget _menu;
+        private GridLayoutWidget _itemTools;
+        private GridLayoutWidget _playerTools;
+        private GridLayoutWidget _tnhTools;
+        private GridLayoutWidget _sceneTools;
 
 
-        public readonly Dictionary<string, Action> ItemToolsDict = new()
+        public static readonly Dictionary<string, Action> ITEM_TOOLS = new()
         {
             { "Gather Items", Actions.GatherButtonClicked },
             { "Delete Items", Actions.DeleteButtonClicked },
@@ -41,7 +38,7 @@ namespace NToolbox.src
             //sosig spawner
         };
 
-        public readonly Dictionary<string, Action> PlayerToolsDict = new()
+        public static readonly Dictionary<string, Action> PLAYER_TOOLS = new()
         {
             { "Kill yourself", Actions.KillPlayerButtonClicked },
             { "Restore Full", Actions.RestoreHPButtonClicked },
@@ -51,7 +48,7 @@ namespace NToolbox.src
             //{ "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//Broken? Test for flat IFF = -1 to see if the check is broken
         };
 
-        public readonly Dictionary<string, Action> TnHToolsDict = new()
+        public static readonly Dictionary<string, Action> TNH_TOOLS = new()
         {
             { "Add token", Actions.AddTokenButtonClicked },
             { "SP - Ammo Reloader", Actions.SpawnAmmoReloaderButton },
@@ -63,16 +60,16 @@ namespace NToolbox.src
         public NPanel()
         {
             _NPanel = new LockablePanel();
-            _NPanel.Configure += ConfigureForTool;
+            _NPanel.Configure += ConfigureTools;
             _NPanel.TextureOverride = SodaliteUtils.LoadTextureFromBytes(Assembly.GetExecutingAssembly().GetResource("panel.png"));
         }
 
-        public void ConfigureForTool(GameObject panel)
+        public void ConfigureTools(GameObject panel)
         {
             GameObject canvas = panel.transform.Find("OptionsCanvas_0_Main/Canvas").gameObject;
 
 
-            menu = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
+            _menu = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
                 // Fill our parent and set pivot to top middle
                 widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
@@ -92,13 +89,13 @@ namespace NToolbox.src
 
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "Item interactions";
-                    button.AddButtonListener(switchToItem);
+                    button.AddButtonListener(SwitchToItem);
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
 
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "Player interactions";
-                    button.AddButtonListener(switchToPlayer);
+                    button.AddButtonListener(SwitchToPlayer);
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
 
@@ -110,12 +107,12 @@ namespace NToolbox.src
 
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "Scene Selection";
-                    button.AddButtonListener(switchToScene);
+                    button.AddButtonListener(SwitchToScene);
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
             });
 
-            itemTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
+            _itemTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
                 // Fill our parent and set pivot to top middle
                 widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
@@ -134,11 +131,11 @@ namespace NToolbox.src
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                AddBatch(widget, ItemToolsDict);
+                AddBatch(widget, ITEM_TOOLS);
             });
-            itemTools.gameObject.SetActive(false);
+            _itemTools.gameObject.SetActive(false);
 
-            playerTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
+            _playerTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
                 // Fill our parent and set pivot to top middle
                 widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
@@ -157,11 +154,11 @@ namespace NToolbox.src
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                AddBatch(widget, PlayerToolsDict);
+                AddBatch(widget, PLAYER_TOOLS);
             });
-            playerTools.gameObject.SetActive(false);
+            _playerTools.gameObject.SetActive(false);
 
-            tnhTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
+            _tnhTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
                 // Fill our parent and set pivot to top middle
                 widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
@@ -180,11 +177,11 @@ namespace NToolbox.src
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                AddBatch(widget, TnHToolsDict);
+                AddBatch(widget, TNH_TOOLS);
             });
-            tnhTools.gameObject.SetActive(false);
+            _tnhTools.gameObject.SetActive(false);
 
-            sceneTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
+            _sceneTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
                 // Fill our parent and set pivot to top middle
                 widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
@@ -217,33 +214,25 @@ namespace NToolbox.src
                     });
                 }
             });
-            sceneTools.gameObject.SetActive(false);
+            _sceneTools.gameObject.SetActive(false);
 
         }
 
-        private void switchToItem()
+        private void SwitchPage(GridLayoutWidget page)
         {
-            menu.gameObject.SetActive(false);
-            itemTools.gameObject.SetActive(true);
+            _menu.gameObject.SetActive(false);
+            page.gameObject.SetActive(true);
         }
 
-        private void switchToPlayer()
-        {
-            menu.gameObject.SetActive(false);
-            playerTools.gameObject.SetActive(true);
-        }
 
-        private void SwitchToTnH()
-        {
-            menu.gameObject.SetActive(false);
-            tnhTools.gameObject.SetActive(true);
-        }
+        private void SwitchToItem() => SwitchPage(_itemTools);
 
-        private void switchToScene()
-        {
-            menu.gameObject.SetActive(false);
-            sceneTools.gameObject.SetActive(true);
-        }
+        private void SwitchToPlayer() => SwitchPage(_playerTools);
+
+        private void SwitchToTnH() => SwitchPage(_tnhTools);
+
+        private void SwitchToScene() => SwitchPage(_sceneTools);
+        
 
         private void AddBatch(GridLayoutWidget widget, Dictionary<string, Action> dict)
         {
@@ -264,13 +253,13 @@ namespace NToolbox.src
                 button.AddButtonListener(() => 
                 {
                     widget.gameObject.SetActive(false);
-                    menu.gameObject.SetActive(true);
+                    _menu.gameObject.SetActive(true);
                 });
                 button.RectTransform.localRotation = Quaternion.identity;
             });
         }
 
-        public void SpawnNPanel()
+        public void Spawn()
         {
             FVRWristMenu wristMenu = WristMenuAPI.Instance;
             if (wristMenu is null || !wristMenu) return;
@@ -280,7 +269,7 @@ namespace NToolbox.src
 
         private void AddSeparator() => WristMenuAPI.Buttons.Add(new WristMenuButton(Common.SEPARATOR, Actions.Empty));
 
-        public void LoadWristmenu()//legacy stuff for reasons i guess, doesnt work
+        public void LoadWristMenu()//legacy stuff for reasons i guess, doesnt work
         {
             Dictionary<string, string> SceneList = Actions.SCENE_LIST;
             foreach (var scene in SceneList.Reverse())
@@ -297,19 +286,19 @@ namespace NToolbox.src
 
             //Wristmenu actions----------------------------------------------------------------------------------------
             //Take and Hold
-            foreach (var kvp in TnHToolsDict.Reverse())
+            foreach (var kvp in TNH_TOOLS.Reverse())
                 WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
 
             AddSeparator();
 
             //Player
-            foreach (var kvp in PlayerToolsDict.Reverse())
+            foreach (var kvp in PLAYER_TOOLS.Reverse())
                 WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
 
             AddSeparator();
 
             //Item
-            foreach (var kvp in ItemToolsDict.Reverse())
+            foreach (var kvp in ITEM_TOOLS.Reverse())
                 WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
 
             AddSeparator();
