@@ -13,10 +13,6 @@
     <ItemGroup>
       <None Remove="src\panel.png" />
     </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Include="src\panel.png" />
-    </ItemGroup>
     
     <ItemGroup>
         
@@ -32,6 +28,10 @@
       <Reference Include="UnityEngine.UI">
         <HintPath>libs\UnityEngine.UI.dll</HintPath>
       </Reference>
+    </ItemGroup>
+    
+    <ItemGroup>
+      <EmbeddedResource Include="resources\panel.png" />
     </ItemGroup>
 
 </Project>

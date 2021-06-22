@@ -12,7 +12,8 @@ namespace NToolbox
     [BepInDependency("nrgill28.Sodalite")]
     public class NToolbox : BaseUnityPlugin
     {
-        public ConfigEntry<bool> LoadWristMenu;
+        public static ObjectIDList? ObjectIDs { get; private set; }
+        public readonly ConfigEntry<bool> LoadWristMenu;
 
         public NToolbox() 
         {
@@ -25,6 +26,8 @@ namespace NToolbox
             //Diable TnH leaderboard scoring
             LeaderboardAPI.GetLeaderboardDisableLock();
 
+            ObjectIDs = new ObjectIDList();
+            
             NPanel nPanel = new NPanel();
             WristMenuAPI.Buttons.Add(new WristMenuButton("NTool Panel", nPanel.Spawn));
 

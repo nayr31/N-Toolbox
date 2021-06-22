@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using FistVR;
+using HarmonyLib;
 
 namespace NToolbox
 {
-    public class Common
+    public static class Common
     {
         public const string SEPARATOR = "-----------------------------------------------------------------------";
         public static readonly Dictionary<string, string> SCENE_LIST = new Dictionary<string, string>
