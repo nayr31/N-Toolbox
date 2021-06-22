@@ -2,20 +2,20 @@
 
 - Gather Items
 - Delete Items
+- Delete Quickbelt Items
 - Reset bear traps
 - Freeze/Unfreeze guns
 - Freeze ammo
 - Freeze attachments
 - Spawn Ammo Panel
-- Spawn ammo weenie
 
 ## Player Interactions
 
 - Kill yourself
 - Restore full
 - Toggle 1-hit
-- Toggle god mode
 - Toggle controller geo
+- Toggle god mode
 
 ## Take and Hold Interactions
 
@@ -26,6 +26,12 @@ Note: These buttons only work correctly inside of a TnH run, and may produce und
 - Spawn magazine duplicator
 - Spawn recycler
 - Kill patrols
+
+## Powerups
+
+This page is dedicated to spawning all powerups found in the game, some more useful than others.
+
+See the [H3VR Wiki page](https://h3vr.fandom.com/wiki/Powerup_Sausage) for a complete list of working sausages.
 
 ## Scene Interactions
 

@@ -21,12 +21,14 @@ namespace NToolbox
         private GridLayoutWidget _tnhTools;
         private GridLayoutWidget _powerupTools;
         private GridLayoutWidget _sceneTools;
+        private GridLayoutWidget _miscTools;
 
 
         public static readonly Dictionary<string, Action> ITEM_TOOLS = new()
         {
             { "Gather Items", Actions.GatherButtonClicked },
             { "Delete Items", Actions.DeleteButtonClicked },
+            { "Delete Quickbelt Items", Actions.DeleteQuickbelt },
             { "Reset Traps", Actions.ResetTrapsButtonClicked },
             { "Freeze Guns/Melee", Actions.FreezeFireArmsMeleeButtonClicked },
             { "Freeze Ammo/Mags", Actions.FreezeAmmoMagButtonClicked },
@@ -114,6 +116,12 @@ namespace NToolbox
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "Scene Selection";
                     button.AddButtonListener(SwitchToScene);
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "Misc Tools";
+                    button.AddButtonListener(SwitchToMisc);
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
             });
@@ -206,7 +214,7 @@ namespace NToolbox
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                foreach (var kvp in Actions.DOG_LIST)
+                foreach (var kvp in Common.DOG_LIST)
                 {
                     widget.AddChild((ButtonWidget button) => {
                         button.ButtonText.text = kvp.Value;
@@ -252,6 +260,36 @@ namespace NToolbox
             });
             _sceneTools.gameObject.SetActive(false);
 
+            _miscTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
+            {
+                // Fill our parent and set pivot to top middle
+                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
+                widget.RectTransform.localPosition = Vector3.zero;
+                widget.RectTransform.localRotation = Quaternion.identity;
+                widget.RectTransform.anchoredPosition = Vector2.zero;
+                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
+                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
+                // Adjust our grid settings
+                widget.LayoutGroup.cellSize = new Vector2(171, 50);
+                widget.LayoutGroup.spacing = Vector2.one * 4;
+                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
+                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
+                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
+                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+                widget.LayoutGroup.constraintCount = 3;
+
+                AddBack(widget);
+                foreach (var kvp in Common.MISC_LIST)
+                {
+                    widget.AddChild((ButtonWidget button) => {
+                        button.ButtonText.text = kvp.Value;
+                        button.AddButtonListener(() => Actions.SpawnItemByItemIdLeftHand(kvp.Key, false));
+                        button.RectTransform.localRotation = Quaternion.identity;
+                    });
+                }
+            });
+            _miscTools.gameObject.SetActive(false);
+
         }
 
         private void SwitchPage(GridLayoutWidget page)
@@ -269,6 +307,8 @@ namespace NToolbox
         private void SwitchToPower() => SwitchPage(_powerupTools);
       
         private void SwitchToScene() => SwitchPage(_sceneTools);
+
+        private void SwitchToMisc() => SwitchPage(_miscTools);
 
         private void AddBatch(GridLayoutWidget widget, Dictionary<string, Action> dict)
         {
@@ -305,7 +345,7 @@ namespace NToolbox
 
         private void AddSeparator() => WristMenuAPI.Buttons.Add(new WristMenuButton(Common.SEPARATOR, Actions.Empty));
 
-        public void LoadWristMenu()//legacy stuff for reasons i guess, doesnt work
+        public void LoadWristMenu()//legacy stuff for reasons i guess
         {
             Dictionary<string, string> SceneList = Common.SCENE_LIST;
             foreach (var scene in SceneList.Reverse())
