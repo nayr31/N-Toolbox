@@ -53,7 +53,7 @@ namespace NToolbox
             { "Add token", Actions.AddTokenButtonClicked },
             { "SP - Ammo Reloader", Actions.SpawnAmmoReloaderButton },
             { "SP - Magazine Duplicator", Actions.SpawnMagDupeButton },
-            { "SP - Recycler", Actions.SpawnGunRecylcerButton },
+            { "SP - Recycler", Actions.SpawnGunRecyclerButton },
             { "Kill patrols", Actions.KillPatrolsButtonClicked },
         };
 
@@ -200,7 +200,7 @@ namespace NToolbox
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                foreach (var kvp in Actions.SCENE_LIST)
+                foreach (var kvp in Common.SCENE_LIST)
                 {
                     widget.AddChild((ButtonWidget button) => {
                         button.ButtonText.text = kvp.Value;
@@ -271,7 +271,7 @@ namespace NToolbox
 
         public void LoadWristMenu()//legacy stuff for reasons i guess, doesnt work
         {
-            Dictionary<string, string> SceneList = Actions.SCENE_LIST;
+            Dictionary<string, string> SceneList = Common.SCENE_LIST;
             foreach (var scene in SceneList.Reverse())
             {
                 WristMenuAPI.Buttons.Add(new WristMenuButton(scene.Value, () =>
