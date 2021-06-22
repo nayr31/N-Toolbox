@@ -58,13 +58,20 @@ namespace NToolbox
             { "SP - Recycler", Actions.SpawnGunRecyclerButton },
             { "Kill patrols", Actions.KillPatrolsButtonClicked },
         };
+        string[] miscArray = new string[30];
+        ButtonWidget[] buttonArray = new ButtonWidget[9];
+        int miscOffset = 0;
 
         public NPanel()
         {
+            for (int i = 0; i < 30; i++)
+                miscArray[i] = i.ToString();
+
             _NPanel = new LockablePanel();
             _NPanel.Configure += ConfigureTools;
             _NPanel.TextureOverride = SodaliteUtils.LoadTextureFromBytes(Assembly.GetExecutingAssembly().GetResource("panel.png"));
-        }
+        } 
+        
 
         public void ConfigureTools(GameObject panel)
         {
@@ -279,17 +286,41 @@ namespace NToolbox
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                foreach (var kvp in Common.MISC_LIST)
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "----Down----";
+                    button.AddButtonListener(() => { moveRef(false); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "----Up----";
+                    button.AddButtonListener(() => { moveRef(true); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                for(int i=0; i<9; i++)
                 {
                     widget.AddChild((ButtonWidget button) => {
-                        button.ButtonText.text = kvp.Value;
-                        button.AddButtonListener(() => Actions.SpawnItemByItemIdLeftHand(kvp.Key, false));
+                        button.ButtonText.text = miscArray[i];
+                        button.AddButtonListener(() => {  });
                         button.RectTransform.localRotation = Quaternion.identity;
+                        buttonArray[i] = button;
                     });
                 }
+
             });
             _miscTools.gameObject.SetActive(false);
 
+        }
+
+        private void moveRef(bool isUp)
+        {
+            if ((isUp && miscOffset - 3 >= 0) || (!isUp && miscOffset + 3 <= miscArray.Length)) { 
+                miscOffset += isUp ? (-3) : 3;
+                for(int i = 0; i < 9; i++)
+                    buttonArray[i].ButtonText.text = miscArray[i + miscOffset];
+            }
         }
 
         private void SwitchPage(GridLayoutWidget page)
