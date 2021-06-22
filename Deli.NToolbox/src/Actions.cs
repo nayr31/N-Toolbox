@@ -35,6 +35,36 @@ namespace NToolbox
             typeof(FVRMeleeWeapon),
             typeof(FVRFireArmAttachment),
         };
+      
+        public static readonly Dictionary<string, string> SCENE_LIST = new Dictionary<string, string>
+        {
+            { "MainMenu3" , "Main Menu" },
+            { "ArizonaTargets" , "Arizona Range" },
+            { "ArizonaTargets_Night" , "Arizona at Night" },
+            { "Boomskee", "Boomskee" },
+            { "HickockRangeNew" , "Friendly 45 Range" },
+            { "IndoorRange" , "Indoor Range" },
+            { "ProvingGround" , "Proving Grounds" },
+            { "SniperRange" , "Sniper Range" },
+            { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
+        };
+        public static readonly Dictionary<string, string> DOG_LIST = new Dictionary<string, string>
+        {
+            { "PowerUpMeat_Blort" , "Blort" },
+            { "PowerUpMeat_Cyclops" , "Cyclops" },
+            { "PowerUpMeat_FarOut" , "Far out" },
+            { "PowerUpMeat_Ghosted", "Ghosted" },
+            { "PowerUpMeat_Health" , "Health" },
+            { "PowerUpMeat_HomeTown" , "Hometown" },
+            { "PowerUpMeat_InfiniteAmmo" , "Infinite Ammo" },
+            { "PowerUpMeat_Invincibility" , "Invincibility" },
+            { "PowerUpMeat_MuscleMeat" , "MuscleMeat" },
+            { "PowerUpMeat_QuadDamage" , "Quad Damage" },
+            { "PowerUpMeat_Regen" , "Regen" },
+            { "PowerUpMeat_SnakeEye" , "SnakeEye" },
+            { "PowerUpMeat_UnCooked" , "UnCooked" },
+            { "PowerUpMeat_WheredIGo" , "WheredIGo" },
+        };
 
         public static void GatherButtonClicked()
         {
@@ -106,18 +136,14 @@ namespace NToolbox
                     physObject.IsKinematicLocked = false;
         }
 
-        public static void SpawnAmmoPanelButtonClicked()
+        public static void SpawnAmmoPanelButtonClicked() => SpawnItemByItemIdLeftHand("AmmoPanel", true);
+
+        public static void SpawnItemByItemIdLeftHand(String itemId, bool kinLoc)
         {
-            var obj = IM.OD["AmmoPanel"];
+            var obj = IM.OD[itemId];
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
             physObj.transform.position = GM.CurrentPlayerBody.LeftHand.transform.position;
-        }
-        
-        public static void SpawnAmmoWeenieButtonClicked()
-        {
-            var obj = IM.OD["PowerUpMeat_InfiniteAmmo"];
-            FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
-            physObj.transform.position = GM.CurrentPlayerBody.LeftHand.transform.position;
+            if(kinLoc) physObj.SetIsKinematicLocked(true);
         }
 
         //--Player---------------------------------------------------
@@ -163,10 +189,8 @@ namespace NToolbox
             }
         }
 
-        public static void ToggleControllerGeo()
-        {
+        public static void ToggleControllerGeo() => 
             GM.Options.QuickbeltOptions.HideControllerGeoWhenObjectHeld = !GM.Options.QuickbeltOptions.HideControllerGeoWhenObjectHeld;
-        }
 
         //--TNH---------------------------------------------------------
         //--TNH---------------------------------------------------------
@@ -177,8 +201,6 @@ namespace NToolbox
 
         private static void SpawnButton(Func<Transform, GameObject> spawnerFunc)
         {
-            var spawnPos = GM.CurrentPlayerBody.Torso;
-            spawnPos.rotation = Quaternion.identity;
             var position = spawnPos.position;
             position = new Vector3(position.x, position.y - 1.5f, position.z);
             spawnPos.position = position;
