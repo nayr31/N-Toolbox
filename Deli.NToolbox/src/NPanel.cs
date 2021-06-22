@@ -23,49 +23,14 @@ namespace NToolbox
         private GridLayoutWidget _sceneTools;
         private GridLayoutWidget _miscTools;
 
-
-        public static readonly Dictionary<string, Action> ITEM_TOOLS = new()
-        {
-            { "Gather Items", Actions.GatherButtonClicked },
-            { "Delete Items", Actions.DeleteButtonClicked },
-            { "Delete Quickbelt Items", Actions.DeleteQuickbelt },
-            { "Reset Traps", Actions.ResetTrapsButtonClicked },
-            { "Freeze Guns/Melee", Actions.FreezeFireArmsMeleeButtonClicked },
-            { "Freeze Ammo/Mags", Actions.FreezeAmmoMagButtonClicked },
-            { "Freeze Attachments", Actions.FreezeAttachmentsButtonClicked },
-            { "Unfreeze All", Actions.UnFreezeAllClicked },
-            { "Ammo Panel", Actions.SpawnAmmoPanelButtonClicked },
-            //trash bin
-            //quickbelt fast?
-            //sosig spawner
-        };
-
-        public static readonly Dictionary<string, Action> PLAYER_TOOLS = new()
-        {
-            { "Kill yourself", Actions.KillPlayerButtonClicked },
-            { "Restore Full", Actions.RestoreHPButtonClicked },
-            { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
-            { "Toggle Controller Geo", Actions.ToggleControllerGeo },
-            { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
-            //{ "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//Broken? Test for flat IFF = -1 to see if the check is broken
-        };
-
-        public static readonly Dictionary<string, Action> TNH_TOOLS = new()
-        {
-            { "Add token", Actions.AddTokenButtonClicked },
-            { "SP - Ammo Reloader", Actions.SpawnAmmoReloaderButton },
-            { "SP - Magazine Duplicator", Actions.SpawnMagDupeButton },
-            { "SP - Recycler", Actions.SpawnGunRecyclerButton },
-            { "Kill patrols", Actions.KillPatrolsButtonClicked },
-        };
-        string[] miscArray = new string[30];
-        ButtonWidget[] buttonArray = new ButtonWidget[9];
-        int miscOffset = 0;
+        private List<string> _miscList = new List<string>(32);
+        private List<ButtonWidget> _buttonList = new List<ButtonWidget>(16);
+        private int _miscOffset = 0;
 
         public NPanel()
         {
             for (int i = 0; i < 30; i++)
-                miscArray[i] = i.ToString();
+                _miscList[i] = i.ToString();
 
             _NPanel = new LockablePanel();
             _NPanel.Configure += ConfigureTools;
@@ -152,7 +117,7 @@ namespace NToolbox
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                AddBatch(widget, ITEM_TOOLS);
+                AddBatch(widget, Tools.ITEM);
             });
             _itemTools.gameObject.SetActive(false);
 
@@ -175,7 +140,7 @@ namespace NToolbox
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                AddBatch(widget, PLAYER_TOOLS);
+                AddBatch(widget, Tools.PLAYER);
             });
             _playerTools.gameObject.SetActive(false);
 
@@ -198,7 +163,7 @@ namespace NToolbox
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                AddBatch(widget, TNH_TOOLS);
+                AddBatch(widget, Tools.TNH);
             });
             _tnhTools.gameObject.SetActive(false);
 
@@ -302,24 +267,29 @@ namespace NToolbox
                 for(int i=0; i<9; i++)
                 {
                     widget.AddChild((ButtonWidget button) => {
-                        button.ButtonText.text = miscArray[i];
+                        button.ButtonText.text = _miscList[i];
                         button.AddButtonListener(() => {  });
                         button.RectTransform.localRotation = Quaternion.identity;
-                        buttonArray[i] = button;
+                        _buttonList[i] = button;
                     });
                 }
 
             });
             _miscTools.gameObject.SetActive(false);
 
+
+            for (int i = 0; i < NToolbox.ObjectIDs.Length; i++)
+            {
+                
+            }
         }
 
         private void moveRef(bool isUp)
         {
-            if ((isUp && miscOffset - 3 >= 0) || (!isUp && miscOffset + 3 <= miscArray.Length)) { 
-                miscOffset += isUp ? (-3) : 3;
+            if ((isUp && _miscOffset - 3 >= 0) || (!isUp && _miscOffset + 3 <= _miscList.Count)) { 
+                _miscOffset += isUp ? (-3) : 3;
                 for(int i = 0; i < 9; i++)
-                    buttonArray[i].ButtonText.text = miscArray[i + miscOffset];
+                    _buttonList[i].ButtonText.text = _miscList[i + _miscOffset];
             }
         }
 
@@ -393,19 +363,19 @@ namespace NToolbox
 
             //Wristmenu actions----------------------------------------------------------------------------------------
             //Take and Hold
-            foreach (var kvp in TNH_TOOLS.Reverse())
+            foreach (var kvp in Tools.TNH.Reverse())
                 WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
 
             AddSeparator();
 
             //Player
-            foreach (var kvp in PLAYER_TOOLS.Reverse())
+            foreach (var kvp in Tools.PLAYER.Reverse())
                 WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
 
             AddSeparator();
 
             //Item
-            foreach (var kvp in ITEM_TOOLS.Reverse())
+            foreach (var kvp in Tools.ITEM.Reverse())
                 WristMenuAPI.Buttons.Add(new WristMenuButton(kvp.Key, kvp.Value));
 
             AddSeparator();
