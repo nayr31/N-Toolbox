@@ -13,9 +13,58 @@ namespace NToolbox
 {
     public class Actions
     {
+
+        
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
         private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
         private static bool isMortal = true;
+        
+        private static readonly Type[] TYPE_WHITELIST =//Stores a list of physical object types for the Gather method
+        {
+            typeof(FVRFireArm),
+            typeof(FVRFireArmMagazine),
+            typeof(Speedloader),
+            typeof(FVRFireArmRound),
+            typeof(FVRFireArmClip),
+            typeof(LAPD2019Battery),
+            typeof(Molotov),
+            typeof(FVRGrenade),
+            typeof(PinnedGrenade),
+            typeof(FVRKnife),
+            typeof(Flashlight),
+            typeof(FVRMeleeWeapon),
+            typeof(FVRFireArmAttachment),
+        };
+      
+        public static readonly Dictionary<string, string> SCENE_LIST = new Dictionary<string, string>
+        {
+            { "MainMenu3" , "Main Menu" },
+            { "ArizonaTargets" , "Arizona Range" },
+            { "ArizonaTargets_Night" , "Arizona at Night" },
+            { "Boomskee", "Boomskee" },
+            { "HickockRangeNew" , "Friendly 45 Range" },
+            { "IndoorRange" , "Indoor Range" },
+            { "ProvingGround" , "Proving Grounds" },
+            { "SniperRange" , "Sniper Range" },
+            { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
+        };
+        public static readonly Dictionary<string, string> DOG_LIST = new Dictionary<string, string>
+        {
+            { "PowerUpMeat_Blort" , "Blort" },
+            { "PowerUpMeat_Cyclops" , "Cyclops" },
+            { "PowerUpMeat_FarOut" , "Far out" },
+            { "PowerUpMeat_Ghosted", "Ghosted" },
+            { "PowerUpMeat_Health" , "Health" },
+            { "PowerUpMeat_HomeTown" , "Hometown" },
+            { "PowerUpMeat_InfiniteAmmo" , "Infinite Ammo" },
+            { "PowerUpMeat_Invincibility" , "Invincibility" },
+            { "PowerUpMeat_MuscleMeat" , "MuscleMeat" },
+            { "PowerUpMeat_QuadDamage" , "Quad Damage" },
+            { "PowerUpMeat_Regen" , "Regen" },
+            { "PowerUpMeat_SnakeEye" , "SnakeEye" },
+            { "PowerUpMeat_UnCooked" , "UnCooked" },
+            { "PowerUpMeat_WheredIGo" , "WheredIGo" },
+        };
 
         public static void GatherButtonClicked()
         {
@@ -24,7 +73,7 @@ namespace NToolbox
 
             //Whitelisted object gather
             foreach (var physObject in Object.FindObjectsOfType<FVRPhysicalObject>())
-                if (!physObject.IsHeld && physObject.QuickbeltSlot == null && WHITE_TYPES.Contains(physObject.GetType()) && physObject.transform.parent == null)
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null && TYPE_WHITELIST.Contains(physObject.GetType()) && physObject.transform.parent == null)
                     physObject.transform.position = playerPos +
                         Vector3.Scale(UnityEngine.Random.insideUnitSphere, new Vector3(1.3f, 0.7f, 1.3f)) - new Vector3(0, 0.5f, 0);
 
@@ -66,7 +115,7 @@ namespace NToolbox
         public static void FreezeAmmoMagButtonClicked()
         {
             foreach (var obj in Object.FindObjectsOfType<FVRPhysicalObject>())
-                if (!obj.IsHeld && obj.QuickbeltSlot == null && (obj.GetType().Equals(typeof(FVRFireArmRound)) || obj.GetType().Equals(typeof(FVRFireArmMagazine))))
+                if (!obj.IsHeld && obj.QuickbeltSlot == null && (obj.GetType() == typeof(FVRFireArmRound) || obj.GetType() == typeof(FVRFireArmMagazine)))
                     obj.IsKinematicLocked = true;
         }
 
@@ -150,68 +199,20 @@ namespace NToolbox
 
         public static void AddTokenButtonClicked() => GM.TNH_Manager.AddTokens(1, true);
 
-        private static Transform GetSPTransform()
+        private static void SpawnButton(Func<Transform, GameObject> spawnerFunc)
         {
-            //would love this to be like, looking at the player 1m in front (same with ammo panel in item spawning)
-            var spawnPos = GM.CurrentPlayerBody.Torso;
-            spawnPos.rotation = Quaternion.identity;
-            spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z);
-            return spawnPos;
+            var position = spawnPos.position;
+            position = new Vector3(position.x, position.y - 1.5f, position.z);
+            spawnPos.position = position;
+            spawnerFunc.Invoke(spawnPos);
         }
 
-        public static void SpawnAmmoReloaderButton() => GM.TNH_Manager.SpawnAmmoReloader(GetSPTransform());
-        
-        public static void SpawnMagDupeButton() => GM.TNH_Manager.SpawnMagDuplicator(GetSPTransform());
-        
-        public static void SpawnGunRecylcerButton() => GM.TNH_Manager.SpawnGunRecycler(GetSPTransform());
+        public static void SpawnAmmoReloaderButton() => SpawnButton(GM.TNH_Manager.SpawnAmmoReloader);
+        public static void SpawnMagDupeButton() => SpawnButton(GM.TNH_Manager.SpawnMagDuplicator);
+        public static void SpawnGunRecyclerButton() => SpawnButton(GM.TNH_Manager.SpawnGunRecycler);
 
         public static void KillPatrolsButtonClicked() => GM.TNH_Manager.KillAllPatrols();
-
-        private static readonly Type[] WHITE_TYPES =//Stores a list of physical object types for the Gather method
-        {
-            typeof(FVRFireArm),
-            typeof(FVRFireArmMagazine),
-            typeof(Speedloader),
-            typeof(FVRFireArmRound),
-            typeof(FVRFireArmClip),
-            typeof(LAPD2019Battery),
-            typeof(Molotov),
-            typeof(FVRGrenade),
-            typeof(PinnedGrenade),
-            typeof(FVRKnife),
-            typeof(Flashlight),
-            typeof(FVRMeleeWeapon),
-            typeof(FVRFireArmAttachment),
-        };
-        public static readonly Dictionary<string, string> SCENE_LIST = new Dictionary<string, string>
-        {
-            { "MainMenu3" , "Main Menu" },
-            { "ArizonaTargets" , "Arizona Range" },
-            { "ArizonaTargets_Night" , "Arizona at Night" },
-            { "Boomskee", "Boomskee" },
-            { "HickockRangeNew" , "Friendly 45 Range" },
-            { "IndoorRange" , "Indoor Range" },
-            { "ProvingGround" , "Proving Grounds" },
-            { "SniperRange" , "Sniper Range" },
-            { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
-        };
-        public static readonly Dictionary<string, string> DOG_LIST = new Dictionary<string, string>
-        {
-            { "PowerUpMeat_Blort" , "Blort" },
-            { "PowerUpMeat_Cyclops" , "Cyclops" },
-            { "PowerUpMeat_FarOut" , "Far out" },
-            { "PowerUpMeat_Ghosted", "Ghosted" },
-            { "PowerUpMeat_Health" , "Health" },
-            { "PowerUpMeat_HomeTown" , "Hometown" },
-            { "PowerUpMeat_InfiniteAmmo" , "Infinite Ammo" },
-            { "PowerUpMeat_Invincibility" , "Invincibility" },
-            { "PowerUpMeat_MuscleMeat" , "MuscleMeat" },
-            { "PowerUpMeat_QuadDamage" , "Quad Damage" },
-            { "PowerUpMeat_Regen" , "Regen" },
-            { "PowerUpMeat_SnakeEye" , "SnakeEye" },
-            { "PowerUpMeat_UnCooked" , "UnCooked" },
-            { "PowerUpMeat_WheredIGo" , "WheredIGo" },
-        };
+        
         public static void Empty() {  }
     }
 }

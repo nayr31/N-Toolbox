@@ -5,7 +5,6 @@ using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using Sodalite.Api;
-using NToolbox.src;
 
 namespace NToolbox
 {
@@ -26,11 +25,10 @@ namespace NToolbox
             //Diable TnH leaderboard scoring
             LeaderboardAPI.GetLeaderboardDisableLock();
 
-            NPanel _NPanel = new NPanel();
-            WristMenuAPI.Buttons.Add(new WristMenuButton("NTool Panel", _NPanel.SpawnNPanel));
+            NPanel nPanel = new NPanel();
+            WristMenuAPI.Buttons.Add(new WristMenuButton("NTool Panel", nPanel.Spawn));
 
-            if (LoadWristMenu.Value)
-                _NPanel.LoadWristmenu();
+            if (LoadWristMenu.Value) nPanel.LoadWristMenu();
         }
     }
 }
