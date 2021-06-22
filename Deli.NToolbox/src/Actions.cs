@@ -87,18 +87,14 @@ namespace NToolbox
                     physObject.IsKinematicLocked = false;
         }
 
-        public static void SpawnAmmoPanelButtonClicked()
+        public static void SpawnAmmoPanelButtonClicked() => SpawnItemByItemIdLeftHand("AmmoPanel", true);
+
+        public static void SpawnItemByItemIdLeftHand(String itemId, bool kinLoc)
         {
-            var obj = IM.OD["AmmoPanel"];
+            var obj = IM.OD[itemId];
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
             physObj.transform.position = GM.CurrentPlayerBody.LeftHand.transform.position;
-        }
-        
-        public static void SpawnAmmoWeenieButtonClicked()
-        {
-            var obj = IM.OD["PowerUpMeat_InfiniteAmmo"];
-            FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
-            physObj.transform.position = GM.CurrentPlayerBody.LeftHand.transform.position;
+            if(kinLoc) physObj.SetIsKinematicLocked(true);
         }
 
         //--Player---------------------------------------------------
@@ -144,10 +140,8 @@ namespace NToolbox
             }
         }
 
-        public static void ToggleControllerGeo()
-        {
+        public static void ToggleControllerGeo() => 
             GM.Options.QuickbeltOptions.HideControllerGeoWhenObjectHeld = !GM.Options.QuickbeltOptions.HideControllerGeoWhenObjectHeld;
-        }
 
         //--TNH---------------------------------------------------------
         //--TNH---------------------------------------------------------
@@ -156,32 +150,22 @@ namespace NToolbox
 
         public static void AddTokenButtonClicked() => GM.TNH_Manager.AddTokens(1, true);
 
-        public static void SpawnAmmoReloaderButton()
+        private static Transform GetSPTransform()
         {
+            //would love this to be like, looking at the player 1m in front (same with ammo panel in item spawning)
             var spawnPos = GM.CurrentPlayerBody.Torso;
             spawnPos.rotation = Quaternion.identity;
             spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z);
-            GM.TNH_Manager.SpawnAmmoReloader(spawnPos);
-        }
-        public static void SpawnMagDupeButton()
-        {
-            var spawnPos = GM.CurrentPlayerBody.Torso;
-            spawnPos.rotation = Quaternion.identity;
-            spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z);
-            GM.TNH_Manager.SpawnMagDuplicator(spawnPos);
-        }
-        public static void SpawnGunRecylcerButton()
-        {
-            var spawnPos = GM.CurrentPlayerBody.Torso;
-            spawnPos.rotation = Quaternion.identity;
-            spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z);
-            GM.TNH_Manager.SpawnGunRecycler(spawnPos);
+            return spawnPos;
         }
 
-        public static void KillPatrolsButtonClicked()
-        {
-            GM.TNH_Manager.KillAllPatrols();
-        }
+        public static void SpawnAmmoReloaderButton() => GM.TNH_Manager.SpawnAmmoReloader(GetSPTransform());
+        
+        public static void SpawnMagDupeButton() => GM.TNH_Manager.SpawnMagDuplicator(GetSPTransform());
+        
+        public static void SpawnGunRecylcerButton() => GM.TNH_Manager.SpawnGunRecycler(GetSPTransform());
+
+        public static void KillPatrolsButtonClicked() => GM.TNH_Manager.KillAllPatrols();
 
         private static readonly Type[] WHITE_TYPES =//Stores a list of physical object types for the Gather method
         {
@@ -210,6 +194,23 @@ namespace NToolbox
             { "ProvingGround" , "Proving Grounds" },
             { "SniperRange" , "Sniper Range" },
             { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
+        };
+        public static readonly Dictionary<string, string> DOG_LIST = new Dictionary<string, string>
+        {
+            { "PowerUpMeat_Blort" , "Blort" },
+            { "PowerUpMeat_Cyclops" , "Cyclops" },
+            { "PowerUpMeat_FarOut" , "Far out" },
+            { "PowerUpMeat_Ghosted", "Ghosted" },
+            { "PowerUpMeat_Health" , "Health" },
+            { "PowerUpMeat_HomeTown" , "Hometown" },
+            { "PowerUpMeat_InfiniteAmmo" , "Infinite Ammo" },
+            { "PowerUpMeat_Invincibility" , "Invincibility" },
+            { "PowerUpMeat_MuscleMeat" , "MuscleMeat" },
+            { "PowerUpMeat_QuadDamage" , "Quad Damage" },
+            { "PowerUpMeat_Regen" , "Regen" },
+            { "PowerUpMeat_SnakeEye" , "SnakeEye" },
+            { "PowerUpMeat_UnCooked" , "UnCooked" },
+            { "PowerUpMeat_WheredIGo" , "WheredIGo" },
         };
         public static void Empty() {  }
     }

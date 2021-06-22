@@ -22,6 +22,7 @@ namespace NToolbox.src
         GridLayoutWidget itemTools;
         GridLayoutWidget playerTools;
         GridLayoutWidget tnhTools;
+        GridLayoutWidget powerupTools;
         GridLayoutWidget sceneTools;
 
 
@@ -35,7 +36,6 @@ namespace NToolbox.src
             { "Freeze Attachments", Actions.FreezeAttachmentsButtonClicked },
             { "Unfreeze All", Actions.UnFreezeAllClicked },
             { "Ammo Panel", Actions.SpawnAmmoPanelButtonClicked },
-            { "Ammo Weenie", Actions.SpawnAmmoWeenieButtonClicked },
             //trash bin
             //quickbelt fast?
             //sosig spawner
@@ -105,6 +105,12 @@ namespace NToolbox.src
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "TnH Stuff";
                     button.AddButtonListener(SwitchToTnH);
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "Powerups";
+                    button.AddButtonListener(switchToPower);
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
 
@@ -184,6 +190,36 @@ namespace NToolbox.src
             });
             tnhTools.gameObject.SetActive(false);
 
+            powerupTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
+            {
+                // Fill our parent and set pivot to top middle
+                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
+                widget.RectTransform.localPosition = Vector3.zero;
+                widget.RectTransform.localRotation = Quaternion.identity;
+                widget.RectTransform.anchoredPosition = Vector2.zero;
+                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
+                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
+                // Adjust our grid settings
+                widget.LayoutGroup.cellSize = new Vector2(171, 50);
+                widget.LayoutGroup.spacing = Vector2.one * 4;
+                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
+                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
+                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
+                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+                widget.LayoutGroup.constraintCount = 3;
+
+                AddBack(widget);
+                foreach (var kvp in Actions.DOG_LIST)
+                {
+                    widget.AddChild((ButtonWidget button) => {
+                        button.ButtonText.text = kvp.Value;
+                        button.AddButtonListener(() => Actions.SpawnItemByItemIdLeftHand(kvp.Key, false));
+                        button.RectTransform.localRotation = Quaternion.identity;
+                    });
+                }
+            });
+            powerupTools.gameObject.SetActive(false);
+
             sceneTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
                 // Fill our parent and set pivot to top middle
@@ -237,6 +273,12 @@ namespace NToolbox.src
         {
             menu.gameObject.SetActive(false);
             tnhTools.gameObject.SetActive(true);
+        }
+
+        private void switchToPower()
+        {
+            menu.gameObject.SetActive(false);
+            powerupTools.gameObject.SetActive(true);
         }
 
         private void switchToScene()
