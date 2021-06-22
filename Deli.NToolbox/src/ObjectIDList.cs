@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace NToolbox
     public class ObjectIDList
     {
         public FileInfo File { get; }
-        public IEnumerable<string> ObjectIDs => System.IO.File.ReadAllLines(File.FullName).ToList();
-    
-        
-        public ObjectIDList(string filename = "")
+        public IEnumerable<string> List => System.IO.File.ReadAllLines(File.FullName).ToList();
+        public int Length => List.ToArray().Length;
+
+        public ObjectIDList(string filename)
         {
             List<string> objIds = IM.OD.Select(kvp => kvp.Key).ToList();
 
@@ -28,7 +29,7 @@ namespace NToolbox
             File = file;
         }
 
-        public FVRObject this[int index] => IM.OD[ObjectIDs.ToArray()[index]];
+        public FVRObject this[int index] => IM.OD[List.ToArray()[index]];
         public FVRObject this[string name] => IM.OD[name];
     }
 }
