@@ -35,7 +35,6 @@ namespace NToolbox
             typeof(FVRMeleeWeapon),
             typeof(FVRFireArmAttachment),
         };
-      
         public static readonly Dictionary<string, string> SCENE_LIST = new Dictionary<string, string>
         {
             { "MainMenu3" , "Main Menu" },
@@ -105,7 +104,7 @@ namespace NToolbox
         public static void FreezeFireArmsMeleeButtonClicked()
         {
             foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
-                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
+                if (!physObject.IsHeld && physObject.QuickbeltSlot == null)        
                     physObject.IsKinematicLocked = true;
             foreach (var physObject in Object.FindObjectsOfType<FVRMeleeWeapon>())
                 if (!physObject.IsHeld && physObject.QuickbeltSlot == null)
@@ -201,9 +200,13 @@ namespace NToolbox
 
         private static void SpawnButton(Func<Transform, GameObject> spawnerFunc)
         {
-            var position = spawnPos.position;
-            position = new Vector3(position.x, position.y - 1.5f, position.z);
-            spawnPos.position = position;
+            //var position = GM.CurrentPlayerBody.Torso.position;
+            //position = new Vector3(position.x, position.y - 1.5f, position.z);
+            //spawnPos.position = position;
+            //spawnerFunc.Invoke(position);
+            var spawnPos = GM.CurrentPlayerBody.Torso;
+            spawnPos.rotation = Quaternion.identity;
+            spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z);
             spawnerFunc.Invoke(spawnPos);
         }
 

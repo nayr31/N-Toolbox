@@ -107,7 +107,7 @@ namespace NToolbox
 
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "Powerups";
-                    button.AddButtonListener(switchToPower);
+                    button.AddButtonListener(SwitchToPower);
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
 
