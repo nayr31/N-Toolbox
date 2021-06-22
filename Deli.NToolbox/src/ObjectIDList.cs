@@ -9,8 +9,8 @@ namespace NToolbox
     public class ObjectIDList
     {
         public FileInfo File { get; }
-        public IEnumerable<string> List => System.IO.File.ReadAllLines(File.FullName).ToList();
-        public int Length => List.ToArray().Length;
+        public IEnumerable<string> ObjectIDNames => System.IO.File.ReadAllLines(File.FullName).ToList();
+        public int Length => ObjectIDNames.ToArray().Length;
 
         public ObjectIDList(string filename)
         {
@@ -29,7 +29,7 @@ namespace NToolbox
             File = file;
         }
 
-        public FVRObject this[int index] => IM.OD[List.ToArray()[index]];
+        public FVRObject this[int index] => IM.OD[ObjectIDNames.ToArray()[index]];
         public FVRObject this[string name] => IM.OD[name];
     }
 }
