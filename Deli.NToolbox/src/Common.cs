@@ -18,6 +18,29 @@ namespace NToolbox
             { "SniperRange" , "Sniper Range" },
             { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
         };
+        public static readonly Dictionary<string, string> DOG_LIST = new Dictionary<string, string>
+        {
+            { "PowerUpMeat_Blort" , "Blort" },
+            { "PowerUpMeat_Cyclops" , "Cyclops" },
+            { "PowerUpMeat_FarOut" , "Far out" },
+            { "PowerUpMeat_Ghosted", "Ghosted" },
+            { "PowerUpMeat_Health" , "Health" },
+            { "PowerUpMeat_HomeTown" , "Hometown" },
+            { "PowerUpMeat_InfiniteAmmo" , "Infinite Ammo" },
+            { "PowerUpMeat_Invincibility" , "Invincibility" },
+            { "PowerUpMeat_MuscleMeat" , "MuscleMeat" },
+            { "PowerUpMeat_QuadDamage" , "Quad Damage" },
+            { "PowerUpMeat_Regen" , "Regen" },
+            { "PowerUpMeat_SnakeEye" , "SnakeEye" },
+            { "PowerUpMeat_UnCooked" , "UnCooked" },
+            { "PowerUpMeat_WheredIGo" , "WheredIGo" },
+        };
+        public static readonly Dictionary<string, string> MISC_LIST = new Dictionary<string, string>
+        {
+            { "CharcoalGrill" , "CharcoalGrill" },
+            { "CharcoalBag" , "CharcoalBag" },
+            { "Charcoal" , "Charcoal" },
+        };
         public static class PluginInfo
         {
             public const string GUID = "bepinex.ntools";

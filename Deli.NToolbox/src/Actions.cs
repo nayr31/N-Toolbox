@@ -35,35 +35,7 @@ namespace NToolbox
             typeof(FVRMeleeWeapon),
             typeof(FVRFireArmAttachment),
         };
-        public static readonly Dictionary<string, string> SCENE_LIST = new Dictionary<string, string>
-        {
-            { "MainMenu3" , "Main Menu" },
-            { "ArizonaTargets" , "Arizona Range" },
-            { "ArizonaTargets_Night" , "Arizona at Night" },
-            { "Boomskee", "Boomskee" },
-            { "HickockRangeNew" , "Friendly 45 Range" },
-            { "IndoorRange" , "Indoor Range" },
-            { "ProvingGround" , "Proving Grounds" },
-            { "SniperRange" , "Sniper Range" },
-            { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
-        };
-        public static readonly Dictionary<string, string> DOG_LIST = new Dictionary<string, string>
-        {
-            { "PowerUpMeat_Blort" , "Blort" },
-            { "PowerUpMeat_Cyclops" , "Cyclops" },
-            { "PowerUpMeat_FarOut" , "Far out" },
-            { "PowerUpMeat_Ghosted", "Ghosted" },
-            { "PowerUpMeat_Health" , "Health" },
-            { "PowerUpMeat_HomeTown" , "Hometown" },
-            { "PowerUpMeat_InfiniteAmmo" , "Infinite Ammo" },
-            { "PowerUpMeat_Invincibility" , "Invincibility" },
-            { "PowerUpMeat_MuscleMeat" , "MuscleMeat" },
-            { "PowerUpMeat_QuadDamage" , "Quad Damage" },
-            { "PowerUpMeat_Regen" , "Regen" },
-            { "PowerUpMeat_SnakeEye" , "SnakeEye" },
-            { "PowerUpMeat_UnCooked" , "UnCooked" },
-            { "PowerUpMeat_WheredIGo" , "WheredIGo" },
-        };
+        
 
         public static void GatherButtonClicked()
         {
@@ -143,6 +115,17 @@ namespace NToolbox
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
             physObj.transform.position = GM.CurrentPlayerBody.LeftHand.transform.position;
             if(kinLoc) physObj.SetIsKinematicLocked(true);
+        }
+
+        public static void DeleteQuickbelt()
+        {
+            foreach (var physObject in Object.FindObjectsOfType<FVRPhysicalObject>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot != null && physObject.transform.parent == null)
+                    Object.Destroy(physObject.gameObject);
+
+            foreach (var physObject in Object.FindObjectsOfType<FVRFireArm>())
+                if (!physObject.IsHeld && physObject.QuickbeltSlot != null)
+                    Object.Destroy(physObject.gameObject);
         }
 
         //--Player---------------------------------------------------
