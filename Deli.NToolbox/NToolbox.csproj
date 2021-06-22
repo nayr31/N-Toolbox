@@ -33,5 +33,11 @@
     <ItemGroup>
       <EmbeddedResource Include="resources\panel.png" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Compile Update="src\Tools.cs">
+        <DependentUpon>NPanel.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
 
 </Project>

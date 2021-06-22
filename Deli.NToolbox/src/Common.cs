@@ -10,6 +10,7 @@ namespace NToolbox
     public static class Common
     {
         public const string SEPARATOR = "-----------------------------------------------------------------------";
+        public const string OBJECT_ID_LIST_FILENAME = "ObjectIDs.txt";
         public static readonly Dictionary<string, string> SCENE_LIST = new Dictionary<string, string>
         {
             { "MainMenu3" , "Main Menu" },
@@ -50,6 +51,8 @@ namespace NToolbox
             public const string GUID = "bepinex.ntools";
             public const string NAME = "NToolbox";
             public const string VERSION = "1.4.0";
+
+            public const string SODALITE_GUID = "nrgill28.Sodalite";
         }
     }
 }
