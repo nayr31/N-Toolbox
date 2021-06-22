@@ -210,7 +210,7 @@ namespace NToolbox
                 {
                     widget.AddChild((ButtonWidget button) => {
                         button.ButtonText.text = kvp.Value;
-                        button.AddButtonListener(() => Actions.SpawnItemByItemIdLeftHand(kvp.Key, false));
+                        button.AddButtonListener(() => Actions.SpawnItemByItemIdLeftHand(kvp.Key, true));
                         button.RectTransform.localRotation = Quaternion.identity;
                     });
                 }
@@ -259,7 +259,6 @@ namespace NToolbox
             _menu.gameObject.SetActive(false);
             page.gameObject.SetActive(true);
         }
-
 
         private void SwitchToItem() => SwitchPage(_itemTools);
       
