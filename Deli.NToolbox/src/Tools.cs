@@ -28,6 +28,8 @@ namespace NToolbox
             { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
             { "Toggle Controller Geo", Actions.ToggleControllerGeo },
             { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
+            { "Hand collision", Actions.HandCollision },
+            { "Toggle HP bar", Actions.ToggleHealthBar },
             //{ "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//Broken? Test for flat IFF = -1 to see if the check is broken
         };
 

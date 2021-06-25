@@ -13,8 +13,6 @@ namespace NToolbox
 {
     public class Actions
     {
-
-        
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
         private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
         private static bool isMortal = true;
@@ -115,6 +113,7 @@ namespace NToolbox
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
             physObj.transform.position = GM.CurrentPlayerBody.LeftHand.transform.position;
             if(kinLoc) physObj.SetIsKinematicLocked(true);
+
         }
 
         public static void DeleteQuickbelt()
@@ -174,6 +173,16 @@ namespace NToolbox
         public static void ToggleControllerGeo() => 
             GM.Options.QuickbeltOptions.HideControllerGeoWhenObjectHeld = !GM.Options.QuickbeltOptions.HideControllerGeoWhenObjectHeld;
 
+        public static void ToggleHealthBar() =>
+            GM.CurrentPlayerBody.HealthBar.gameObject.SetActive(!GM.CurrentPlayerBody.HealthBar.gameObject.activeSelf);
+
+        public static void HandCollision()
+        {
+            var collider = GM.CurrentPlayerBody.LeftHand.gameObject.AddComponent<BoxCollider>();
+            collider.size = new Vector3(0.5f, 0.5f, 0.5f);
+            GM.CurrentPlayerBody.LeftHand.gameObject.SetActive(true);
+        }
+
         //--TNH---------------------------------------------------------
         //--TNH---------------------------------------------------------
 
@@ -183,10 +192,6 @@ namespace NToolbox
 
         private static void SpawnButton(Func<Transform, GameObject> spawnerFunc)
         {
-            //var position = GM.CurrentPlayerBody.Torso.position;
-            //position = new Vector3(position.x, position.y - 1.5f, position.z);
-            //spawnPos.position = position;
-            //spawnerFunc.Invoke(position);
             var spawnPos = GM.CurrentPlayerBody.Torso;
             spawnPos.rotation = Quaternion.identity;
             spawnPos.position = new Vector3(spawnPos.position.x, spawnPos.position.y - 1.5f, spawnPos.position.z);
