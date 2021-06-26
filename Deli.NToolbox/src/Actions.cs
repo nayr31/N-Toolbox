@@ -16,6 +16,9 @@ namespace NToolbox
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
         private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
         private static bool isMortal = true;
+        private static GameObject LeftCollider = new GameObject();
+        private static GameObject RightCollider = new GameObject();
+        
         
         private static readonly Type[] TYPE_WHITELIST =//Stores a list of physical object types for the Gather method
         {
@@ -113,7 +116,6 @@ namespace NToolbox
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
             physObj.transform.position = GM.CurrentPlayerBody.LeftHand.transform.position;
             if(kinLoc) physObj.SetIsKinematicLocked(true);
-
         }
 
         public static void DeleteQuickbelt()
@@ -176,11 +178,22 @@ namespace NToolbox
         public static void ToggleHealthBar() =>
             GM.CurrentPlayerBody.HealthBar.gameObject.SetActive(!GM.CurrentPlayerBody.HealthBar.gameObject.activeSelf);
 
-        public static void HandCollision()
+        //some introduction to trying to make hand code look nice
+        public static void AddHandCollision()
         {
-            var collider = GM.CurrentPlayerBody.LeftHand.gameObject.AddComponent<BoxCollider>();
-            collider.size = new Vector3(0.5f, 0.5f, 0.5f);
-            GM.CurrentPlayerBody.LeftHand.gameObject.SetActive(true);
+            AddHandCollider(GM.CurrentPlayerBody.LeftHand);
+            AddHandCollider(GM.CurrentPlayerBody.RightHand);
+        }
+
+        private static void AddHandCollider(Transform t)
+        {
+            GameObject obj = new GameObject();
+            obj.SetActive(true);
+            var collider = obj.AddComponent<SphereCollider>();
+            //collider.size = new Vector3(0.3f, 0.3f, 0.3f);//when using box colliders
+            collider.radius = 0.045f;
+            obj.transform.position = new Vector3(0f, 0f, 0f);
+            obj.transform.SetParent(t, false);
         }
 
         //--TNH---------------------------------------------------------

@@ -5,6 +5,7 @@ using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using Sodalite.Api;
+using UnityEngine.SceneManagement;
 
 namespace NToolbox
 {
@@ -14,11 +15,13 @@ namespace NToolbox
     {
         public static ObjectIDList ObjectIDs { get; private set; }
         public readonly ConfigEntry<bool> LoadWristMenu;
+        public readonly ConfigEntry<bool> EnableHandColliders;
 
         public NToolbox() 
         {
             //Set config option
             LoadWristMenu = Config.Bind("WristMenu Options", "LoadWristMenu", false, "If set to true, will load all wristmenu actions. I don't recommend using this, please don't.");
+            EnableHandColliders = Config.Bind("Other Options", "EnableHandColliders", false, "If set to true, will automatically add collision to the player's hands.");
         }
 
         public void Start()
@@ -32,6 +35,15 @@ namespace NToolbox
             WristMenuAPI.Buttons.Add(new WristMenuButton("NTool Panel", nPanel.Spawn));
 
             if (LoadWristMenu.Value) nPanel.LoadWristMenu();
+            //Actions.AddHandColliders();
+            //if (EnableHandColliders) Actions.ToggleHandCollision();// object not null pls fix
+
+            SceneManager.sceneLoaded += SceneLoadHook;
+        }
+
+        public void SceneLoadHook(Scene scene, LoadSceneMode mode)
+        {
+            if (EnableHandColliders.Value) Actions.AddHandCollision();
         }
     }
 }
