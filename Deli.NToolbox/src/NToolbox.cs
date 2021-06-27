@@ -6,6 +6,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using Sodalite.Api;
 using UnityEngine.SceneManagement;
+using Gizmos = Popcron.Gizmos;
 
 namespace NToolbox
 {
@@ -44,6 +45,11 @@ namespace NToolbox
         public void SceneLoadHook(Scene scene, LoadSceneMode mode)
         {
             if (EnableHandColliders.Value) Actions.AddHandCollision();
+        }
+
+        private void Update()
+        {
+            Gizmos.Sphere(GM.CurrentPlayerBody.LeftHand.position, Actions.handSize, Color.red);
         }
     }
 }

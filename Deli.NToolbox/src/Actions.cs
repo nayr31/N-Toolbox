@@ -18,6 +18,7 @@ namespace NToolbox
         private static bool isMortal = true;
         private static GameObject LeftCollider = new GameObject();
         private static GameObject RightCollider = new GameObject();
+        public static float handSize = 0.045f;
         
         
         private static readonly Type[] TYPE_WHITELIST =//Stores a list of physical object types for the Gather method
@@ -115,7 +116,7 @@ namespace NToolbox
             var obj = IM.OD[itemId];
             FVRPhysicalObject physObj = Object.Instantiate(obj.GetGameObject()).GetComponent<FVRPhysicalObject>();
             physObj.transform.position = GM.CurrentPlayerBody.LeftHand.transform.position;
-            if(kinLoc) physObj.SetIsKinematicLocked(true);
+            physObj.SetIsKinematicLocked(kinLoc);
         }
 
         public static void DeleteQuickbelt()
@@ -181,19 +182,19 @@ namespace NToolbox
         //some introduction to trying to make hand code look nice
         public static void AddHandCollision()
         {
-            AddHandCollider(GM.CurrentPlayerBody.LeftHand);
-            AddHandCollider(GM.CurrentPlayerBody.RightHand);
+            LeftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
+            RightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
         }
 
-        private static void AddHandCollider(Transform t)
+        private static GameObject AddColliderToTransform(Transform t)
         {
             GameObject obj = new GameObject();
             obj.SetActive(true);
             var collider = obj.AddComponent<SphereCollider>();
-            //collider.size = new Vector3(0.3f, 0.3f, 0.3f);//when using box colliders
-            collider.radius = 0.045f;
+            collider.radius = handSize;
             obj.transform.position = new Vector3(0f, 0f, 0f);
             obj.transform.SetParent(t, false);
+            return obj;
         }
 
         //--TNH---------------------------------------------------------
