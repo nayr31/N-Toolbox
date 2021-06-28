@@ -40,14 +40,25 @@ namespace NToolbox
             if (LoadWristMenu.Value) nPanel.LoadWristMenu();
 
             SceneManager.sceneLoaded += SceneLoadHook;
+
+            //loading the game at the start doesnt count as loading the game??
+            GetHandComps();
+        }
+
+        private void GetHandComps()
+        {
+            LeftHandComp = GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>();
+            RightHandComp = GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>();
         }
 
         public void SceneLoadHook(Scene scene, LoadSceneMode mode)
         {
             if (EnableHandColliders.Value) Actions.ToggleHandCollision();
 
-            LeftHandComp = GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>();
-            RightHandComp = GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>();
+            GetHandComps();
+
+            if (Actions.LeftCollider == null || Actions.RightCollider == null)
+                Actions.SetColliderObjects();
         }
 
         private void Update()
