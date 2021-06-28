@@ -16,8 +16,8 @@ namespace NToolbox
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
         private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
         private static bool isMortal = true;
-        private static GameObject LeftCollider = new GameObject();
-        private static GameObject RightCollider = new GameObject();
+        public static GameObject LeftCollider = new GameObject();
+        public static GameObject RightCollider = new GameObject();
         public static float handSize = 0.045f;
         
         
@@ -195,6 +195,14 @@ namespace NToolbox
             obj.transform.position = new Vector3(0f, 0f, 0f);
             obj.transform.SetParent(t, false);
             return obj;
+        }
+
+        public static void ToggleStreamlined()
+        {
+            GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>().IsInStreamlinedMode
+                = !GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>().IsInStreamlinedMode;
+            GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>().IsInStreamlinedMode
+                = !GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>().IsInStreamlinedMode;
         }
 
         //--TNH---------------------------------------------------------

@@ -16,6 +16,9 @@
 - Toggle 1-hit
 - Toggle controller geo
 - Toggle god mode
+- Toggle hand collision
+- Toggle Health bar (above head, not wrist)
+- Toggle streamlined
 
 ## Take and Hold Interactions
 

@@ -30,6 +30,7 @@ namespace NToolbox
             { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
             { "Add Hand collision", Actions.AddHandCollision },
             { "Toggle HP bar", Actions.ToggleHealthBar },
+            { "Toggle Streamlined", Actions.ToggleStreamlined },
             //{ "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//Broken? Test for flat IFF = -1 to see if the check is broken
         };
 
