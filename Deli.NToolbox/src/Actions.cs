@@ -180,10 +180,17 @@ namespace NToolbox
             GM.CurrentPlayerBody.HealthBar.gameObject.SetActive(!GM.CurrentPlayerBody.HealthBar.gameObject.activeSelf);
 
         //some introduction to trying to make hand code look nice
-        public static void AddHandCollision()
+        public static void ToggleHandCollision()
         {
-            LeftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
-            RightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
+            if (LeftCollider.transform.parent == null)
+                LeftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
+            else
+                LeftCollider.transform.parent = null;
+
+            if (RightCollider.transform.parent == null)
+                RightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
+            else
+                RightCollider.transform.parent = null;
         }
 
         private static GameObject AddColliderToTransform(Transform t)
