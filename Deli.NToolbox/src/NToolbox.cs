@@ -44,7 +44,7 @@ namespace NToolbox
 
         public void SceneLoadHook(Scene scene, LoadSceneMode mode)
         {
-            if (EnableHandColliders.Value) Actions.AddHandCollision();
+            if (EnableHandColliders.Value) Actions.ToggleHandCollision();
 
             LeftHandComp = GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>();
             RightHandComp = GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>();
