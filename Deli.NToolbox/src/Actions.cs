@@ -15,9 +15,9 @@ namespace NToolbox
     {
         public const float HAND_SIZE = 0.045f;
   
-        private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
-        private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
-        private static bool isMortal = true;
+        private static float _lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
+        private static float _lastIFF = 0f;//Store last IFF for use in toggle invis method
+        private static bool _isMortal = true;
         public static GameObject LeftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
         public static GameObject RightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
         public static float handSize = 0.045f;
