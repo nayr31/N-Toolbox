@@ -17,6 +17,8 @@ namespace NToolbox
         public static ObjectIDList ObjectIDs { get; private set; }
         public readonly ConfigEntry<bool> LoadWristMenu;
         public readonly ConfigEntry<bool> EnableHandColliders;
+        private FVRViveHand LeftHandComp = new FVRViveHand();
+        private FVRViveHand RightHandComp = new FVRViveHand();
 
         public NToolbox() 
         {
@@ -36,20 +38,48 @@ namespace NToolbox
             WristMenuAPI.Buttons.Add(new WristMenuButton("NTool Panel", nPanel.Spawn));
 
             if (LoadWristMenu.Value) nPanel.LoadWristMenu();
-            //Actions.AddHandColliders();
-            //if (EnableHandColliders) Actions.ToggleHandCollision();// object not null pls fix
 
             SceneManager.sceneLoaded += SceneLoadHook;
         }
 
         public void SceneLoadHook(Scene scene, LoadSceneMode mode)
         {
-            if (EnableHandColliders.Value) Actions.AddHandCollision();
+            if (EnableHandColliders.Value) Actions.ToggleHandCollision();
+
+            LeftHandComp = GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>();
+            RightHandComp = GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>();
         }
 
         private void Update()
         {
-            Gizmos.Sphere(GM.CurrentPlayerBody.LeftHand.position, Actions.HAND_SIZE, Color.red);
+            //If the collider object has a parent (ie, the collider is attached to the hands and enabled
+            if (Actions.LeftCollider.gameObject.transform.parent != null)
+            {
+                //If the collider is currently active
+                if (Actions.LeftCollider.activeSelf)
+                    //Display the collision sphere
+                    Gizmos.Sphere(GM.CurrentPlayerBody.LeftHand.position, Actions.handSize, Color.red);
+
+                //If the hands are holding something
+                if (LeftHandComp.m_state.Equals(FVRViveHand.HandState.GripInteracting))
+                    //Disable hand collision
+                    Actions.LeftCollider.SetActive(false);
+                //If the hands were holding something
+                else if (!Actions.LeftCollider.activeSelf)
+                    //Enable the collider
+                    Actions.LeftCollider.SetActive(true);
+            }
+                
+            if (Actions.RightCollider.gameObject.transform.parent != null)
+            {
+                if (Actions.RightCollider.activeSelf)
+                    Gizmos.Sphere(GM.CurrentPlayerBody.RightHand.position, Actions.handSize, Color.blue);
+
+                if (RightHandComp.m_state.Equals(FVRViveHand.HandState.GripInteracting))
+                    Actions.RightCollider.SetActive(false);
+                else if (!Actions.RightCollider.activeSelf)
+                    Actions.RightCollider.SetActive(true);
+            }
         }
     }
 }

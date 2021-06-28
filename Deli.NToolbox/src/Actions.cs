@@ -14,12 +14,12 @@ namespace NToolbox
     public class Actions
     {
         public const float HAND_SIZE = 0.045f;
-        
-        private static float _lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
-        private static float _lastIff = 0f;//Store last IFF for use in toggle invis method
-        private static bool _isMortal = true;
-        private static GameObject _leftCollider = new GameObject();
-        private static GameObject _rightCollider = new GameObject();
+      
+        private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
+        private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
+        private static bool isMortal = true;
+        public static GameObject LeftCollider = new GameObject();
+        public static GameObject RightCollider = new GameObject();
         
         
         private static readonly Type[] TYPE_WHITELIST =//Stores a list of physical object types for the Gather method
@@ -181,10 +181,17 @@ namespace NToolbox
             GM.CurrentPlayerBody.HealthBar.gameObject.SetActive(!GM.CurrentPlayerBody.HealthBar.gameObject.activeSelf);
 
         //some introduction to trying to make hand code look nice
-        public static void AddHandCollision()
+        public static void ToggleHandCollision()
         {
-            _leftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
-            _rightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
+            if (LeftCollider.transform.parent == null)
+                LeftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
+            else
+                LeftCollider.transform.parent = null;
+
+            if (RightCollider.transform.parent == null)
+                RightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
+            else
+                RightCollider.transform.parent = null;
         }
 
         private static GameObject AddColliderToTransform(Transform t)
@@ -196,6 +203,14 @@ namespace NToolbox
             obj.transform.position = new Vector3(0f, 0f, 0f);
             obj.transform.SetParent(t, false);
             return obj;
+        }
+
+        public static void ToggleStreamlined()
+        {
+            GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>().IsInStreamlinedMode
+                = !GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>().IsInStreamlinedMode;
+            GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>().IsInStreamlinedMode
+                = !GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>().IsInStreamlinedMode;
         }
 
         //--TNH---------------------------------------------------------
