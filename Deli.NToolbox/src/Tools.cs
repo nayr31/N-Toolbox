@@ -24,11 +24,11 @@ namespace NToolbox
         public static readonly Dictionary<string, Action> PLAYER = new()
         {
             { "Kill yourself", Actions.KillPlayerButtonClicked },
-            { "Restore Full", Actions.RestoreHPButtonClicked },
+            { "Restore Full", Actions.RestoreHpButtonClicked },
             { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
             { "Toggle Controller Geo", Actions.ToggleControllerGeo },
             { "Toggle God Mode", Actions.ToggleGodModeButtonClicked },
-            { "Add Hand collision", Actions.ToggleHandCollision },
+            { "Toggle Hand collision", Actions.ToggleHandCollision },
             { "Toggle HP bar", Actions.ToggleHealthBar },
             { "Toggle Streamlined", Actions.ToggleStreamlined },
             //{ "Toggle Invisibility", Actions.ToggleInvisButtonClicked },//Broken? Test for flat IFF = -1 to see if the check is broken

@@ -69,7 +69,7 @@ namespace NToolbox
                 //If the collider is currently active
                 if (Actions.LeftCollider.activeSelf)
                     //Display the collision sphere
-                    Gizmos.Sphere(GM.CurrentPlayerBody.LeftHand.position, Actions.handSize, Color.red);
+                    Gizmos.Sphere(GM.CurrentPlayerBody.LeftHand.position, Actions.HAND_SIZE, Color.red);
 
                 //If the hands are holding something
                 if (LeftHandComp.m_state.Equals(FVRViveHand.HandState.GripInteracting))
@@ -84,7 +84,7 @@ namespace NToolbox
             if (Actions.RightCollider.gameObject.transform.parent != null)
             {
                 if (Actions.RightCollider.activeSelf)
-                    Gizmos.Sphere(GM.CurrentPlayerBody.RightHand.position, Actions.handSize, Color.blue);
+                    Gizmos.Sphere(GM.CurrentPlayerBody.RightHand.position, Actions.HAND_SIZE, Color.blue);
 
                 if (RightHandComp.m_state.Equals(FVRViveHand.HandState.GripInteracting))
                     Actions.RightCollider.SetActive(false);
