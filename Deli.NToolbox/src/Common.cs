@@ -11,7 +11,7 @@ namespace NToolbox
     {
         public const string SEPARATOR = "-----------------------------------------------------------------------";
         public const string OBJECT_ID_LIST_FILENAME = "ObjectIDs.txt";
-        public static readonly Dictionary<string, string> SCENE_LIST = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> SCENES = new Dictionary<string, string>
         {
             { "MainMenu3" , "Main Menu" },
             { "ArizonaTargets" , "Arizona Range" },
@@ -23,7 +23,7 @@ namespace NToolbox
             { "SniperRange" , "Sniper Range" },
             { "TakeAndHold_Lobby_2" , "Take and Hold Lobby" },
         };
-        public static readonly Dictionary<string, string> DOG_LIST = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> POWERUPS = new Dictionary<string, string>
         {
             { "PowerUpMeat_Blort" , "Blort" },
             { "PowerUpMeat_Cyclops" , "Cyclops" },
@@ -40,7 +40,7 @@ namespace NToolbox
             { "PowerUpMeat_UnCooked" , "UnCooked" },
             { "PowerUpMeat_WheredIGo" , "WheredIGo" },
         };
-        public static readonly Dictionary<string, string> MISC_LIST = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> MISC = new Dictionary<string, string>
         {
             { "CharcoalGrill" , "CharcoalGrill" },
             { "CharcoalBag" , "CharcoalBag" },
