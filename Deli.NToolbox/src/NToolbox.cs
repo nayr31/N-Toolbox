@@ -49,7 +49,7 @@ namespace NToolbox
 
         private void Update()
         {
-            Gizmos.Sphere(GM.CurrentPlayerBody.LeftHand.position, Actions.handSize, Color.red);
+            Gizmos.Sphere(GM.CurrentPlayerBody.LeftHand.position, Actions.HAND_SIZE, Color.red);
         }
     }
 }

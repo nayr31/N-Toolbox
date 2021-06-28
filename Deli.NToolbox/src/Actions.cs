@@ -13,12 +13,13 @@ namespace NToolbox
 {
     public class Actions
     {
-        private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
-        private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
-        private static bool isMortal = true;
-        private static GameObject LeftCollider = new GameObject();
-        private static GameObject RightCollider = new GameObject();
-        public static float handSize = 0.045f;
+        public const float HAND_SIZE = 0.045f;
+        
+        private static float _lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
+        private static float _lastIff = 0f;//Store last IFF for use in toggle invis method
+        private static bool _isMortal = true;
+        private static GameObject _leftCollider = new GameObject();
+        private static GameObject _rightCollider = new GameObject();
         
         
         private static readonly Type[] TYPE_WHITELIST =//Stores a list of physical object types for the Gather method
@@ -133,19 +134,19 @@ namespace NToolbox
         //--Player---------------------------------------------------
         //--Player---------------------------------------------------
 
-        public static void RestoreHPButtonClicked() => GM.CurrentPlayerBody.ResetHealth();
+        public static void RestoreHpButtonClicked() => GM.CurrentPlayerBody.ResetHealth();
 
         public static void ToggleOneHitButtonClicked()
         {
             //IM.OD.Remove("That ugly schristmas suppressor");
             if (GM.CurrentPlayerBody.GetPlayerHealthRaw() != 1)
             {
-                lastMax = GM.CurrentPlayerBody.m_startingHealth;
+                _lastMax = GM.CurrentPlayerBody.m_startingHealth;
                 GM.CurrentPlayerBody.SetHealthThreshold(1f);
             }
             else
             {
-                GM.CurrentPlayerBody.SetHealthThreshold(lastMax);
+                GM.CurrentPlayerBody.SetHealthThreshold(_lastMax);
                 GM.CurrentPlayerBody.ResetHealth();
             }
         }
@@ -155,21 +156,21 @@ namespace NToolbox
             //default hitboxes are true
             foreach (var v in GM.CurrentPlayerBody.Hitboxes)
             {
-                if (v != null)  v.IsActivated = !isMortal;
+                if (v != null)  v.IsActivated = !_isMortal;
             }
-            isMortal = !isMortal;
+            _isMortal = !_isMortal;
         }
 
         public static void ToggleInvisButtonClicked()//-1 doesnt work lmao
         {
             if (GM.CurrentPlayerBody.GetPlayerIFF() != -1)
             {
-                lastIFF = GM.CurrentPlayerBody.GetPlayerIFF();
+                _lastIff = GM.CurrentPlayerBody.GetPlayerIFF();
                 GM.CurrentPlayerBody.m_playerIFF = -1;
             }
             else
             {
-                GM.CurrentPlayerBody.m_playerIFF = Convert.ToInt32(lastIFF);
+                GM.CurrentPlayerBody.m_playerIFF = Convert.ToInt32(_lastIff);
             }
         }
 
@@ -182,8 +183,8 @@ namespace NToolbox
         //some introduction to trying to make hand code look nice
         public static void AddHandCollision()
         {
-            LeftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
-            RightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
+            _leftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
+            _rightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
         }
 
         private static GameObject AddColliderToTransform(Transform t)
@@ -191,13 +192,12 @@ namespace NToolbox
             GameObject obj = new GameObject();
             obj.SetActive(true);
             var collider = obj.AddComponent<SphereCollider>();
-            collider.radius = handSize;
+            collider.radius = HAND_SIZE;
             obj.transform.position = new Vector3(0f, 0f, 0f);
             obj.transform.SetParent(t, false);
             return obj;
         }
 
-        //--TNH---------------------------------------------------------
         //--TNH---------------------------------------------------------
 
         public static void KillPlayerButtonClicked() => GM.CurrentPlayerBody.KillPlayer(true);

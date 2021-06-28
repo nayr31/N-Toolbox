@@ -186,7 +186,7 @@ namespace NToolbox
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                foreach (var kvp in Common.DOG_LIST)
+                foreach (var kvp in Common.POWERUPS)
                 {
                     widget.AddChild((ButtonWidget button) => {
                         button.ButtonText.text = kvp.Value;
@@ -216,7 +216,7 @@ namespace NToolbox
                 widget.LayoutGroup.constraintCount = 3;
 
                 AddBack(widget);
-                foreach (var kvp in Common.SCENE_LIST)
+                foreach (var kvp in Common.SCENES)
                 {
                     widget.AddChild((ButtonWidget button) => {
                         button.ButtonText.text = kvp.Value;
@@ -343,7 +343,7 @@ namespace NToolbox
 
         public void LoadWristMenu()//legacy stuff for reasons i guess
         {
-            Dictionary<string, string> SceneList = Common.SCENE_LIST;
+            Dictionary<string, string> SceneList = Common.SCENES;
             foreach (var scene in SceneList.Reverse())
             {
                 WristMenuAPI.Buttons.Add(new WristMenuButton(scene.Value, () =>
