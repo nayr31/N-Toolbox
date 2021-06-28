@@ -16,8 +16,8 @@ namespace NToolbox
         private static float lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
         private static float lastIFF = 0f;//Store last IFF for use in toggle invis method
         private static bool isMortal = true;
-        public static GameObject LeftCollider = new GameObject();
-        public static GameObject RightCollider = new GameObject();
+        public static GameObject LeftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
+        public static GameObject RightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
         public static float handSize = 0.045f;
         
         
@@ -180,7 +180,15 @@ namespace NToolbox
             GM.CurrentPlayerBody.HealthBar.gameObject.SetActive(!GM.CurrentPlayerBody.HealthBar.gameObject.activeSelf);
 
         //some introduction to trying to make hand code look nice
-        public static void AddHandCollision()
+        public static void ToggleHandCollision()
+        {
+            LeftCollider.SetActive(!LeftCollider.activeSelf);
+            LeftCollider.transform.SetParent(LeftCollider.transform.parent == null ? GM.CurrentPlayerBody.LeftHand : null, false);
+            RightCollider.SetActive(!RightCollider.activeSelf);
+            RightCollider.transform.SetParent(RightCollider.transform.parent == null ? GM.CurrentPlayerBody.RightHand : null, false);
+        }
+
+        public static void SetColliderObjects()
         {
             LeftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
             RightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
@@ -189,11 +197,11 @@ namespace NToolbox
         private static GameObject AddColliderToTransform(Transform t)
         {
             GameObject obj = new GameObject();
-            obj.SetActive(true);
+            obj.SetActive(false);
             var collider = obj.AddComponent<SphereCollider>();
             collider.radius = handSize;
             obj.transform.position = new Vector3(0f, 0f, 0f);
-            obj.transform.SetParent(t, false);
+            //obj.transform.SetParent(t, false);
             return obj;
         }
 
