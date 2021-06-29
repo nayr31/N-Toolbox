@@ -21,7 +21,7 @@ namespace NToolbox
         private GridLayoutWidget _tnhTools;
         private GridLayoutWidget _powerupTools;
         private GridLayoutWidget _sceneTools;
-        private GridLayoutWidget _miscTools;
+        private GridLayoutWidget _ConfigOptions;
 
         string[] miscArray = new string[30];
         ButtonWidget[] buttonArray = new ButtonWidget[9];
@@ -232,7 +232,7 @@ namespace NToolbox
             });
             _sceneTools.gameObject.SetActive(false);
 
-            _miscTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
+            _ConfigOptions = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
                 // Fill our parent and set pivot to top middle
                 widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
@@ -253,29 +253,13 @@ namespace NToolbox
                 AddBack(widget);
 
                 widget.AddChild((ButtonWidget button) => {
-                    button.ButtonText.text = "----Down----";
-                    button.AddButtonListener(() => { moveRef(false); });
+                    button.ButtonText.text = "Debug Collision Spheres [" + "]";
+                    button.AddButtonListener(() => {  });
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
-
-                widget.AddChild((ButtonWidget button) => {
-                    button.ButtonText.text = "----Up----";
-                    button.AddButtonListener(() => { moveRef(true); });
-                    button.RectTransform.localRotation = Quaternion.identity;
-                });
-
-                for(int i=0; i<9; i++)
-                {
-                    widget.AddChild((ButtonWidget button) => {
-                        button.ButtonText.text = miscArray[i];
-                        button.AddButtonListener(() => {  });
-                        button.RectTransform.localRotation = Quaternion.identity;
-                        buttonArray[i] = button;
-                    });
-                }
 
             });
-            _miscTools.gameObject.SetActive(false);
+            _ConfigOptions.gameObject.SetActive(false);
 
         }
 
@@ -304,7 +288,7 @@ namespace NToolbox
       
         private void SwitchToScene() => SwitchPage(_sceneTools);
 
-        private void SwitchToMisc() => SwitchPage(_miscTools);
+        private void SwitchToMisc() => SwitchPage(_ConfigOptions);
 
         private void AddBatch(GridLayoutWidget widget, Dictionary<string, Action> dict)
         {

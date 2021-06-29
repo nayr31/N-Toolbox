@@ -18,8 +18,8 @@ namespace NToolbox
         private static float _lastMax = 0f;//Stores last maximum health for the toggle 1-hit method 
         private static float _lastIFF = 0f;//Store last IFF for use in toggle invis method
         private static bool _isMortal = true;
-        public static GameObject LeftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
-        public static GameObject RightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
+        public static GameObject LeftCollider = GetColliderObject();
+        public static GameObject RightCollider = GetColliderObject();
         public static float handSize = 0.045f;
         
         private static readonly Type[] TYPE_WHITELIST =//Stores a list of physical object types for the Gather method
@@ -180,7 +180,6 @@ namespace NToolbox
         public static void ToggleHealthBar() =>
             GM.CurrentPlayerBody.HealthBar.gameObject.SetActive(!GM.CurrentPlayerBody.HealthBar.gameObject.activeSelf);
 
-        //some introduction to trying to make hand code look nice
         public static void ToggleHandCollision()
         {
             LeftCollider.SetActive(!LeftCollider.activeSelf);
@@ -192,33 +191,37 @@ namespace NToolbox
         public static void SetColliderObjects()
         {
             if (LeftCollider.transform.parent == null)
-                LeftCollider = AddColliderToTransform(GM.CurrentPlayerBody.LeftHand);
+                LeftCollider = GetColliderObject();
             else
                 LeftCollider.transform.parent = null;
 
             if (RightCollider.transform.parent == null)
-                RightCollider = AddColliderToTransform(GM.CurrentPlayerBody.RightHand);
+                RightCollider = GetColliderObject();
             else
                 RightCollider.transform.parent = null;
         }
 
-        private static GameObject AddColliderToTransform(Transform t)
+        private static GameObject GetColliderObject()
         {
             GameObject obj = new GameObject();
             obj.SetActive(false);
             var collider = obj.AddComponent<SphereCollider>();
+            var rigid = obj.AddComponent<Rigidbody>();
+            rigid.isKinematic = true;
             collider.radius = HAND_SIZE;
             obj.transform.position = new Vector3(0f, 0f, 0f);
-            //obj.transform.SetParent(t, false);
             return obj;
         }
 
         public static void ToggleStreamlined()
         {
-            GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>().IsInStreamlinedMode
-                = !GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>().IsInStreamlinedMode;
-            GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>().IsInStreamlinedMode
-                = !GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>().IsInStreamlinedMode;
+            var handcomp = GM.CurrentPlayerBody.LeftHand.GetComponent<FVRViveHand>();
+            handcomp.IsInStreamlinedMode
+                = !handcomp.IsInStreamlinedMode;
+
+            handcomp = GM.CurrentPlayerBody.RightHand.GetComponent<FVRViveHand>();
+            handcomp.IsInStreamlinedMode
+                = !handcomp.IsInStreamlinedMode;
         }
 
         //--TNH---------------------------------------------------------
