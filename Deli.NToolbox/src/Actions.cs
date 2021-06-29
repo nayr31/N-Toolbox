@@ -186,19 +186,13 @@ namespace NToolbox
             LeftCollider.transform.SetParent(LeftCollider.transform.parent == null ? GM.CurrentPlayerBody.LeftHand : null, false);
             RightCollider.SetActive(!RightCollider.activeSelf);
             RightCollider.transform.SetParent(RightCollider.transform.parent == null ? GM.CurrentPlayerBody.RightHand : null, false);
+            
         }
 
         public static void SetColliderObjects()
         {
-            if (LeftCollider.transform.parent == null)
-                LeftCollider = GetColliderObject();
-            else
-                LeftCollider.transform.parent = null;
-
-            if (RightCollider.transform.parent == null)
-                RightCollider = GetColliderObject();
-            else
-                RightCollider.transform.parent = null;
+            LeftCollider = GetColliderObject();
+            RightCollider = GetColliderObject();
         }
 
         private static GameObject GetColliderObject()

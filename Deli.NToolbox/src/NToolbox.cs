@@ -57,68 +57,26 @@ namespace NToolbox
         {
             GetHandComps();
 
-            if (EnableHandColliders.Value) Actions.ToggleHandCollision();
-
-            if (Actions.LeftCollider == null || Actions.RightCollider == null)
-                Actions.SetColliderObjects();
+            Actions.SetColliderObjects();
         }
 
         private void Update()
         {
-            //updateHandInteractionStateAndDisplay(Actions.LeftCollider, LeftHandComp, GM.CurrentPlayerBody.LeftHand.position, Color.red);
-            //updateHandInteractionStateAndDisplay(Actions.RightCollider, RightHandComp, GM.CurrentPlayerBody.RightHand.position, Color.blue);
 
-            //If the collider object has a parent (ie, the collider is attached to the hands and enabled
-            if (Actions.LeftCollider.gameObject.transform.parent != null)
-            {
-                //If the collider is currently active
-                if (Actions.LeftCollider.activeSelf)
-                    //Display the collision sphere
-                    if (EnableDebugSpheres.Value)
-                        Gizmos.Sphere(GM.CurrentPlayerBody.LeftHand.position, Actions.HAND_SIZE, Color.red);
+            if (LeftHandComp.m_state.Equals(FVRViveHand.HandState.GripInteracting))
+                Actions.LeftCollider.SetActive(false);
+            else if(!Actions.LeftCollider.activeSelf)
+                Actions.LeftCollider.SetActive(true);
 
-                //If the hands are holding something
-                if (LeftHandComp.m_state.Equals(FVRViveHand.HandState.GripInteracting))
-                    //Disable hand collision
-                    Actions.LeftCollider.SetActive(false);
-                //If the hands were holding something
-                else if (!Actions.LeftCollider.activeSelf)
-                    //Enable the collider
-                    Actions.LeftCollider.SetActive(true);
-            }
+            if (RightHandComp.m_state.Equals(FVRViveHand.HandState.GripInteracting))
+                Actions.RightCollider.SetActive(false);
+            else if (!Actions.RightCollider.activeSelf)
+                Actions.RightCollider.SetActive(true);
 
-            if (Actions.RightCollider.gameObject.transform.parent != null)
-            {
-                if (Actions.RightCollider.activeSelf)
-                    if (EnableDebugSpheres.Value)
-                        Gizmos.Sphere(GM.CurrentPlayerBody.RightHand.position, Actions.HAND_SIZE, Color.blue);
-
-                if (RightHandComp.m_state.Equals(FVRViveHand.HandState.GripInteracting))
-                    Actions.RightCollider.SetActive(false);
-                else if (!Actions.RightCollider.activeSelf)
-                    Actions.RightCollider.SetActive(true);
-            }
+            if (Actions.LeftCollider.activeSelf && Actions.LeftCollider.transform.parent != null)
+                Gizmos.Sphere(GM.CurrentPlayerBody.LeftHand.position, Actions.HAND_SIZE, Color.red);
+            if (Actions.RightCollider.activeSelf && Actions.RightCollider.transform.parent != null)
+                Gizmos.Sphere(GM.CurrentPlayerBody.RightHand.position, Actions.HAND_SIZE, Color.blue);
         }
-
-        //private void updateHandInteractionStateAndDisplay(GameObject sideCollider, FVRViveHand sideComponent, Vector3 handPos, Color color)
-        //{
-        //    if (sideCollider.gameObject.transform.parent != null)
-        //    {
-        //        //If the collider is currently active
-        //        if (sideCollider.activeSelf)
-        //            //Display the collision sphere
-        //            if (EnableDebugSpheres.Value)
-        //                Gizmos.Sphere(handPos, Actions.HAND_SIZE, color);
-
-        //        //If the hands are holding something
-        //        if (sideComponent.m_state.Equals(FVRViveHand.HandState.GripInteracting))
-        //            //Disable hand collision
-        //            sideCollider.SetActive(false);
-        //        //If the hands were holding something
-        //        else if (!sideCollider.activeSelf)
-        //            //Enable the collider
-        //            sideCollider.SetActive(true);
-        //    }
-        //}
     }
 }
