@@ -263,10 +263,11 @@ namespace NToolbox
         private void AddConfigButtonBoolToggle(ConfigEntry<bool> value, String name, GridLayoutWidget widget)
         {
             widget.AddChild((ButtonWidget button) => {
-                button.ButtonText.text = name + "[" + value.Value + "]";
+                String buttonText = name + " [" + value.Value + "]";
+                button.ButtonText.text = buttonText;
                 button.AddButtonListener(() => {
                     value.Value = !value.Value;
-                    button.ButtonText.text = name + "[" + value.Value + "]";
+                    button.ButtonText.text = buttonText;
                 });
                 button.RectTransform.localRotation = Quaternion.identity;
             });
