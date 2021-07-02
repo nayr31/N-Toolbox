@@ -38,6 +38,6 @@ See the [H3VR Wiki page](https://h3vr.fandom.com/wiki/Powerup_Sausage) for a com
 
 ## Scene Interactions
 
-This is a set of buttons that will spawn you in the desired scene. Want to go to the TnH lobby? Simply click the button. Works between scenes. 
+This is a set of buttons that will spawn you in the desired scene. Want to go to the TnH lobby? Simply click the button. Works between scenes.
 
 Known issues with textures when exiting a Take and Hold run and returning to the lobby. To fix simply exit or reload the scene.

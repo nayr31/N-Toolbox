@@ -266,7 +266,7 @@ namespace NToolbox
                 button.ButtonText.text = name + "[" + value.Value + "]";
                 button.AddButtonListener(() => {
                     value.Value = !value.Value;
-                    button.ButtonText.text = name + "[" + value + "]";
+                    button.ButtonText.text = name + "[" + value.Value + "]";
                 });
                 button.RectTransform.localRotation = Quaternion.identity;
             });
