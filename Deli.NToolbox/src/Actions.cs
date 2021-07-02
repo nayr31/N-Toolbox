@@ -20,8 +20,7 @@ namespace NToolbox
         private static bool _isMortal = true;
         public static GameObject LeftCollider = GetColliderObject();
         public static GameObject RightCollider = GetColliderObject();
-        public static float handSize = 0.045f;
-        
+
         private static readonly Type[] TYPE_WHITELIST =//Stores a list of physical object types for the Gather method
         {
             typeof(FVRFireArm),
@@ -138,7 +137,6 @@ namespace NToolbox
 
         public static void ToggleOneHitButtonClicked()
         {
-            //IM.OD.Remove("That ugly schristmas suppressor");
             if (GM.CurrentPlayerBody.GetPlayerHealthRaw() != 1)
             {
                 _lastMax = GM.CurrentPlayerBody.m_startingHealth;
@@ -186,7 +184,6 @@ namespace NToolbox
             LeftCollider.transform.SetParent(LeftCollider.transform.parent == null ? GM.CurrentPlayerBody.LeftHand : null, false);
             RightCollider.SetActive(!RightCollider.activeSelf);
             RightCollider.transform.SetParent(RightCollider.transform.parent == null ? GM.CurrentPlayerBody.RightHand : null, false);
-            
         }
 
         public static void SetColliderObjects()

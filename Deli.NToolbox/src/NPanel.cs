@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Reflection;
 using Sodalite.Utilities;
+using BepInEx.Configuration;
 
 namespace NToolbox
 {
@@ -23,14 +24,14 @@ namespace NToolbox
         private GridLayoutWidget _sceneTools;
         private GridLayoutWidget _ConfigOptions;
 
-        string[] miscArray = new string[30];
-        ButtonWidget[] buttonArray = new ButtonWidget[9];
-        int miscOffset = 0;
+        //string[] miscArray = new string[30];
+        //ButtonWidget[] buttonArray = new ButtonWidget[9];
+        //int miscOffset = 0;
 
         public NPanel()
         {
-            for (int i = 0; i < 30; i++)
-                miscArray[i] = i.ToString();
+            //for (int i = 0; i < 30; i++)
+            //    miscArray[i] = i.ToString();
 
             _NPanel = new LockablePanel();
             _NPanel.Configure += ConfigureTools;
@@ -252,25 +253,34 @@ namespace NToolbox
 
                 AddBack(widget);
 
-                widget.AddChild((ButtonWidget button) => {
-                    button.ButtonText.text = "Debug Collision Spheres [" + "]";
-                    button.AddButtonListener(() => {  });
-                    button.RectTransform.localRotation = Quaternion.identity;
-                });
-
+                //AddConfigButtonBoolToggle(NToolbox.EnableHandColliders, "Default Hand Collision", widget);
+                AddConfigButtonBoolToggle(NToolbox.EnableDebugSpheres, "Enable Debug Spheres", widget);
             });
             _ConfigOptions.gameObject.SetActive(false);
-
         }
 
-        private void moveRef(bool isUp)
+        //This could instead return a button to add to the widget, making it require 1 less arg
+        private void AddConfigButtonBoolToggle(ConfigEntry<bool> value, String name, GridLayoutWidget widget)
         {
-            if ((isUp && miscOffset - 3 >= 0) || (!isUp && miscOffset + 3 <= miscArray.Length)) { 
-                miscOffset += isUp ? (-3) : 3;
-                for(int i = 0; i < 9; i++)
-                    buttonArray[i].ButtonText.text = miscArray[i + miscOffset];
-            }
+            widget.AddChild((ButtonWidget button) => {
+                button.ButtonText.text = name + "[" + value.Value + "]";
+                button.AddButtonListener(() => {
+                    value.Value = !value.Value;
+                    button.ButtonText.text = name + "[" + value + "]";
+                });
+                button.RectTransform.localRotation = Quaternion.identity;
+            });
         }
+
+        //this method is used for showing different values inside of an array like a scrolling page
+        //private void moveRef(bool isUp)
+        //{
+        //    if ((isUp && miscOffset - 3 >= 0) || (!isUp && miscOffset + 3 <= miscArray.Length)) { 
+        //        miscOffset += isUp ? (-3) : 3;
+        //        for(int i = 0; i < 9; i++)
+        //            buttonArray[i].ButtonText.text = miscArray[i + miscOffset];
+        //    }
+        //}
 
         private void SwitchPage(GridLayoutWidget page)
         {
