@@ -21,8 +21,10 @@ namespace NToolbox
         private GridLayoutWidget _playerTools;
         private GridLayoutWidget _tnhTools;
         private GridLayoutWidget _powerupTools;
+        private GridLayoutWidget _tracerTools;
         private GridLayoutWidget _sceneTools;
-        private GridLayoutWidget _ConfigOptions;
+        private GridLayoutWidget _configOptions;
+        
 
         //string[] miscArray = new string[30];
         //ButtonWidget[] buttonArray = new ButtonWidget[9];
@@ -85,7 +87,13 @@ namespace NToolbox
                     button.AddButtonListener(SwitchToPower);
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
-
+                
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "Tracer Options";
+                    button.AddButtonListener(SwitchToTracer);
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+                
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "Scene Selection";
                     button.AddButtonListener(SwitchToScene);
@@ -93,8 +101,8 @@ namespace NToolbox
                 });
 
                 widget.AddChild((ButtonWidget button) => {
-                    button.ButtonText.text = "Misc Tools";
-                    button.AddButtonListener(SwitchToMisc);
+                    button.ButtonText.text = "Config Options";
+                    button.AddButtonListener(SwitchToConfig);
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
             });
@@ -197,6 +205,79 @@ namespace NToolbox
                 }
             });
             _powerupTools.gameObject.SetActive(false);
+            
+            _tracerTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
+            {
+                // Fill our parent and set pivot to top middle
+                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
+                widget.RectTransform.localPosition = Vector3.zero;
+                widget.RectTransform.localRotation = Quaternion.identity;
+                widget.RectTransform.anchoredPosition = Vector2.zero;
+                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
+                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
+                // Adjust our grid settings
+                widget.LayoutGroup.cellSize = new Vector2(171, 50);
+                widget.LayoutGroup.spacing = Vector2.one * 4;
+                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
+                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
+                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
+                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+                widget.LayoutGroup.constraintCount = 3;
+
+                AddBack(widget);
+
+                ButtonWidget displayButton = new ButtonWidget();
+
+                widget.AddChild((ButtonWidget button) => {
+                    
+                    button.AddButtonListener(() => { UpdateTracerDisplay(button, 0); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                    displayButton = button;
+                });
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "Reset to default";
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, 1 - GM.Options.QuickbeltOptions.TrailDecayTimes[2]); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "+ 0.01";
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, 0.01f); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "+ 0.10";
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, 0.1f); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "+ 1.00";
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, 1f); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+                
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "- 0.01";
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, -0.01f); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "- 0.10";
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, -0.1f); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "- 1.00";
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, -1f); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+            });
+            _tracerTools.gameObject.SetActive(false);
 
             _sceneTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
@@ -233,7 +314,7 @@ namespace NToolbox
             });
             _sceneTools.gameObject.SetActive(false);
 
-            _ConfigOptions = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
+            _configOptions = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
                 // Fill our parent and set pivot to top middle
                 widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
@@ -256,7 +337,7 @@ namespace NToolbox
                 //AddConfigButtonBoolToggle(NToolbox.EnableHandColliders, "Default Hand Collision", widget);
                 AddConfigButtonBoolToggle(NToolbox.EnableDebugSpheres, "Enable Debug Spheres", widget);
             });
-            _ConfigOptions.gameObject.SetActive(false);
+            _configOptions.gameObject.SetActive(false);
         }
 
         //This could instead return a button to add to the widget, making it require 1 less arg
@@ -283,6 +364,13 @@ namespace NToolbox
         //    }
         //}
 
+        private void UpdateTracerDisplay(ButtonWidget button, float duration)
+        {
+            String buttonText = "Current Duration: " + GM.Options.QuickbeltOptions.TrailDecayTimes[2];
+            GM.Options.QuickbeltOptions.TrailDecayTimes[2] += duration;
+            button.ButtonText.text = buttonText;
+        }
+
         private void SwitchPage(GridLayoutWidget page)
         {
             _menu.gameObject.SetActive(false);
@@ -296,10 +384,12 @@ namespace NToolbox
         private void SwitchToTnH() => SwitchPage(_tnhTools);
 
         private void SwitchToPower() => SwitchPage(_powerupTools);
+        
+        private void SwitchToTracer() => SwitchPage(_tracerTools);
       
         private void SwitchToScene() => SwitchPage(_sceneTools);
 
-        private void SwitchToMisc() => SwitchPage(_ConfigOptions);
+        private void SwitchToConfig() => SwitchPage(_configOptions);
 
         private void AddBatch(GridLayoutWidget widget, Dictionary<string, Action> dict)
         {
