@@ -48,21 +48,7 @@ namespace NToolbox
 
             _menu = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
-                // Fill our parent and set pivot to top middle
-                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
-                widget.RectTransform.localPosition = Vector3.zero;
-                widget.RectTransform.localRotation = Quaternion.identity;
-                widget.RectTransform.anchoredPosition = Vector2.zero;
-                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
-                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
-                // Adjust our grid settings
-                widget.LayoutGroup.cellSize = new Vector2(171, 50);
-                widget.LayoutGroup.spacing = Vector2.one * 4;
-                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
-                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
-                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
-                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                widget.LayoutGroup.constraintCount = 3;
+                SetSubmenuToDefault(widget);
 
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "Item interactions";
@@ -109,21 +95,7 @@ namespace NToolbox
 
             _itemTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
-                // Fill our parent and set pivot to top middle
-                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
-                widget.RectTransform.localPosition = Vector3.zero;
-                widget.RectTransform.localRotation = Quaternion.identity;
-                widget.RectTransform.anchoredPosition = Vector2.zero;
-                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
-                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
-                // Adjust our grid settings
-                widget.LayoutGroup.cellSize = new Vector2(171, 50);
-                widget.LayoutGroup.spacing = Vector2.one * 4;
-                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
-                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
-                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
-                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                widget.LayoutGroup.constraintCount = 3;
+                SetSubmenuToDefault(widget);
 
                 AddBack(widget);
                 AddBatch(widget, Tools.ITEM);
@@ -132,21 +104,7 @@ namespace NToolbox
 
             _playerTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
-                // Fill our parent and set pivot to top middle
-                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
-                widget.RectTransform.localPosition = Vector3.zero;
-                widget.RectTransform.localRotation = Quaternion.identity;
-                widget.RectTransform.anchoredPosition = Vector2.zero;
-                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
-                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
-                // Adjust our grid settings
-                widget.LayoutGroup.cellSize = new Vector2(171, 50);
-                widget.LayoutGroup.spacing = Vector2.one * 4;
-                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
-                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
-                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
-                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                widget.LayoutGroup.constraintCount = 3;
+                SetSubmenuToDefault(widget);
 
                 AddBack(widget);
                 AddBatch(widget, Tools.PLAYER);
@@ -155,21 +113,7 @@ namespace NToolbox
 
             _tnhTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
-                // Fill our parent and set pivot to top middle
-                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
-                widget.RectTransform.localPosition = Vector3.zero;
-                widget.RectTransform.localRotation = Quaternion.identity;
-                widget.RectTransform.anchoredPosition = Vector2.zero;
-                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
-                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
-                // Adjust our grid settings
-                widget.LayoutGroup.cellSize = new Vector2(171, 50);
-                widget.LayoutGroup.spacing = Vector2.one * 4;
-                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
-                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
-                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
-                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                widget.LayoutGroup.constraintCount = 3;
+                SetSubmenuToDefault(widget);
 
                 AddBack(widget);
                 AddBatch(widget, Tools.TNH);
@@ -178,21 +122,7 @@ namespace NToolbox
 
             _powerupTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
-                // Fill our parent and set pivot to top middle
-                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
-                widget.RectTransform.localPosition = Vector3.zero;
-                widget.RectTransform.localRotation = Quaternion.identity;
-                widget.RectTransform.anchoredPosition = Vector2.zero;
-                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
-                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
-                // Adjust our grid settings
-                widget.LayoutGroup.cellSize = new Vector2(171, 50);
-                widget.LayoutGroup.spacing = Vector2.one * 4;
-                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
-                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
-                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
-                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                widget.LayoutGroup.constraintCount = 3;
+                SetSubmenuToDefault(widget);
 
                 AddBack(widget);
                 foreach (var kvp in Common.POWERUPS)
@@ -208,21 +138,7 @@ namespace NToolbox
             
             _tracerTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
-                // Fill our parent and set pivot to top middle
-                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
-                widget.RectTransform.localPosition = Vector3.zero;
-                widget.RectTransform.localRotation = Quaternion.identity;
-                widget.RectTransform.anchoredPosition = Vector2.zero;
-                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
-                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
-                // Adjust our grid settings
-                widget.LayoutGroup.cellSize = new Vector2(171, 50);
-                widget.LayoutGroup.spacing = Vector2.one * 4;
-                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
-                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
-                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
-                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                widget.LayoutGroup.constraintCount = 3;
+                SetSubmenuToDefault(widget);
 
                 AddBack(widget);
 
@@ -281,21 +197,7 @@ namespace NToolbox
 
             _sceneTools = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
-                // Fill our parent and set pivot to top middle
-                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
-                widget.RectTransform.localPosition = Vector3.zero;
-                widget.RectTransform.localRotation = Quaternion.identity;
-                widget.RectTransform.anchoredPosition = Vector2.zero;
-                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
-                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
-                // Adjust our grid settings
-                widget.LayoutGroup.cellSize = new Vector2(171, 50);
-                widget.LayoutGroup.spacing = Vector2.one * 4;
-                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
-                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
-                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
-                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                widget.LayoutGroup.constraintCount = 3;
+                SetSubmenuToDefault(widget);
 
                 AddBack(widget);
                 foreach (var kvp in Common.SCENES)
@@ -316,21 +218,7 @@ namespace NToolbox
 
             _configOptions = UiWidget.CreateAndConfigureWidget(canvas, (GridLayoutWidget widget) =>
             {
-                // Fill our parent and set pivot to top middle
-                widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
-                widget.RectTransform.localPosition = Vector3.zero;
-                widget.RectTransform.localRotation = Quaternion.identity;
-                widget.RectTransform.anchoredPosition = Vector2.zero;
-                widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
-                widget.RectTransform.pivot = new Vector2(0.5f, 1f);
-                // Adjust our grid settings
-                widget.LayoutGroup.cellSize = new Vector2(171, 50);
-                widget.LayoutGroup.spacing = Vector2.one * 4;
-                widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
-                widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
-                widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
-                widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-                widget.LayoutGroup.constraintCount = 3;
+                SetSubmenuToDefault(widget);
 
                 AddBack(widget);
 
@@ -414,6 +302,25 @@ namespace NToolbox
                 });
                 button.RectTransform.localRotation = Quaternion.identity;
             });
+        }
+
+        private void SetSubmenuToDefault(GridLayoutWidget widget)
+        {
+            // Fill our parent and set pivot to top middle
+            widget.RectTransform.localScale = new Vector3(0.07f, 0.07f, 0.07f);
+            widget.RectTransform.localPosition = Vector3.zero;
+            widget.RectTransform.localRotation = Quaternion.identity;
+            widget.RectTransform.anchoredPosition = Vector2.zero;
+            widget.RectTransform.sizeDelta = new Vector2(37f / 0.07f, 24f / 0.07f);
+            widget.RectTransform.pivot = new Vector2(0.5f, 1f);
+            // Adjust our grid settings
+            widget.LayoutGroup.cellSize = new Vector2(171, 50);
+            widget.LayoutGroup.spacing = Vector2.one * 4;
+            widget.LayoutGroup.startCorner = GridLayoutGroup.Corner.UpperLeft;
+            widget.LayoutGroup.startAxis = GridLayoutGroup.Axis.Horizontal;
+            widget.LayoutGroup.childAlignment = TextAnchor.UpperCenter;
+            widget.LayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            widget.LayoutGroup.constraintCount = 3;
         }
 
         public void Spawn()
