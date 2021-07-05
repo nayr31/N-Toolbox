@@ -145,15 +145,19 @@ namespace NToolbox
                 ButtonWidget displayButton = new ButtonWidget();
 
                 widget.AddChild((ButtonWidget button) => {
-                    
+                    button.ButtonText.text = "Current Duration: " + GM.Options.QuickbeltOptions.TrailDecayTimes[2];
                     button.AddButtonListener(() => { UpdateTracerDisplay(button, 0); });
                     button.RectTransform.localRotation = Quaternion.identity;
                     displayButton = button;
                 });
 
                 widget.AddChild((ButtonWidget button) => {
-                    button.ButtonText.text = "Reset to default";
-                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, 1 - GM.Options.QuickbeltOptions.TrailDecayTimes[2]); });
+                    String buttonText = "Toggle Enabled [" + GM.Options.QuickbeltOptions.AreBulletTrailsEnabled + "]";
+                    button.ButtonText.text = buttonText;
+                    button.AddButtonListener(() => {
+                        GM.Options.QuickbeltOptions.AreBulletTrailsEnabled = !GM.Options.QuickbeltOptions.AreBulletTrailsEnabled;
+                        button.ButtonText.text = buttonText;
+                    });
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
 
@@ -165,13 +169,13 @@ namespace NToolbox
 
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "+ 0.10";
-                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, 0.1f); });
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, 0.10f); });
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
 
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "+ 1.00";
-                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, 1f); });
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, 1.00f); });
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
                 
@@ -183,13 +187,24 @@ namespace NToolbox
 
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "- 0.10";
-                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, -0.1f); });
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, -0.10f); });
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
 
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "- 1.00";
-                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, -1f); });
+                    button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, -1.00f); });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                }); 
+
+                widget.AddChild((TextWidget button) => {
+                    button.Text.text = "NOTE: Custom tracer trail times only work when the option is set to the \"1s\" trail time option in the game options.";
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                widget.AddChild((ButtonWidget button) => {
+                    button.ButtonText.text = "Target correct trail value \"1s\"";
+                    button.AddButtonListener(() => { GM.Options.QuickbeltOptions.TrailDecaySetting = 2; });
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
             });
@@ -254,9 +269,8 @@ namespace NToolbox
 
         private void UpdateTracerDisplay(ButtonWidget button, float duration)
         {
-            String buttonText = "Current Duration: " + GM.Options.QuickbeltOptions.TrailDecayTimes[2];
             GM.Options.QuickbeltOptions.TrailDecayTimes[2] += duration;
-            button.ButtonText.text = buttonText;
+            button.ButtonText.text = "Current Duration: " + GM.Options.QuickbeltOptions.TrailDecayTimes[2];
         }
 
         private void SwitchPage(GridLayoutWidget page)

@@ -76,7 +76,7 @@ namespace NToolbox
                     Gizmos.Sphere(GM.CurrentPlayerBody.RightHand.position, Actions.HAND_SIZE, Color.blue);
             } catch (NullReferenceException e)
             {
-                Debug.Log("---Caught null reference exception---");
+                Debug.Log("---NToolbox caught null reference exception---");
                 Debug.Log("LeftHandComp: " + LeftHandComp != null ? "not null" : "null");
                 Debug.Log("Actions.LeftCollider: " + Actions.LeftCollider != null ? "not null" : "null");
                 Debug.Log("Error: " + e);
