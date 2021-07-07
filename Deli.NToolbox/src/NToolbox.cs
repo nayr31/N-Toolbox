@@ -77,6 +77,7 @@ namespace NToolbox
             } catch (NullReferenceException e)
             {
                 Debug.Log("---NToolbox caught null reference exception---");
+                Debug.Log("(If you are seeing this, report it to the mod author)");
                 Debug.Log("LeftHandComp: " + LeftHandComp != null ? "not null" : "null");
                 Debug.Log("Actions.LeftCollider: " + Actions.LeftCollider != null ? "not null" : "null");
                 Debug.Log("Error: " + e);

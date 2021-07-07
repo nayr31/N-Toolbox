@@ -195,16 +195,16 @@ namespace NToolbox
                     button.ButtonText.text = "- 1.00";
                     button.AddButtonListener(() => { UpdateTracerDisplay(displayButton, -1.00f); });
                     button.RectTransform.localRotation = Quaternion.identity;
-                }); 
-
-                widget.AddChild((TextWidget button) => {
-                    button.Text.text = "NOTE: Custom tracer trail times only work when the option is set to the \"1s\" trail time option in the game options.";
-                    button.RectTransform.localRotation = Quaternion.identity;
                 });
 
                 widget.AddChild((ButtonWidget button) => {
                     button.ButtonText.text = "Target correct trail value \"1s\"";
                     button.AddButtonListener(() => { GM.Options.QuickbeltOptions.TrailDecaySetting = 2; });
+                    button.RectTransform.localRotation = Quaternion.identity;
+                });
+
+                widget.AddChild((TextWidget button) => {
+                    button.Text.text = "NOTE: Custom tracer trail times only work when the option is set to the \"1s\" trail time option in the game options.";
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
             });
@@ -237,7 +237,6 @@ namespace NToolbox
 
                 AddBack(widget);
 
-                //AddConfigButtonBoolToggle(NToolbox.EnableHandColliders, "Default Hand Collision", widget);
                 AddConfigButtonBoolToggle(NToolbox.EnableDebugSpheres, "Enable Debug Spheres", widget);
             });
             _configOptions.gameObject.SetActive(false);
