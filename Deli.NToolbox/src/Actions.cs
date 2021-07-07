@@ -215,6 +215,17 @@ namespace NToolbox
                 = !handcomp.IsInStreamlinedMode;
         }
 
+        public static void RemoveHitDecalCap()
+        {
+            GM.Options.SimulationOptions.MaxHitDecalIndex2 = 4;
+            GM.Options.SimulationOptions.MaxHitDecals[4] = 69420;
+        }
+        
+        public static void ToggleBoltMode()
+        {
+            //GM.Options.QuickbeltOptions.BoltActionModeSetting = GM.Options.QuickbeltOptions.BoltActionMode.Quickbolting;
+        }
+
         //--TNH---------------------------------------------------------
 
         public static void KillPlayerButtonClicked() => GM.CurrentPlayerBody.KillPlayer(true);

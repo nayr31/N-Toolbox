@@ -24,6 +24,7 @@ namespace NToolbox
         public static readonly Dictionary<string, Action> PLAYER = new()
         {
             { "Kill yourself", Actions.KillPlayerButtonClicked },
+            { "Remove hit decal cap", Actions.RemoveHitDecalCap },
             { "Restore Full", Actions.RestoreHpButtonClicked },
             { "Toggle 1-hit", Actions.ToggleOneHitButtonClicked },
             { "Toggle Controller Geo", Actions.ToggleControllerGeo },

@@ -12,6 +12,7 @@
 ## Player Interactions
 
 - Kill yourself
+- Remove hit decal cap
 - Restore full
 - Toggle 1-hit
 - Toggle controller geo
