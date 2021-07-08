@@ -40,12 +40,6 @@ namespace NToolbox
             { "PowerUpMeat_UnCooked" , "UnCooked" },
             { "PowerUpMeat_WheredIGo" , "WheredIGo" },
         };
-        public static readonly Dictionary<string, string> MISC = new Dictionary<string, string>
-        {
-            { "CharcoalGrill" , "CharcoalGrill" },
-            { "CharcoalBag" , "CharcoalBag" },
-            { "Charcoal" , "Charcoal" },
-        };
         public static class PluginInfo
         {
             public const string GUID = "bepinex.ntools";

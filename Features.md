@@ -13,8 +13,10 @@
 
 - Kill yourself
 - Remove hit decal cap
+- Remove hit decals
 - Restore full
 - Toggle 1-hit
+- Toggle bolt mode
 - Toggle controller geo
 - Toggle god mode
 - Toggle hand collision

@@ -220,10 +220,22 @@ namespace NToolbox
             GM.Options.SimulationOptions.MaxHitDecalIndex2 = 4;
             GM.Options.SimulationOptions.MaxHitDecals[4] = 69420;
         }
-        
+
+        public static void RemoveDecals()
+        {
+            int index = GM.Options.SimulationOptions.MaxHitDecalIndex2;
+            int lastDecalCap = GM.Options.SimulationOptions.MaxHitDecals[index];
+
+            GM.Options.SimulationOptions.MaxHitDecals[index] = 0;
+            System.Threading.Thread.Sleep(1500);
+            GM.Options.SimulationOptions.MaxHitDecals[index] = lastDecalCap;
+        }
+
         public static void ToggleBoltMode()
         {
-            //GM.Options.QuickbeltOptions.BoltActionModeSetting = GM.Options.QuickbeltOptions.BoltActionMode.Quickbolting;
+            GM.Options.QuickbeltOptions.BoltActionModeSetting =
+                GM.Options.QuickbeltOptions.BoltActionModeSetting == QuickbeltOptions.BoltActionMode.Quickbolting ? QuickbeltOptions.BoltActionMode.Slidebolting
+                : QuickbeltOptions.BoltActionMode.Quickbolting;
         }
 
         //--TNH---------------------------------------------------------
