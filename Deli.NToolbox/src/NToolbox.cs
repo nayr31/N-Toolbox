@@ -50,7 +50,6 @@ namespace NToolbox
         public void SceneLoadHook(Scene scene, LoadSceneMode mode)
         {
             ResetHandObjects();
-            //if (EnableHandColliders.Value) Actions.ToggleHandCollision();
         }
 
         private void Update()
