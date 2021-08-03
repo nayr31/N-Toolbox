@@ -38,7 +38,6 @@ namespace NToolbox
             typeof(FVRFireArmAttachment),
         };
         
-
         public static void GatherButtonClicked()
         {
             //Get player pos upon every button press

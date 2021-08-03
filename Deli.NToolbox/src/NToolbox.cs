@@ -35,7 +35,7 @@ namespace NToolbox
         {
             LeaderboardAPI.GetLeaderboardDisableLock();
 
-            ObjectIDs = new ObjectIDList(Common.OBJECT_ID_LIST_FILENAME);
+            //ObjectIDs = new ObjectIDList(Common.OBJECT_ID_LIST_FILENAME);
             
             NPanel nPanel = new NPanel();
             WristMenuAPI.Buttons.Add(new WristMenuButton("NTool Panel", nPanel.Spawn));
@@ -50,6 +50,9 @@ namespace NToolbox
         public void SceneLoadHook(Scene scene, LoadSceneMode mode)
         {
             ResetHandObjects();
+
+            Debug.Log("NToolbox is printing scene data...");
+            Debug.Log(scene.name);
         }
 
         private void Update()

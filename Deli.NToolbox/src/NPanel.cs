@@ -156,7 +156,7 @@ namespace NToolbox
                     button.ButtonText.text = buttonText;
                     button.AddButtonListener(() => {
                         GM.Options.QuickbeltOptions.AreBulletTrailsEnabled = !GM.Options.QuickbeltOptions.AreBulletTrailsEnabled;
-                        button.ButtonText.text = buttonText;
+                        button.ButtonText.text = "Toggle Enabled [" + GM.Options.QuickbeltOptions.AreBulletTrailsEnabled + "]";
                     });
                     button.RectTransform.localRotation = Quaternion.identity;
                 });
